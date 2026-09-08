@@ -1,0 +1,36 @@
+{
+  "reconciliation_phase": "ENGINEERING_SNAPSHOT_SCOPE_CLARIFICATION_v1",
+  "recorded_at": "2026-09-09T03:56:00+04:00",
+  "status": "SCOPED_VERIFIED_WITH_EXTERNAL_REFERENCE_LIMITATION",
+  "purpose": "Clarify the evidentiary scope of ENGINEERING_SNAPSHOT_CONTENT_RECONCILIATION.json without rewriting the prior evidence record.",
+  "verified_scope": {
+    "declared_entries": 26,
+    "verified_entries": 26,
+    "byte_size_matches": 26,
+    "sha256_matches": 26,
+    "missing_packaged_entries": 0,
+    "mismatches": 0,
+    "scope": "The 26 entries physically packaged in KEYMATRIX_CANONICAL_SOURCE_001.zip"
+  },
+  "scope_boundary": {
+    "external_references": "reference-artifacts/SHA256SUMS.txt contains historical/external /mnt/data/KM-SWARM-005 references that are not part of the 26 packaged entries.",
+    "external_hash_status": "NOT_COMPUTABLE",
+    "interpretation": "Absence of an external reference artifact is not a SHA-256 mismatch and must not be treated as a packaged-content contradiction."
+  },
+  "semantic_correction": {
+    "prior_label": "COMPLETE_VERIFIED_NO_CONTRADICTIONS",
+    "correct_scope": "COMPLETE_VERIFIED_FOR_26_PACKAGED_ENTRIES",
+    "reason": "The verification is complete for its physical package scope; separate external references remain unverified and therefore cannot be subsumed by an unqualified global no-contradictions claim."
+  },
+  "constraints": {
+    "historical_evidence_rewritten": false,
+    "source_archive_mutated": false,
+    "historical_reference_artifacts_modified": false,
+    "supabase_mutated": false,
+    "deployed": false,
+    "authority_invoked": false,
+    "canonical_promotion": "BLOCKED"
+  },
+  "next_gate": "BUILD_ARTIFACT_DETERMINISM_GATE_v1",
+  "decision": "RETAIN_PRIOR_EVIDENCE_AS_HISTORICAL_RECORD_AND_USE_THIS_DOCUMENT_FOR_SCOPE_INTERPRETATION"
+}
