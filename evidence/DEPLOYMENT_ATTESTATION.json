@@ -43,7 +43,7 @@
   },
   "source_deployment_linkage": {
     "declared_status": "NOT_PROVEN",
-    "chain_integrity": "BROKEN_AT_BUILD_ARTIFACT_STAGE",
+    "chain_integrity": "UNPROVEN_AT_BUILD_ARTIFACT_STAGE",
     "reason": "No verifiable build output connects source archive to deployed artifact"
   },
   "deployment_authority": {
@@ -64,7 +64,7 @@
     "do_not_invoke_authority": true,
     "do_not_promote_without_evidence": true
   },
-  "next_gate": "REFERENCE_ARTIFACT_RECONCILIATION_v1",
+  "next_gate": "BUILD_ARTIFACT_DETERMINISM_GATE_v1",
   "git_commit": "e38f71d460c869867dafd6ad57904f507cb80f20",
   "generated_at": "2026-09-09T02:51:00Z"
 }
