@@ -1,0 +1,39 @@
+{
+  "snapshot_metadata": {
+    "phase": "PRE_EXTRACTION_BASELINE",
+    "recorded_at": "2026-09-08T00:00:00Z",
+    "extraction_timestamp": "2026-09-08T00:00:00Z"
+  },
+  "archive_identity": {
+    "filename": "KEYMATRIX_CANONICAL_SOURCE_001.zip",
+    "git_blob_sha": "2856d8bd788fa8954d145d55b5e5c5cc1c5ffa44",
+    "byte_size": 9128469,
+    "sha256_before_extraction": "OBSERVED_LOCALLY_PENDING_COMMIT"
+  },
+  "git_context": {
+    "current_head": "8c37863402d92dc65829a1d27036b32c80ea4029",
+    "parent_commit": "eee856a765ff692b4e99f7f25b5d5da546d7676a",
+    "current_branch": "canonical/snapshot-extraction-001",
+    "commit_message": "chore: persist canonical source package 001",
+    "commit_verified": true,
+    "author": "OM",
+    "committed_at": "2026-09-07T17:54:50Z"
+  },
+  "extraction_plan": {
+    "method": "unzip -d extracted/ KEYMATRIX_CANONICAL_SOURCE_001.zip",
+    "root_directory": "extracted/KEYMATRIX_CANONICAL_SOURCE_001/",
+    "nested_archives": [
+      {
+        "path": "engineering-snapshot/keymatrix-grok-engineering.tgz",
+        "status": "PENDING_EXTRACTION_AND_HASH"
+      }
+    ]
+  },
+  "constraints": {
+    "do_not_delete_archive": true,
+    "do_not_replace_archive": true,
+    "do_not_modify_main": true,
+    "do_not_deploy": true,
+    "do_not_claim_runtime_verification": true
+  }
+}
