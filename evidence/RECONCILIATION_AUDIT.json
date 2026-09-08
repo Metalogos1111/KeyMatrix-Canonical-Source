@@ -10,51 +10,16 @@
     "important_distinction": "An unavailable external reference is NOT a SHA-256 mismatch; its hash comparison is NOT_COMPUTABLE."
   },
   "root_level_files_verified": [
-    {
-      "relative_path": "canonical-registry.json",
-      "observed_byte_size": 1885,
-      "observed_sha256": "a250e3d833d0b3114364a2b97155e7efe4af8df1ee46480babb59a783f6d1dc4",
-      "original_zip_size": 1885,
-      "mismatch": false,
-      "status": "VERIFIED"
-    },
-    {
-      "relative_path": "source-manifest.json",
-      "observed_byte_size": 5592,
-      "observed_sha256": "3a0b6d66d71e7065846f7dacf73de92e1efec1f77a471b556d8e7195986098da",
-      "original_zip_size": 5592,
-      "mismatch": false,
-      "status": "VERIFIED"
-    },
-    {
-      "relative_path": "README.md",
-      "observed_byte_size": 1131,
-      "observed_sha256": "0e18e889c765a74355cb66caca0f2198dbb5e1d8b691995323b2ee08dd07e531",
-      "original_zip_size": 1131,
-      "mismatch": false,
-      "status": "VERIFIED"
-    },
-    {
-      "relative_path": "evidence-chain.json",
-      "observed_byte_size": 1354,
-      "observed_sha256": "bcbe227edd21f675decfc2cf8cd32fb660ff30851c2db839ab2177cd407f5602",
-      "original_zip_size": 1354,
-      "mismatch": false,
-      "status": "VERIFIED"
-    },
-    {
-      "relative_path": "provenance.txt",
-      "observed_byte_size": 156,
-      "observed_sha256": "dc3432f48830421633ab56f7d71a988163962bcbf39b298616179324f0eccb1b",
-      "original_zip_size": 156,
-      "mismatch": false,
-      "status": "VERIFIED"
-    }
+    {"relative_path":"canonical-registry.json","observed_byte_size":1885,"observed_sha256":"a250e3d833d0b3114364a2b97155e7efe4af8df1ee46480babb59a783f6d1dc4","original_zip_size":1885,"mismatch":false,"status":"VERIFIED"},
+    {"relative_path":"source-manifest.json","observed_byte_size":5592,"observed_sha256":"3a0b6d66d71e7065846f7dacf73de92e1efec1f77a471b556d8e7195986098da","original_zip_size":5592,"mismatch":false,"status":"VERIFIED"},
+    {"relative_path":"README.md","observed_byte_size":1131,"observed_sha256":"0e18e889c765a74355cb66caca0f2198dbb5e1d8b691995323b2ee08dd07e531","original_zip_size":1131,"mismatch":false,"status":"VERIFIED"},
+    {"relative_path":"evidence-chain.json","observed_byte_size":1354,"observed_sha256":"bcbe227edd21f675decfc2cf8cd32fb660ff30851c2db839ab2177cd407f5602","original_zip_size":1354,"mismatch":false,"status":"VERIFIED"},
+    {"relative_path":"provenance.txt","observed_byte_size":156,"observed_sha256":"dc3432f48830421633ab56f7d71a988163962bcbf39b298616179324f0eccb1b","original_zip_size":156,"mismatch":false,"status":"VERIFIED"}
   ],
   "internal_archive_manifest": {
     "file": "reference-artifacts/SHA256SUMS.txt",
     "observed_byte_size": 1289,
-    "observed_sha256": "f34cd3ee00351992ef3ac7359665f67b7f6c8ce31693d0c6b830e4ecee378e41",
+    "observed_sha256": "f34cd3ee00351992ef3ac7359665f67b7f6e8ce31693d0c6b830e4ecee378e41",
     "content_lines": 10,
     "note": "Contains SHA-256 hashes and absolute paths referencing /mnt/data/KM-SWARM-005/",
     "critical_finding": "EXTERNAL_REFERENCES_PRESENT",
