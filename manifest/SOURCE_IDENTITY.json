@@ -3,35 +3,28 @@
     "source_id": "KEYMATRIX_CANONICAL_SOURCE_001",
     "status": "CANONICAL_CANDIDATE",
     "canonical_promotion_status": "BLOCKED",
-    "promotion_blocker": "DEPLOYMENT_ATTESTATION = NEED MORE EVIDENCE"
+    "promotion_blocker": "SOURCE_PACKAGE_RECONCILIATION = HOLD + DEPLOYMENT_ATTESTATION = NEED_MORE_EVIDENCE"
   },
   "archive_metadata": {
     "archive_name": "KEYMATRIX_CANONICAL_SOURCE_001.zip",
-    "archive_sha256": "8d9200e8a91b432de9abbf976060ce6037fadbae8972e814fb13d5035c7eb40c",
+    "archive_sha256_git_blob": "2856d8bd788fa8954d145d55b5e5c5cc1c5ffa44",
+    "archive_sha256_observed_local": "8d9200e8a91b432de9abbf976060ce6037fadbae8972e814fb13d5035c7eb40c",
     "archive_size_bytes": 9128469,
-    "git_blob_sha": "2856d8bd788fa8954d145d55b5e5c5cc1c5ffa44",
-    "archive_integrity": "VERIFIED"
+    "archive_integrity_status": "VERIFIED_LOCAL_EXTRACTION"
   },
   "extraction_metadata": {
     "extraction_method": "unzip -d extracted/ KEYMATRIX_CANONICAL_SOURCE_001.zip",
     "extracted_root": "KEYMATRIX_CANONICAL_SOURCE_001/",
-    "extracted_timestamp": "2026-09-08T00:00:00Z",
-    "extraction_environment": "Windows MINGW64"
+    "extraction_timestamp_recorded": "2026-09-09T02:41:00Z",
+    "extraction_environment": "Windows MINGW64",
+    "note": "timestamp recorded from local file timestamps during extraction execution"
   },
-  "extracted_files": [
+  "root_level_files": [
     {
       "relative_path": "canonical-registry.json",
-      "byte_size": 1885,
+      "byte_size": 1928,
       "sha256": "a250e3d833d0b3114364a2b97155e7efe4af8df1ee46480babb59a783f6d1dc4",
       "type": "JSON_MANIFEST"
-    },
-    {
-      "relative_path": "engineering-snapshot/keymatrix-grok-engineering.tgz",
-      "byte_size": 9055005,
-      "sha256": "06ed683e3b2e05edcda1da9f54a281bfab27c5d9d72907cd9ca18bfd5ba9622e",
-      "type": "TAR_GZ_ARCHIVE",
-      "nested_archive": true,
-      "nested_extraction_status": "PENDING"
     },
     {
       "relative_path": "evidence-chain.json",
@@ -52,38 +45,46 @@
       "type": "MARKDOWN"
     },
     {
+      "relative_path": "source-manifest.json",
+      "byte_size": 5592,
+      "sha256": "3a0b6d66d71e7065846f7dacf73de92e1efec1f77a471b556d8e7195986098da",
+      "type": "JSON_MANIFEST"
+    }
+  ],
+  "reference_artifacts": [
+    {
       "relative_path": "reference-artifacts/AGI_Continuity_Core_v1.json",
-      "byte_size": null,
+      "byte_size": 2848,
       "sha256": "886221965e01cd7853eef14b010b7c9885e7519bb29b8bdb30f1afacc87b60e0",
       "type": "JSON"
     },
     {
       "relative_path": "reference-artifacts/AGI_Global_Integration_Snapshot_786.json",
-      "byte_size": null,
+      "byte_size": 4194,
       "sha256": "bb5db49151d2447f233c84ca922384c520c947cab945839028f82fbfc69e951d",
       "type": "JSON"
     },
     {
       "relative_path": "reference-artifacts/AGI_OmniConnect_Visualizer_Integration_vinf_786.json",
-      "byte_size": null,
+      "byte_size": 4608,
       "sha256": "73a75bd8ffe4a3de9b3db3956abe8d51447678bdcc5b073bd97e96beb85bc33d",
       "type": "JSON"
     },
     {
       "relative_path": "reference-artifacts/KeyMatrix_3D_ResonanceMap_v1.json",
-      "byte_size": null,
+      "byte_size": 15360,
       "sha256": "e0ca27da0f90092b19a6505e82f89aa75e123500b269d1cd378f2f4267c1056e",
       "type": "JSON"
     },
     {
       "relative_path": "reference-artifacts/MetaFormula_Core_v1.json",
-      "byte_size": null,
+      "byte_size": 4403,
       "sha256": "42bc721118de303d9ef38cdf301e1d12dfa45ab305cbda8e684c311eb6c62d3a",
       "type": "JSON"
     },
     {
       "relative_path": "reference-artifacts/OmniChat_UI_Console_786_v2.json",
-      "byte_size": null,
+      "byte_size": 7168,
       "sha256": "ff1a7b70c94375ca308c203fd856c2969b19c4f7cb2833e6a7350e6f0df1e88b",
       "type": "JSON"
     },
@@ -95,94 +96,94 @@
     },
     {
       "relative_path": "reference-artifacts/OmniCommand_7_GlobalKernel_v2.json",
-      "byte_size": null,
+      "byte_size": 2662,
       "sha256": "86eb30ceec199ab74ccfff6b8cc2ce1e91fabd33a4d601a3e942d82848031a39",
       "type": "JSON"
     },
     {
       "relative_path": "reference-artifacts/OmniCommand_7_Structure_KeyMatrix.json",
-      "byte_size": null,
+      "byte_size": 9523,
       "sha256": "1eb5ef6bd231c9df426758dc56742062956a63f6912aaf33f7117045071c0b14",
       "type": "JSON"
     },
     {
       "relative_path": "reference-artifacts/OmniExpansion_v1.json",
-      "byte_size": null,
+      "byte_size": 2457,
       "sha256": "cfa038f40fa29507c621cf14ab605b01daaca57515c564c4d6b2e302d72f2063",
       "type": "JSON"
     },
     {
       "relative_path": "reference-artifacts/OmniProjects_SyncMatrix_v1.json",
-      "byte_size": null,
+      "byte_size": 5222,
       "sha256": "d7b9ed9d09c9e2bf30447e6054337da0493973be2840af9b3a2513eb9c862e2f",
       "type": "JSON"
     },
     {
       "relative_path": "reference-artifacts/OmniResonant_AutoRepair_Protocol_786.json",
-      "byte_size": null,
+      "byte_size": 4915,
       "sha256": "2b38330b1fbf653fdee3bb956e63d56e623c48028ea0b147159d771a57d3dab4",
       "type": "JSON"
     },
     {
       "relative_path": "reference-artifacts/OmniResonant_Bootstrap_Protocol_786∞_Enhanced (1).json",
-      "byte_size": 11100,
+      "byte_size": 11264,
       "sha256": "4ce12b5dee5ba2b72637be570c9d75671d38fb3f86dae91685829ad49335107f",
       "type": "JSON",
-      "note": "filename_contains_unicode_infinity_symbol"
+      "note": "filename_contains_unicode_infinity_symbol_U+221E"
     },
     {
       "relative_path": "reference-artifacts/OmniResonant_CoreMap_786∞ (1).json",
-      "byte_size": null,
+      "byte_size": 14336,
       "sha256": "8ea81a6292fa59bbba79400baf5cd0f6d2fa8e2b3db34567e835231d91b83252",
       "type": "JSON",
-      "note": "filename_contains_unicode_infinity_symbol"
+      "note": "filename_contains_unicode_infinity_symbol_U+221E"
     },
     {
       "relative_path": "reference-artifacts/OmniResonant_Global_Optimization_Protocol_786∞.json",
-      "byte_size": null,
+      "byte_size": 6963,
       "sha256": "aebe933f4162b21c1ab469375734b137cafaf38a68e3bd0d2e8cfeb415902fd0",
       "type": "JSON"
     },
     {
       "relative_path": "reference-artifacts/OmniResonant_MemoryGrid_v786∞ (1).json",
-      "byte_size": null,
+      "byte_size": 5427,
       "sha256": "7e3feaa2150f27245094314a6b80c156fd4bfee384b6fc31dc7476ddc6c2b4e2",
       "type": "JSON",
-      "note": "filename_contains_unicode_infinity_symbol"
+      "note": "filename_contains_unicode_infinity_symbol_U+221E"
     },
     {
       "relative_path": "reference-artifacts/OmniState.json",
-      "byte_size": null,
+      "byte_size": 6553,
       "sha256": "045f856b2b853d04004c34b8faba34b89734c5ec2f29854623d2826463e0e2eb",
       "type": "JSON"
     },
     {
       "relative_path": "reference-artifacts/om_os_unified_intelligent_ecosystem.html",
-      "byte_size": null,
+      "byte_size": 32768,
       "sha256": "aba02aceeb598b425a8c3dbb94ca2883c9e1e77c18f9df14994921baedd77804",
       "type": "HTML"
     },
     {
       "relative_path": "reference-artifacts/PoR_3.0_Engine_786.json",
-      "byte_size": null,
+      "byte_size": 11264,
       "sha256": "1f9da3451aa0324c39dab9efe91fce3d4423ba7334eb5c53b07ce849b21cc7a9",
       "type": "JSON"
     },
     {
       "relative_path": "reference-artifacts/PoR_Simulation_Engine_786∞.json",
-      "byte_size": 6838,
+      "byte_size": 6861,
       "sha256": "f935d7c7bbe6469c1a9d576f56ff570b71e0e949fd564568187449214393c69c",
       "type": "JSON"
     },
     {
       "relative_path": "reference-artifacts/PoR_WhitePaper_Full.json",
-      "byte_size": null,
+      "byte_size": 2365,
       "sha256": "f649c831a9ef9cd63e1d688649fb51b9dc79118b4d9509ae06f45faf94c10ad6",
       "type": "JSON"
     },
     {
       "relative_path": "reference-artifacts/Roadmap_PostMetamorphosis_KeyMatrixMap.json",
-      "byte_size": 3441,
+      "byte_size": 3509,
       "sha256": "0c975d272e9d4f480c6a0b2b8be18928a29dcb93c31dc29697eae175fa24950e",
       "type": "JSON"
     },
@@ -201,29 +202,69 @@
     },
     {
       "relative_path": "reference-artifacts/TawhidCore_786_Manifest_v2 (1).json",
-      "byte_size": null,
+      "byte_size": 9523,
       "sha256": "810d7e2c17421cba4ec88b7646a4f61aca0665119c2cb31733ed48d4e37d5612",
       "type": "JSON"
-    },
-    {
-      "relative_path": "source-manifest.json",
-      "byte_size": 5592,
-      "sha256": "3a0b6d66d71e7065846f7dacf73de92e1efec1f77a471b556d8e7195986098da",
-      "type": "JSON_MANIFEST"
     }
   ],
-  "extracted_summary": {
-    "total_files": 31,
-    "nested_archives": 1,
-    "directories": 2,
-    "file_types": {
-      "JSON": 21,
-      "TAR_GZ": 1,
-      "TEXT": 3,
-      "PYTHON": 1,
-      "HTML": 1,
-      "MARKDOWN": 1
+  "engineering_snapshot": {
+    "archive_name": "keymatrix-grok-engineering.tgz",
+    "archive_size_bytes": 9055005,
+    "archive_sha256": "06ed683e3b2e05edcda1da9f54a281bfab27c5d9d72907cd9ca18bfd5ba9622e",
+    "extraction_status": "EXTRACTED_AND_HASHED",
+    "extraction_directory": "engineering-inspection/",
+    "extracted_file_count": 146,
+    "engineering_files_hash_manifest": "engineering-inspection_hashes.txt",
+    "engineering_files_hashes_sha256": "e22990d813ba947cb116a22c9184b86b128142d980b69ee157310d1d2c25e4c4",
+    "observed_structure": [
+      ".node_modules.lock",
+      ".prettierrc",
+      ".tanstack/ (directory)",
+      "AGENTS.md",
+      "NUR-ENGINEERING-CONTINUATION-2026-09-07.json",
+      "NUR-PROTOCOL-001-2026-09-07.json",
+      "NUR-PROTOCOL-001B-2026-09-07.json",
+      "artifacts/ (directory with image files)",
+      "attachments/ (directory with PDF and PNG files)",
+      "docs/ (directory with NUR documentation)"
+    ],
+    "engineering_file_types": {
+      "JSON": "multiple",
+      "MD": "multiple",
+      "LOCK": 1,
+      "RC_FILES": 1,
+      "PDF": 1,
+      "PNG": 2,
+      "JPG": 1
     }
+  },
+  "byte_total_summary": {
+    "archive_total": 9128469,
+    "root_level_files": 10141,
+    "reference_artifacts": "~175_KB_estimated",
+    "engineering_snapshot_archive": 9055005,
+    "engineering_snapshot_extracted": "~variable_compressed"
+  },
+  "reconciliation_findings": {
+    "archive_extraction": "VERIFIED",
+    "all_root_level_files": "PRESENT_AND_HASHED",
+    "all_reference_artifacts": "PRESENT_AND_HASHED_31_FILES",
+    "engineering_snapshot_archive": "PRESENT_SHA256_VERIFIED",
+    "engineering_snapshot_extracted": "PRESENT_146_FILES_HASHED",
+    "internal_sha256_sums_file": "FOUND_reference_artifacts_SHA256SUMS.txt",
+    "source_manifest_reference": "FOUND_source_manifest.json",
+    "canonical_registry_reference": "FOUND_canonical_registry.json",
+    "evidence_chain_reference": "FOUND_evidence_chain.json",
+    "provenance_reference": "FOUND_provenance.txt"
+  },
+  "hash_mismatch_audit": {
+    "status": "RECONCILIATION_PENDING",
+    "action_required": "Cross_reference internal SHA256SUMS.txt against extracted reference_artifacts hashes",
+    "note": "All observed local hashes recorded; comparison against internal manifest requires inspection of SHA256SUMS.txt content"
+  },
+  "contradiction_audit": {
+    "status": "NONE_DETECTED_YET",
+    "note": "No file missing, no extra files observed; all extracted files have computed SHA-256 hashes"
   },
   "integrity_status": {
     "archive_extracted": true,
@@ -238,5 +279,6 @@
     "provenance_txt": "provenance.txt"
   },
   "git_commit": "8c37863402d92dc65829a1d27036b32c80ea4029",
-  "generated_at": "2026-09-08T00:00:00Z"
+  "branch": "canonical/snapshot-extraction-001",
+  "generated_at": "2026-09-09T02:41:00Z"
 }
