@@ -90,24 +90,24 @@ jobs:
           cp "$writer" "$GITHUB_WORKSPACE/nitro-before.mjs"
           sha256sum "$writer" | tee "$GITHUB_WORKSPACE/nitro-before.sha256"
           python3 - "$writer" <<'PY'
-from pathlib import Path
-import sys
-p=Path(sys.argv[1])
-s=p.read_text()
-target='date: (/* @__PURE__ */ new Date()).toJSON(),'
-replacement='date: (/* @__PURE__ */ process.env.SOURCE_DATE_EPOCH ? new Date(process.env.SOURCE_DATE_EPOCH * 1000) : new Date()).toJSON(),'
-count=s.count(target)
-if count != 1:
-    raise SystemExit(f'nitro.json date target count={count}, expected=1')
-s=s.replace(target,replacement)
-replacements=[
-('mtime: stat.mtime.toJSON(),','mtime: (process.env.SOURCE_DATE_EPOCH ? new Date(process.env.SOURCE_DATE_EPOCH * 1000) : stat.mtime).toJSON(),'),
-('const mtime = await promises.stat(fsPath).then((s) => s.mtime.toJSON());','const mtime = process.env.SOURCE_DATE_EPOCH ? new Date(process.env.SOURCE_DATE_EPOCH * 1000).toJSON() : await promises.stat(fsPath).then((s) => s.mtime.toJSON());')]
-for old,new in replacements:
-    print(f'REPLACEMENT_COUNT={s.count(old)} TARGET={old}')
-    s=s.replace(old,new)
-p.write_text(s)
-PY
+          from pathlib import Path
+          import sys
+          p=Path(sys.argv[1])
+          s=p.read_text()
+          target='date: (/* @__PURE__ */ new Date()).toJSON(),'
+          replacement='date: (/* @__PURE__ */ process.env.SOURCE_DATE_EPOCH ? new Date(process.env.SOURCE_DATE_EPOCH * 1000) : new Date()).toJSON(),'
+          count=s.count(target)
+          if count != 1:
+              raise SystemExit(f'nitro.json date target count={count}, expected=1')
+          s=s.replace(target,replacement)
+          replacements=[
+          ('mtime: stat.mtime.toJSON(),','mtime: (process.env.SOURCE_DATE_EPOCH ? new Date(process.env.SOURCE_DATE_EPOCH * 1000) : stat.mtime).toJSON(),'),
+          ('const mtime = await promises.stat(fsPath).then((s) => s.mtime.toJSON());','const mtime = process.env.SOURCE_DATE_EPOCH ? new Date(process.env.SOURCE_DATE_EPOCH * 1000).toJSON() : await promises.stat(fsPath).then((s) => s.mtime.toJSON());')]
+          for old,new in replacements:
+              print(f'REPLACEMENT_COUNT={s.count(old)} TARGET={old}')
+              s=s.replace(old,new)
+          p.write_text(s)
+          PY
           cp "$writer" "$GITHUB_WORKSPACE/nitro-after.mjs"
           sha256sum "$writer" | tee "$GITHUB_WORKSPACE/nitro-after.sha256"
           {
