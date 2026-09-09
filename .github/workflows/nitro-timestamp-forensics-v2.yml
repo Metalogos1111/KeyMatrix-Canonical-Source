@@ -1,0 +1,157 @@
+name: NITRO Timestamp Forensics v2
+
+on:
+  push:
+    branches: ["controlled/dependency-lock-build-001"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  inspect:
+    runs-on: ubuntu-24.04
+    env:
+      EXPECTED_ARCHIVE_SHA256: 8d9200e8a91b432de9abbf976060ce6037fadbae8972e814fb13d5035c7eb40c
+      EXPECTED_ENGINEERING_SHA256: 06ed683e3b2e05edcda1da9f54a281bfab27c5d9d72907cd9ca18bfd5ba9622e
+      EXPECTED_PACKAGE_JSON_SHA256: 4be3b95d4fb86fae18a48daa5f675cd6031741394e645ac84764e7189a940a54
+      EXPECTED_CANDIDATE_LOCK_SHA256: 91c02f58775201f63877e2c03acfee7ceacfc4e5f0feeb3dd4df1a4c4f351acc
+      EXPECTED_CANDIDATE_ARTIFACT_SHA256: 5b68db15029b8215ad1bb96a4e513ec631502cbe8f5f826137cf5313324018f2
+      CANDIDATE_ARTIFACT_ID: 10082912240
+      CANDIDATE_RUN_ID: 34295367797
+      EXPECTED_NODE: 22.16.0
+      EXPECTED_NPM: 10.9.2
+
+    steps:
+      - name: Checkout controlled build branch
+        uses: actions/checkout@v4
+        with:
+          ref: controlled/dependency-lock-build-001
+          fetch-depth: 1
+
+      - name: Install exact Node toolchain
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.16.0
+          check-latest: false
+
+      - name: Verify toolchain
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(node --version)" = "v${EXPECTED_NODE}"
+          test "$(npm --version)" = "${EXPECTED_NPM}"
+
+      - name: Verify canonical archive identity
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f KEYMATRIX_CANONICAL_SOURCE_001.zip
+          actual="$(sha256sum KEYMATRIX_CANONICAL_SOURCE_001.zip | awk '{print $1}')"
+          test "$actual" = "$EXPECTED_ARCHIVE_SHA256"
+
+      - name: Download observed candidate artifact
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          curl -fsSL \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${GH_TOKEN}" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/artifacts/${CANDIDATE_ARTIFACT_ID}/zip" \
+            -o candidate-artifact.zip
+          actual="$(sha256sum candidate-artifact.zip | awk '{print $1}')"
+          test "$actual" = "$EXPECTED_CANDIDATE_ARTIFACT_SHA256"
+          rm -rf candidate-artifact
+          unzip -q candidate-artifact.zip -d candidate-artifact
+          test -f candidate-artifact/package-lock.candidate.json
+          actual_lock="$(sha256sum candidate-artifact/package-lock.candidate.json | awk '{print $1}')"
+          test "$actual_lock" = "$EXPECTED_CANDIDATE_LOCK_SHA256"
+
+      - name: Extract canonical engineering snapshot
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf extracted
+          mkdir -p extracted
+          unzip -q KEYMATRIX_CANONICAL_SOURCE_001.zip -d extracted
+          tgz="extracted/KEYMATRIX_CANONICAL_SOURCE_001/engineering-snapshot/keymatrix-grok-engineering.tgz"
+          test -f "$tgz"
+          actual="$(sha256sum "$tgz" | awk '{print $1}')"
+          test "$actual" = "$EXPECTED_ENGINEERING_SHA256"
+          mkdir -p extracted/KEYMATRIX_CANONICAL_SOURCE_001/engineering-snapshot/workspace
+          tar -xzf "$tgz" -C extracted/KEYMATRIX_CANONICAL_SOURCE_001/engineering-snapshot/workspace
+
+      - name: Locate engineering workspace
+        id: workspace
+        shell: bash
+        run: |
+          set -euo pipefail
+          root="extracted/KEYMATRIX_CANONICAL_SOURCE_001/engineering-snapshot/workspace"
+          if test -f "$root/package.json"; then
+            echo "root=$root" >> "$GITHUB_OUTPUT"
+          elif test -f "$root/keymatrix-grok-engineering/package.json"; then
+            echo "root=$root/keymatrix-grok-engineering" >> "$GITHUB_OUTPUT"
+          else
+            echo 'package.json not found after snapshot extraction' >&2
+            exit 1
+          fi
+
+      - name: Bind candidate lock revision
+        working-directory: ${{ steps.workspace.outputs.root }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          actual_pkg="$(sha256sum package.json | awk '{print $1}')"
+          test "$actual_pkg" = "$EXPECTED_PACKAGE_JSON_SHA256"
+          cp "$GITHUB_WORKSPACE/candidate-artifact/package-lock.candidate.json" package-lock.json
+          actual_lock="$(sha256sum package-lock.json | awk '{print $1}')"
+          test "$actual_lock" = "$EXPECTED_CANDIDATE_LOCK_SHA256"
+
+      - name: Inspect installed Nitro generator and timestamp code path
+        working-directory: ${{ steps.workspace.outputs.root }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf node_modules .vercel .output dist build
+          npm ci --ignore-scripts --no-audit --no-fund
+          {
+            echo '=== TOOLCHAIN ==='
+            node --version
+            npm --version
+            echo '=== NITRO PACKAGE RESOLUTION ==='
+            node -e "for (const p of ['nitropack/package.json','nitro/package.json']) { try { const r=require.resolve(p); const j=require(r); console.log(p+'='+r); console.log('name='+j.name); console.log('version='+j.version); console.log('main='+j.main); console.log('exports='+JSON.stringify(j.exports)); } catch (_) {} }"
+            echo '=== INSTALLED NITRO PACKAGES ==='
+            npm ls nitropack nitro --all --depth=0 || true
+            echo '=== NITRO JSON REFERENCES ==='
+            grep -RIn --exclude='*.map' --exclude='package-lock.json' -E 'nitro\\.json' node_modules/nitropack node_modules/nitro 2>/dev/null | head -200 || true
+            echo '=== TIMESTAMP REFERENCES ==='
+            grep -RIn --exclude='*.map' -E 'SOURCE_DATE_EPOCH|source.?date.?epoch|Date\\.now\\(|new Date\\(|timestamp|date:' node_modules/nitropack node_modules/nitro 2>/dev/null | head -300 || true
+          } | tee "$GITHUB_WORKSPACE/nitro-generator-forensics.txt"
+
+      - name: Determine exact generator source candidates
+        working-directory: ${{ steps.workspace.outputs.root }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          {
+            echo '=== FILES AROUND NITRO JSON GENERATOR ==='
+            grep -RIl --exclude='*.map' -E 'nitro\\.json' node_modules/nitropack node_modules/nitro 2>/dev/null | sort | head -100 || true
+            echo '=== SOURCE_DATE_EPOCH SUPPORT ==='
+            grep -RIn --exclude='*.map' -E 'SOURCE_DATE_EPOCH|source.?date.?epoch' node_modules/nitropack node_modules/nitro 2>/dev/null | head -200 || true
+          } | tee "$GITHUB_WORKSPACE/nitro-generator-candidates.txt"
+
+      - name: Publish forensic evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: nitro-timestamp-forensics-v2-${{ github.sha }}
+          if-no-files-found: error
+          path: |
+            nitro-generator-forensics.txt
+            nitro-generator-candidates.txt
+          compression-level: 6
+          overwrite: false
