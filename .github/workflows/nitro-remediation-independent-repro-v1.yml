@@ -84,13 +84,14 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          NITRO_DIR="$(node -e "console.log(require.resolve('nitro/package.json'))" | xargs dirname)"
+          NITRO_DIR="$(node -e "console.log(require.resolve('nitro/package.json'))" | xargs dirname)
           python3 - "$NITRO_DIR" "$GITHUB_WORKSPACE/remediation-evidence.txt" <<'PY'
           import pathlib, re, sys, hashlib
           root = pathlib.Path(sys.argv[1]); out = pathlib.Path(sys.argv[2])
           epoch = 'process.env.SOURCE_DATE_EPOCH ? new Date(Number(process.env.SOURCE_DATE_EPOCH) * 1000) : new Date()'
           patterns = [
-            (re.compile(r'new Date\(\)'), f'({epoch})'),
+            (re.compile(r'new Date\(\)\)\.toJSON\(\)'), f'({epoch}).toJSON()'),
+            (re.compile(r'new Date\(\)\)\.toISOString\(\)'), f'({epoch}).toISOString()'),
             (re.compile(r'stat\.mtime\.toJSON\(\)'), '(process.env.SOURCE_DATE_EPOCH ? new Date(Number(process.env.SOURCE_DATE_EPOCH) * 1000) : stat.mtime).toJSON()'),
             (re.compile(r'await promises\.stat\(fsPath\)\.then\(\(s\) => s\.mtime\.toJSON\(\)'), 'process.env.SOURCE_DATE_EPOCH ? new Date(Number(process.env.SOURCE_DATE_EPOCH) * 1000).toJSON() : await promises.stat(fsPath).then((s) => s.mtime.toJSON())'),
           ]
@@ -104,18 +105,18 @@ jobs:
             if text != old: p.write_text(text); touched.append(str(p))
             after[str(p)]=hashlib.sha256(text.encode()).hexdigest()
           remaining=[]
-          volatile=('new Date()','stat.mtime.toJSON()','s.mtime.toJSON()')
+          volatile_patterns=(r'new Date\(\)\)\.toJSON\(\)', r'new Date\(\)\)\.toISOString\(\)', r'stat\.mtime\.toJSON\(\)', r's\.mtime\.toJSON\(\)')
           for p in root.rglob('*.mjs'):
             try: text=p.read_text()
             except Exception: continue
-            if any(x in text for x in volatile): remaining.append(str(p))
+            if any(re.search(x,text) for x in volatile_patterns): remaining.append(str(p))
           with out.open('w') as f:
             f.write(f'SOURCE_DATE_EPOCH={1757370000}\nREPLACEMENTS={replacements}\nTOUCHED_FILES={len(touched)}\n')
             for p in touched: f.write(f'TOUCHED={p}\nBEFORE_SHA256={before[p]}\nAFTER_SHA256={after[p]}\n')
             f.write(f'REMAINING_VOLATILE_PATTERNS={len(remaining)}\n')
             for p in remaining: f.write(f'REMAINING={p}\n')
           print(out.read_text())
-          if replacements < 1 or remaining: raise SystemExit('Controlled remediation was not applied completely')
+          if replacements < 1 or remaining: raise SystemExit('Exact volatile remediation was not applied completely')
           PY
 
       - name: Clean build #1
@@ -144,12 +145,13 @@ jobs:
           python3 - "$NITRO_DIR" <<'PY'
           import pathlib,re,sys
           root=pathlib.Path(sys.argv[1]); epoch='process.env.SOURCE_DATE_EPOCH ? new Date(Number(process.env.SOURCE_DATE_EPOCH) * 1000) : new Date()'
-          pats=[(re.compile(r'new Date\(\)'),f'({epoch})'),(re.compile(r'stat\.mtime\.toJSON\(\)'),'(process.env.SOURCE_DATE_EPOCH ? new Date(Number(process.env.SOURCE_DATE_EPOCH) * 1000) : stat.mtime).toJSON()'),(re.compile(r'await promises\.stat\(fsPath\)\.then\(\(s\) => s\.mtime\.toJSON\(\)'), 'process.env.SOURCE_DATE_EPOCH ? new Date(Number(process.env.SOURCE_DATE_EPOCH) * 1000).toJSON() : await promises.stat(fsPath).then((s) => s.mtime.toJSON())')]
+          pats=[(re.compile(r'new Date\(\)\)\.toJSON\(\)'),f'({epoch}).toJSON()'),(re.compile(r'new Date\(\)\)\.toISOString\(\)'),f'({epoch}).toISOString()'),(re.compile(r'stat\.mtime\.toJSON\(\)'),'(process.env.SOURCE_DATE_EPOCH ? new Date(Number(process.env.SOURCE_DATE_EPOCH) * 1000) : stat.mtime).toJSON()'),(re.compile(r'await promises\.stat\(fsPath\)\.then\(\(s\) => s\.mtime\.toJSON\(\)'), 'process.env.SOURCE_DATE_EPOCH ? new Date(Number(process.env.SOURCE_DATE_EPOCH) * 1000).toJSON() : await promises.stat(fsPath).then((s) => s.mtime.toJSON())')]
           for p in root.rglob('*.mjs'):
             try:t=p.read_text()
             except:continue
+            old=t
             for pat,repl in pats:t=pat.sub(repl,t)
-            p.write_text(t)
+            if t != old:p.write_text(t)
           PY
           ./node_modules/.bin/vite build 2>&1 | tee "$GITHUB_WORKSPACE/build-2.log"
           test -f .vercel/output/nitro.json
