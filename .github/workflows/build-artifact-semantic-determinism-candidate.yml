@@ -132,6 +132,7 @@ jobs:
             printf '%s\t%s\t%s\n' "$rel" "$size" "$sha"
           done < "$GITHUB_WORKSPACE/semantic-build-1-paths.tmp" > "$GITHUB_WORKSPACE/semantic-build-1-manifest.tsv"
           test -f "$root/nitro.json"
+          cp "$root/nitro.json" "$GITHUB_WORKSPACE/nitro-build-1.json"
 
       - name: Clean build #2
         working-directory: ${{ steps.workspace.outputs.root }}
@@ -155,33 +156,55 @@ jobs:
             printf '%s\t%s\t%s\n' "$rel" "$size" "$sha"
           done < "$GITHUB_WORKSPACE/semantic-build-2-paths.tmp" > "$GITHUB_WORKSPACE/semantic-build-2-manifest.tsv"
           test -f "$root/nitro.json"
+          cp "$root/nitro.json" "$GITHUB_WORKSPACE/nitro-build-2.json"
 
       - name: Compare semantic artifact inventories
-        working-directory: ${{ steps.workspace.outputs.root }}
         shell: bash
         run: |
           set -euo pipefail
-          awk -F '\t' '$1 != "nitro.json"' "$GITHUB_WORKSPACE/semantic-build-1-manifest.tsv" > "$GITHUB_WORKSPACE/semantic-build-1-nitro-excluded.tsv"
-          awk -F '\t' '$1 != "nitro.json"' "$GITHUB_WORKSPACE/semantic-build-2-manifest.tsv" > "$GITHUB_WORKSPACE/semantic-build-2-nitro-excluded.tsv"
-          cmp -s "$GITHUB_WORKSPACE/semantic-build-1-nitro-excluded.tsv" "$GITHUB_WORKSPACE/semantic-build-2-nitro-excluded.tsv"
+          awk -F '\t' '$1 != "nitro.json"' semantic-build-1-manifest.tsv > semantic-build-1-nitro-excluded.tsv
+          awk -F '\t' '$1 != "nitro.json"' semantic-build-2-manifest.tsv > semantic-build-2-nitro-excluded.tsv
+          cmp -s semantic-build-1-nitro-excluded.tsv semantic-build-2-nitro-excluded.tsv
           node --input-type=module - <<'NODE'
           import fs from 'node:fs';
-          const root = process.cwd();
-          const a = JSON.parse(fs.readFileSync(`${root}/.vercel/output/nitro.json`, 'utf8'));
-          fs.rmSync(`${root}/.vercel/output/nitro.json`, { force: true });
-          const first = structuredClone(a);
-          const firstDate = first.date;
-          if (typeof firstDate !== 'string' || Number.isNaN(Date.parse(firstDate))) throw new Error('build #2 nitro.json date is missing or invalid');
-          console.log(`build_2_nitro_date=${firstDate}`);
+          import crypto from 'node:crypto';
+          const load = (p) => JSON.parse(fs.readFileSync(p, 'utf8'));
+          const a = load('nitro-build-1.json');
+          const b = load('nitro-build-2.json');
+          if (typeof a.date !== 'string' || Number.isNaN(Date.parse(a.date))) throw new Error('build #1 nitro.json date invalid');
+          if (typeof b.date !== 'string' || Number.isNaN(Date.parse(b.date))) throw new Error('build #2 nitro.json date invalid');
+          const rawA = crypto.createHash('sha256').update(JSON.stringify(a)).digest('hex');
+          const rawB = crypto.createHash('sha256').update(JSON.stringify(b)).digest('hex');
+          const normalized = (x) => { const y = structuredClone(x); delete y.date; return y; };
+          const na = normalized(a);
+          const nb = normalized(b);
+          const canonical = (x) => JSON.stringify(x, Object.keys(x).sort());
+          const normA = canonical(na);
+          const normB = canonical(nb);
+          const normHashA = crypto.createHash('sha256').update(normA).digest('hex');
+          const normHashB = crypto.createHash('sha256').update(normB).digest('hex');
+          console.log(`nitro_build_1_raw_sha256=${rawA}`);
+          console.log(`nitro_build_2_raw_sha256=${rawB}`);
+          console.log(`nitro_build_1_date=${a.date}`);
+          console.log(`nitro_build_2_date=${b.date}`);
+          console.log(`nitro_build_1_normalized_sha256=${normHashA}`);
+          console.log(`nitro_build_2_normalized_sha256=${normHashB}`);
+          if (JSON.stringify(na) !== JSON.stringify(nb)) {
+            fs.writeFileSync('nitro-normalized-diff.json', JSON.stringify({ build1: na, build2: nb }, null, 2));
+            throw new Error('nitro.json differs after removing only volatile date field');
+          }
+          fs.writeFileSync('semantic-comparison.txt', [
+            'NON_NITRO_ARTIFACTS_MATCH=TRUE',
+            'NITRO_VOLATILE_FIELD=date',
+            `NITRO_BUILD_1_RAW_SHA256=${rawA}`,
+            `NITRO_BUILD_2_RAW_SHA256=${rawB}`,
+            `NITRO_BUILD_1_NORMALIZED_SHA256=${normHashA}`,
+            `NITRO_BUILD_2_NORMALIZED_SHA256=${normHashB}`,
+            'NITRO_NORMALIZED_CONTENT_MATCH=TRUE',
+            'SEMANTIC_DETERMINISM_CANDIDATE=PASS_OBSERVED'
+          ].join('\n') + '\n');
+          console.log('SEMANTIC_DETERMINISM_CANDIDATE=PASS_OBSERVED');
           NODE
-          # Rebuild #1 and #2 nitro.json from the saved manifests is intentionally avoided:
-          # semantic comparison below reads the actual files captured in separate directories.
-          mkdir -p "$GITHUB_WORKSPACE/semantic-nitro"
-          git diff --no-index /dev/null /dev/null >/dev/null 2>&1 || true
-          echo 'NON_NITRO_ARTIFACTS_MATCH=TRUE' > "$GITHUB_WORKSPACE/semantic-comparison.txt"
-          echo 'NITRO_METADATA_COMPARISON_REQUIRES_SEPARATE_BUILD_OUTPUT_CAPTURE=TRUE' >> "$GITHUB_WORKSPACE/semantic-comparison.txt"
-          echo 'SEMANTIC_DETERMINISM_CANDIDATE=HOLD: workflow must capture both nitro.json files before normalization.' >&2
-          exit 1
 
       - name: Publish semantic candidate evidence
         if: always()
@@ -195,4 +218,9 @@ jobs:
             semantic-build-2.log
             semantic-build-1-manifest.tsv
             semantic-build-2-manifest.tsv
+            semantic-build-1-nitro-excluded.tsv
+            semantic-build-2-nitro-excluded.tsv
+            nitro-build-1.json
+            nitro-build-2.json
             semantic-comparison.txt
+            nitro-normalized-diff.json
