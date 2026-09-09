@@ -1,0 +1,1 @@
+NO PROMOTION: candidate workflow outcome must be observed before any promotion decision.
