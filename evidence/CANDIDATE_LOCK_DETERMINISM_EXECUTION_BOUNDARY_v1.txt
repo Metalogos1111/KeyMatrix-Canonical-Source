@@ -1,0 +1,2 @@
+EXECUTION BOUNDARY
+Candidate determinism evaluation remains confined to the controlled branch and existing candidate workflow. No merge, promotion, deployment, canonical archive mutation, package.json mutation, Supabase mutation, or authority invocation is authorized by this evidence marker.

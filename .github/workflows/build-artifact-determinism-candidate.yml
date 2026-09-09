@@ -1,0 +1,234 @@
+name: Build Artifact Determinism Candidate
+
+on:
+  push:
+    branches:
+      - controlled/dependency-lock-build-001
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  determinism-candidate:
+    name: Two clean reproducible builds with candidate lock
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    env:
+      EXPECTED_ARCHIVE_SHA256: 8d9200e8a91b432de9abbf976060ce6037fadbae8972e814fb13d5035c7eb40c
+      EXPECTED_ENGINEERING_SHA256: 06ed683e3b2e05edcda1da9f54a281bfab27c5d9d72907cd9ca18bfd5ba9622e
+      EXPECTED_PACKAGE_JSON_SHA256: 4be3b95d4fb86fae18a48daa5f675cd6031741394e645ac84764e7189a940a54
+      EXPECTED_CANDIDATE_LOCK_SHA256: 91c02f58775201f63877e2c03acfee7ceacfc4e5f0feeb3dd4df1a4c4f351acc
+      EXPECTED_CANDIDATE_ARTIFACT_SHA256: 5b68db15029b8215ad1bb96a4e513ec631502cbe8f5f826137cf5313324018f2
+      CANDIDATE_ARTIFACT_ID: 10082912240
+      CANDIDATE_RUN_ID: 34295367797
+      EXPECTED_NODE: 22.16.0
+      EXPECTED_NPM: 10.9.2
+      SOURCE_DATE_EPOCH: 1757370000
+
+    steps:
+      - name: Checkout controlled build branch
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Install exact Node toolchain
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.16.0
+          check-latest: false
+
+      - name: Verify toolchain
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(node --version)" = "v${EXPECTED_NODE}"
+          test "$(npm --version)" = "${EXPECTED_NPM}"
+          test "${SOURCE_DATE_EPOCH}" = "1757370000"
+
+      - name: Verify canonical archive identity
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f KEYMATRIX_CANONICAL_SOURCE_001.zip
+          actual="$(sha256sum KEYMATRIX_CANONICAL_SOURCE_001.zip | awk '{print $1}')"
+          test "$actual" = "$EXPECTED_ARCHIVE_SHA256"
+
+      - name: Download observed candidate artifact
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          curl -fsSL \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${GH_TOKEN}" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/artifacts/${CANDIDATE_ARTIFACT_ID}/zip" \
+            -o candidate-artifact.zip
+          actual="$(sha256sum candidate-artifact.zip | awk '{print $1}')"
+          test "$actual" = "$EXPECTED_CANDIDATE_ARTIFACT_SHA256"
+          unzip -q candidate-artifact.zip -d candidate-artifact
+          test -f candidate-artifact/package-lock.candidate.json
+          actual_lock="$(sha256sum candidate-artifact/package-lock.candidate.json | awk '{print $1}')"
+          test "$actual_lock" = "$EXPECTED_CANDIDATE_LOCK_SHA256"
+          grep -F "$EXPECTED_CANDIDATE_LOCK_SHA256  package-lock.json" candidate-artifact/candidate-lock-sha256.txt
+
+      - name: Extract canonical engineering snapshot
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf extracted
+          mkdir -p extracted
+          unzip -q KEYMATRIX_CANONICAL_SOURCE_001.zip -d extracted
+          tgz="extracted/KEYMATRIX_CANONICAL_SOURCE_001/engineering-snapshot/keymatrix-grok-engineering.tgz"
+          test -f "$tgz"
+          actual="$(sha256sum "$tgz" | awk '{print $1}')"
+          test "$actual" = "$EXPECTED_ENGINEERING_SHA256"
+          mkdir -p extracted/KEYMATRIX_CANONICAL_SOURCE_001/engineering-snapshot/workspace
+          tar -xzf "$tgz" -C extracted/KEYMATRIX_CANONICAL_SOURCE_001/engineering-snapshot/workspace
+
+      - name: Locate engineering workspace
+        id: workspace
+        shell: bash
+        run: |
+          set -euo pipefail
+          root="extracted/KEYMATRIX_CANONICAL_SOURCE_001/engineering-snapshot/workspace"
+          if test -f "$root/package.json"; then
+            echo "root=$root" >> "$GITHUB_OUTPUT"
+          elif test -f "$root/keymatrix-grok-engineering/package.json"; then
+            echo "root=$root/keymatrix-grok-engineering" >> "$GITHUB_OUTPUT"
+          else
+            echo 'package.json not found after snapshot extraction' >&2
+            exit 1
+          fi
+
+      - name: Bind candidate lock revision
+        working-directory: ${{ steps.workspace.outputs.root }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          actual_pkg="$(sha256sum package.json | awk '{print $1}')"
+          test "$actual_pkg" = "$EXPECTED_PACKAGE_JSON_SHA256"
+          cp "$GITHUB_WORKSPACE/candidate-artifact/package-lock.candidate.json" package-lock.json
+          actual_lock="$(sha256sum package-lock.json | awk '{print $1}')"
+          test "$actual_lock" = "$EXPECTED_CANDIDATE_LOCK_SHA256"
+          {
+            echo "source_archive_sha256=$EXPECTED_ARCHIVE_SHA256"
+            echo "engineering_snapshot_sha256=$EXPECTED_ENGINEERING_SHA256"
+            echo "package_json_sha256=$actual_pkg"
+            echo "candidate_lock_sha256=$actual_lock"
+            echo "candidate_artifact_sha256=$EXPECTED_CANDIDATE_ARTIFACT_SHA256"
+            echo "candidate_artifact_id=$CANDIDATE_ARTIFACT_ID"
+            echo "candidate_run_id=$CANDIDATE_RUN_ID"
+            echo "node=$(node --version)"
+            echo "npm=$(npm --version)"
+            echo "source_date_epoch=$SOURCE_DATE_EPOCH"
+          } | tee "$GITHUB_WORKSPACE/build-inputs.txt"
+
+      - name: Clean build #1
+        working-directory: ${{ steps.workspace.outputs.root }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf node_modules .vercel .output dist build
+          npm ci --ignore-scripts --no-audit --no-fund
+          ./node_modules/.bin/vite build 2>&1 | tee "$GITHUB_WORKSPACE/build-1.log"
+
+      - name: Capture nitro.json #1
+        working-directory: ${{ steps.workspace.outputs.root }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f .vercel/output/nitro.json
+          cp .vercel/output/nitro.json "$GITHUB_WORKSPACE/nitro-build-1.json"
+          sha256sum .vercel/output/nitro.json | tee "$GITHUB_WORKSPACE/nitro-build-1.sha256"
+
+      - name: Inventory build #1
+        working-directory: ${{ steps.workspace.outputs.root }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          if test -d .vercel/output; then root=.vercel/output;
+          elif test -d .output; then root=.output;
+          elif test -d dist; then root=dist;
+          elif test -d build; then root=build;
+          else echo 'No recognized build artifact root' >&2; exit 1; fi
+          echo "$root" > "$GITHUB_WORKSPACE/build-1-root.txt"
+          find "$root" -type f -printf '%P\t%s\n' | sort > "$GITHUB_WORKSPACE/build-1-paths.tmp"
+          while IFS=$'\t' read -r rel size; do
+            sha="$(sha256sum "$root/$rel" | awk '{print $1}')"
+            printf '%s\t%s\t%s\n' "$rel" "$size" "$sha"
+          done < "$GITHUB_WORKSPACE/build-1-paths.tmp" > "$GITHUB_WORKSPACE/build-1-manifest.tsv"
+
+      - name: Clean build #2
+        working-directory: ${{ steps.workspace.outputs.root }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf node_modules .vercel .output dist build
+          npm ci --ignore-scripts --no-audit --no-fund
+          ./node_modules/.bin/vite build 2>&1 | tee "$GITHUB_WORKSPACE/build-2.log"
+
+      - name: Capture nitro.json #2
+        working-directory: ${{ steps.workspace.outputs.root }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f .vercel/output/nitro.json
+          cp .vercel/output/nitro.json "$GITHUB_WORKSPACE/nitro-build-2.json"
+          sha256sum .vercel/output/nitro.json | tee "$GITHUB_WORKSPACE/nitro-build-2.sha256"
+
+      - name: Inventory build #2
+        working-directory: ${{ steps.workspace.outputs.root }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          if test -d .vercel/output; then root=.vercel/output;
+          elif test -d .output; then root=.output;
+          elif test -d dist; then root=dist;
+          elif test -d build; then root=build;
+          else echo 'No recognized build artifact root' >&2; exit 1; fi
+          echo "$root" > "$GITHUB_WORKSPACE/build-2-root.txt"
+          find "$root" -type f -printf '%P\t%s\n' | sort > "$GITHUB_WORKSPACE/build-2-paths.tmp"
+          while IFS=$'\t' read -r rel size; do
+            sha="$(sha256sum "$root/$rel" | awk '{print $1}')"
+            printf '%s\t%s\t%s\n' "$rel" "$size" "$sha"
+          done < "$GITHUB_WORKSPACE/build-2-paths.tmp" > "$GITHUB_WORKSPACE/build-2-manifest.tsv"
+
+      - name: Compare nitro metadata and artifact inventories
+        shell: bash
+        run: |
+          set -euo pipefail
+          if ! cmp -s nitro-build-1.json nitro-build-2.json; then
+            echo 'NITRO_METADATA_DETERMINISM = HOLD/FAIL: nitro.json differs.' >&2
+            diff -u nitro-build-1.json nitro-build-2.json || true
+            exit 1
+          fi
+          if ! cmp -s build-1-manifest.tsv build-2-manifest.tsv; then
+            echo 'BUILD_ARTIFACT_DETERMINISM_CANDIDATE = HOLD/FAIL: artifact inventories differ.' >&2
+            diff -u build-1-manifest.tsv build-2-manifest.tsv || true
+            exit 1
+          fi
+          echo 'NITRO_METADATA_DETERMINISM = PASS_OBSERVED: nitro.json bytes match.'
+          echo 'BUILD_ARTIFACT_DETERMINISM_CANDIDATE = VERIFIED: byte sizes and SHA-256 values match.'
+
+      - name: Publish candidate build evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-artifact-determinism-candidate-evidence-${{ github.sha }}
+          if-no-files-found: error
+          path: |
+            build-inputs.txt
+            build-1.log
+            build-2.log
+            build-1-manifest.tsv
+            build-2-manifest.tsv
+            build-1-root.txt
+            build-2-root.txt
+            nitro-build-1.json
+            nitro-build-2.json
+            nitro-build-1.sha256
+            nitro-build-2.sha256

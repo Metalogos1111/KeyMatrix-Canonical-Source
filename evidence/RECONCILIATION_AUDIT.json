@@ -1,0 +1,99 @@
+{
+  "reconciliation_audit": {
+    "timestamp": "2026-09-09T03:40:00Z",
+    "status": "PACKAGED_ARTIFACTS_VERIFIED_EXTERNAL_REFERENCES_UNVERIFIED",
+    "action": "SCOPE_RECONCILIATION_TO_SEPARATE_PACKAGED_ARTIFACTS_FROM_EXTERNAL_REFERENCES"
+  },
+  "scope_definition": {
+    "packaged_scope": "Archive entries physically present in KEYMATRIX_CANONICAL_SOURCE_001.zip",
+    "external_reference_scope": "Paths referenced by reference-artifacts/SHA256SUMS.txt but not physically packaged in the archive",
+    "important_distinction": "An unavailable external reference is NOT a SHA-256 mismatch; its hash comparison is NOT_COMPUTABLE."
+  },
+  "root_level_files_verified": [
+    {"relative_path":"canonical-registry.json","observed_byte_size":1885,"observed_sha256":"a250e3d833d0b3114364a2b97155e7efe4af8df1ee46480babb59a783f6d1dc4","original_zip_size":1885,"mismatch":false,"status":"VERIFIED"},
+    {"relative_path":"source-manifest.json","observed_byte_size":5592,"observed_sha256":"3a0b6d66d71e7065846f7dacf73de92e1efec1f77a471b556d8e7195986098da","original_zip_size":5592,"mismatch":false,"status":"VERIFIED"},
+    {"relative_path":"README.md","observed_byte_size":1131,"observed_sha256":"0e18e889c765a74355cb66caca0f2198dbb5e1d8b691995323b2ee08dd07e531","original_zip_size":1131,"mismatch":false,"status":"VERIFIED"},
+    {"relative_path":"evidence-chain.json","observed_byte_size":1354,"observed_sha256":"bcbe227edd21f675decfc2cf8cd32fb660ff30851c2db839ab2177cd407f5602","original_zip_size":1354,"mismatch":false,"status":"VERIFIED"},
+    {"relative_path":"provenance.txt","observed_byte_size":156,"observed_sha256":"dc3432f48830421633ab56f7d71a988163962bcbf39b298616179324f0eccb1b","original_zip_size":156,"mismatch":false,"status":"VERIFIED"}
+  ],
+  "internal_archive_manifest": {
+    "file": "reference-artifacts/SHA256SUMS.txt",
+    "observed_byte_size": 1289,
+    "observed_sha256": "f34cd3ee00351992ef3ac7359665f67b7f6e8ce31693d0c6b830e4ecee378e41",
+    "content_lines": 10,
+    "note": "Contains SHA-256 hashes and absolute paths referencing /mnt/data/KM-SWARM-005/",
+    "critical_finding": "EXTERNAL_REFERENCES_PRESENT",
+    "mismatch_type": "SCOPE_DIFFERENCE_NOT_HASH_MISMATCH",
+    "status": "DOCUMENTED_EXTERNAL_REFERENCES"
+  },
+  "critical_findings": {
+    "finding_1": {
+      "type": "EXTERNAL_REFERENCE_SCOPE",
+      "location": "reference-artifacts/SHA256SUMS.txt",
+      "declared_example": "/mnt/data/KM-SWARM-005/M002_ARTIFACTIZATION_REPORT.md",
+      "extracted_in_archive": "not_found_in_reference-artifacts/",
+      "classification": "EXTERNAL_REFERENCE_NOT_PACKAGED",
+      "hash_comparison": "NOT_COMPUTABLE",
+      "status": "UNVERIFIED_EXTERNAL"
+    },
+    "finding_2": {
+      "type": "EXTERNAL_PATH_REFERENCES",
+      "note": "SHA256SUMS.txt contains 10 file references with /mnt/data/ prefix",
+      "implication": "These files may exist outside the archive or may be historical references; the current archive does not contain them.",
+      "status": "REQUIRES_EXTERNAL_SOURCE_IF_VERIFICATION_IS_REQUIRED"
+    }
+  },
+  "packaged_artifact_reconciliation": {
+    "status": "VERIFIED",
+    "packaged_entries": 26,
+    "byte_size_mismatches": 0,
+    "sha256_mismatches": 0,
+    "missing_packaged_entries": 0,
+    "extra_files_in_reference_artifacts": 0,
+    "note": "The 26-entry packaged scope is reconciled independently of the external /mnt/data/KM-SWARM-005 references."
+  },
+  "engineering_snapshot_verification": {
+    "archive_name": "keymatrix-grok-engineering.tgz",
+    "observed_byte_size": 9055005,
+    "observed_sha256": "06ed683e3b2e05edcda1da9f54a281bfab27c5d9d72907cd9ca18bfd5ba9622e",
+    "extraction_status": "EXTRACTED",
+    "extracted_file_count": 146,
+    "nested_generated_files": "engineering_hashes.txt moved to local-evidence/",
+    "status": "VERIFIED"
+  },
+  "external_reference_reconciliation": {
+    "status": "UNVERIFIED_EXTERNAL",
+    "hash_match": null,
+    "hash_comparison_status": "NOT_COMPUTABLE",
+    "reason": "Referenced /mnt/data/KM-SWARM-005 files are not available in the current archive/workspace.",
+    "action_required": "If independent verification of those historical references is required, obtain the concrete source artifacts and compare their fresh SHA-256 values line-by-line."
+  },
+  "contradiction_summary": {
+    "packaged_byte_size_mismatches": 0,
+    "packaged_sha256_mismatches": 0,
+    "scope_differences": 1,
+    "unverified_external_references": 10,
+    "status": "PACKAGED_SCOPE_RECONCILED_EXTERNAL_SCOPE_UNVERIFIED"
+  },
+  "source_package_reconciliation_status": "VERIFIED_WITH_EXTERNAL_SCOPE_LIMITATION",
+  "reasons": [
+    "All 26 physically packaged entries have matching byte sizes and SHA-256 values.",
+    "SHA256SUMS.txt contains 10 historical/external absolute-path references that are not packaged.",
+    "Unavailable external references are classified as NOT_COMPUTABLE rather than mismatched."
+  ],
+  "promotion_impact": {
+    "source_package_integrity": "VERIFIED",
+    "deployment_chain": "NEED_MORE_EVIDENCE",
+    "runtime_verification": "HOLD",
+    "canonical_promotion": "BLOCKED"
+  },
+  "constraints": {
+    "no_file_modification": false,
+    "note": "This evidence document itself was corrected; source archive and historical reference artifacts were not modified.",
+    "no_archive_mutation": true,
+    "no_supabase_deployment": true,
+    "no_authority_invocation": true,
+    "no_promotion_without_evidence": true
+  },
+  "next_action": "Re-audit PR diff and evidence consistency; deployment/build/runtime gates remain separate and blocked until evidence exists."
+}

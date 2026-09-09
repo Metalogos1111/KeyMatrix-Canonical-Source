@@ -1,0 +1,70 @@
+{
+  "deployment_attestation": {
+    "phase": "PRE_DEPLOYMENT_EVIDENCE_BASELINE",
+    "status": "NEED_MORE_EVIDENCE",
+    "recorded_at": "2026-09-09T02:51:00Z"
+  },
+  "deployment_chain_audit": {
+    "git_source_plane": {
+      "status": "VERIFIED",
+      "evidence": [
+        "Archive: KEYMATRIX_CANONICAL_SOURCE_001.zip",
+        "Git blob SHA: 2856d8bd788fa8954d145d55b5e5c5cc1c5ffa44",
+        "Observed local SHA-256: 8d9200e8a91b432de9abbf976060ce6037fadbae8972e814fb13d5035c7eb40c",
+        "Commit: 8c37863402d92dc65829a1d27036b32c80ea4029",
+        "Committed at: 2026-09-07T17:54:50Z"
+      ]
+    },
+    "build_artifact_plane": {
+      "status": "AWAITING_EVIDENCE",
+      "gap": "No build system / compilation metadata recorded in archive",
+      "note": "engineering-snapshot/keymatrix-grok-engineering.tgz contains source but no build output"
+    },
+    "deployed_edge_function": {
+      "status": "NOT_FOUND",
+      "expected_location": "Supabase Edge Functions",
+      "current_evidence": "NONE"
+    },
+    "function_version": {
+      "status": "NOT_FOUND",
+      "expected_location": "Supabase function deployment metadata",
+      "current_evidence": "NONE"
+    },
+    "runtime_invocation": {
+      "status": "NOT_FOUND",
+      "expected_location": "Supabase function logs / execution traces",
+      "current_evidence": "NONE"
+    },
+    "database_authority_decision": {
+      "status": "NOT_FOUND",
+      "expected_location": "km-authority-gate table / decision log",
+      "current_evidence": "NONE"
+    }
+  },
+  "source_deployment_linkage": {
+    "declared_status": "NOT_PROVEN",
+    "chain_integrity": "UNPROVEN_AT_BUILD_ARTIFACT_STAGE",
+    "reason": "No verifiable build output connects source archive to deployed artifact"
+  },
+  "deployment_authority": {
+    "git_provenance_plane": "VERIFIED",
+    "runtime_evidence_plane": "EMPTY",
+    "deployment_gate": "LOCKED"
+  },
+  "canonical_promotion_eligibility": {
+    "source_identity_reconciliation": "PARTIAL_COMPLETE",
+    "deployment_attestation": "NEED_MORE_EVIDENCE",
+    "runtime_verification": "HOLD",
+    "production_authority_invocation": "NOT_REQUESTED",
+    "promotion_decision": "BLOCKED"
+  },
+  "constraints": {
+    "do_not_deploy": true,
+    "do_not_mutate_supabase": true,
+    "do_not_invoke_authority": true,
+    "do_not_promote_without_evidence": true
+  },
+  "next_gate": "BUILD_ARTIFACT_DETERMINISM_GATE_v1",
+  "git_commit": "e38f71d460c869867dafd6ad57904f507cb80f20",
+  "generated_at": "2026-09-09T02:51:00Z"
+}

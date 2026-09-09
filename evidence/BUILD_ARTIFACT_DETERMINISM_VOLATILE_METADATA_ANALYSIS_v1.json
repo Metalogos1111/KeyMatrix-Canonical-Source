@@ -1,0 +1,57 @@
+{
+  "gate": "BUILD_ARTIFACT_DETERMINISM_CANDIDATE_v1",
+  "analysis": "VOLATILE_METADATA_ATTRIBUTION",
+  "status": "HOLD",
+  "decision": "BYTE_DETERMINISM_NOT_PROVEN",
+  "scope": "READ_ONLY_DIAGNOSTIC_EVIDENCE",
+  "observed_run_id": 34299228699,
+  "observed_commit": "c4a44302f5b6acbdb96f2aadb015ff73bfbda811",
+  "candidate_artifact_id": 10082912240,
+  "candidate_artifact_sha256": "5b68db15029b8215ad1bb96a4e513ec631502cbe8f5f826137cf5313324018f2",
+  "candidate_lock_sha256": "91c02f58775201f63877e2c03acfee7ceacfc4e5f0feeb3dd4df1a4c4f351acc",
+  "node": "22.16.0",
+  "npm": "10.9.2",
+  "build_1": {
+    "clean_build": "PASS_OBSERVED",
+    "inventory": "PASS_OBSERVED",
+    "nitro_json": {
+      "size_bytes": 596,
+      "sha256": "52ba32da17b2bb29ffae9cb1c68035fb0cde3047958fd44a22b20288754a2d1a"
+    }
+  },
+  "build_2": {
+    "clean_build": "PASS_OBSERVED",
+    "inventory": "PASS_OBSERVED",
+    "nitro_json": {
+      "size_bytes": 596,
+      "sha256": "78870693f6f42bbf41df46699322a2f653ca07ea37f1dc6eafa9101b688004e1"
+    }
+  },
+  "inventory_comparison": {
+    "result": "FAIL_OBSERVED",
+    "differing_files": ["nitro.json"],
+    "matching_file_count_excluding_nitro_json": "all_other_observed_entries_match"
+  },
+  "mechanism_evidence": {
+    "upstream_file": "nitrojs/nitro/src/build/info.ts",
+    "upstream_commit": "3b8980bb824e8552053426243a4755a71a44b377",
+    "build_info_date_expression": "new Date().toJSON()",
+    "interpretation": "Nitro writes a fresh wall-clock build timestamp into nitro.json during each build. This is a volatile build-time metadata field and explains why byte-identical builds can differ only in nitro.json."
+  },
+  "invariants": {
+    "canonical_archive_mutated": false,
+    "package_json_mutated": false,
+    "candidate_lock_mutated": false,
+    "supabase_mutated": false,
+    "authority_invoked": false,
+    "canonical_promotion": false,
+    "synthetic_pass": false
+  },
+  "next_gate": "DECIDE_DETERMINISM_CONTRACT_FOR_NITRO_BUILD_METADATA",
+  "required_before_verified": [
+    "Do not silently ignore nitro.json byte differences.",
+    "Determine whether nitro.json is required deployment artifact metadata or can be deterministically controlled without changing canonical source semantics.",
+    "If byte-identical reproducibility remains the contract, stabilize or remove the volatile metadata through a controlled, source-consistent mechanism and re-run two clean builds.",
+    "If the contract is intentionally semantic rather than byte-identical, create a separately versioned verification contract that explicitly excludes only the documented volatile field; do not label that result byte-deterministic."
+  ]
+}

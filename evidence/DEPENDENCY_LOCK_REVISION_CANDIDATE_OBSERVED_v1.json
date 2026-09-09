@@ -1,0 +1,49 @@
+{
+  "gate": "DEPENDENCY_LOCK_REVISION_CANDIDATE_EXECUTION",
+  "status": "OBSERVED_SUCCESS",
+  "run_id": 34295367797,
+  "run_number": 1,
+  "job": "regenerate-lock-candidate",
+  "head_branch": "controlled/dependency-lock-revision-001",
+  "head_sha": "1682e309aa979a674f4696b58d7810fc3c650823",
+  "artifact": {
+    "id": 10082912240,
+    "name": "dependency-lock-revision-candidate",
+    "size_in_bytes": 57722,
+    "digest": "sha256:5b68db15029b8215ad1bb96a4e513ec631502cbe8f5f826137cf5313324018f2",
+    "expired": false
+  },
+  "baseline": {
+    "package_json_sha256": "4be3b95d4fb86fae18a48daa5f675cd6031741394e645ac84764e7189a940a54",
+    "package_lock_sha256_before": "6e4221b159909bcbca15d4dbeeb37db6e9e37478caf27c62c845f88e1658d031"
+  },
+  "candidate": {
+    "package_lock_sha256": "91c02f58775201f63877e2c03acfee7ceacfc4e5f0feeb3dd4df1a4c4f351acc",
+    "artifact_member": "package-lock.candidate.json",
+    "candidate_lock_sha_member": "candidate-lock-sha256.txt",
+    "npm_ci": "PASS_OBSERVED_BY_SUCCESSFUL_WORKFLOW_STEP",
+    "package_json_changed": false
+  },
+  "lock_graph_observations": {
+    "lockfile_version": 3,
+    "package_entry_count": 478,
+    "ajv_root": "8.20.0",
+    "ajv_eslintrc_nested": "6.15.0",
+    "ajv_eslint_nested": "6.15.0",
+    "fast_uri": "3.1.7",
+    "json_schema_traverse_root": "1.0.0",
+    "require_from_string": "2.0.2"
+  },
+  "safety": {
+    "package_json_mutation": false,
+    "canonical_archive_mutation": false,
+    "historical_evidence_overwrite": false,
+    "supabase_mutation": false,
+    "deployment": false,
+    "authority_invocation": false,
+    "pr_1_touched": false,
+    "synthetic_pass": false
+  },
+  "decision": "CANDIDATE_LOCK_ADMISSIBLE_FOR_CONTROLLED_SOURCE_REVISION",
+  "next_gate": "BUILD_ARTIFACT_DETERMINISM_GATE_v1_USING_CONTROLLED_LOCK_REVISION"
+}

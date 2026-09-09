@@ -1,0 +1,2 @@
+RUN ANCHOR
+The candidate determinism workflow is expected to execute from controlled/dependency-lock-build-001. This marker carries no authority and does not assert PASS/FAIL. Outcome remains NEED MORE EVIDENCE until workflow evidence is observed.

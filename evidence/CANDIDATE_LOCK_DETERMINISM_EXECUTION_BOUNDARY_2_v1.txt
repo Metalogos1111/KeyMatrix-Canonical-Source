@@ -1,0 +1,1 @@
+Execution remains controlled/read-only with respect to canonical source. Candidate workflow evidence is authoritative for gate status.

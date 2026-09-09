@@ -1,0 +1,34 @@
+{
+  "evidence_type": "CONTROLLED_EXECUTION_REQUEST",
+  "gate": "BUILD_ARTIFACT_DETERMINISM_CANDIDATE",
+  "decision": "EXECUTE_CANDIDATE_GATE",
+  "scope": "read-only canonical source inputs; candidate lock bound only inside ephemeral CI workspace",
+  "required_chain": [
+    "CANDIDATE LOCK",
+    "CLEAN INSTALL #1",
+    "BUILD #1",
+    "INVENTORY #1",
+    "CLEAN INSTALL #2",
+    "BUILD #2",
+    "INVENTORY #2",
+    "SHA-256 COMPARISON"
+  ],
+  "constraints": {
+    "canonical_archive_mutation": false,
+    "package_json_mutation": false,
+    "canonical_promotion": false,
+    "merge": false,
+    "deployment": false,
+    "supabase_mutation": false,
+    "authority_invocation": false,
+    "synthetic_pass": false
+  },
+  "candidate_lock_sha256": "91c02f58775201f63877e2c03acfee7ceacfc4e5f0feeb3dd4df1a4c4f351acc",
+  "candidate_artifact_id": 10082912240,
+  "candidate_artifact_sha256": "5b68db15029b8215ad1bb96a4e513ec631502cbe8f5f826137cf5313324018f2",
+  "expected_node": "22.16.0",
+  "expected_npm": "10.9.2",
+  "success_condition": "Both clean builds complete and their complete artifact inventories match byte-for-byte by path, size, and SHA-256.",
+  "failure_condition": "Any clean install/build failure or any inventory difference.",
+  "promotion_rule": "No promotion or merge follows from this request; only observable CI evidence can change the gate status."
+}

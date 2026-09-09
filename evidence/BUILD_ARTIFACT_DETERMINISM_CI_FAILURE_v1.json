@@ -1,0 +1,79 @@
+{
+  "gate": "BUILD_ARTIFACT_DETERMINISM_GATE_v1",
+  "evidence_type": "OBSERVED_CI_FAILURE",
+  "recorded_at": "2026-09-09T04:20:00+04:00",
+  "status": "HOLD_NEED_MORE_EVIDENCE",
+  "decision": "CANNOT_PASS",
+  "workflow": {
+    "name": "Build Artifact Determinism Gate",
+    "workflow_id": 353583266,
+    "run_id": 34294016857,
+    "run_number": 3,
+    "job_id": 102286555948,
+    "job": "Two clean reproducible builds",
+    "conclusion": "failure"
+  },
+  "source_execution": {
+    "pr_head": "8946e19655ec2c87e313f5015ea21c4972ca474e",
+    "checked_pr_merge_ref": "20aaea408fa08be4ba8348a2f33c1b87f1b12f6d",
+    "base": "8c37863402d92dc65829a1d27036b32c80ea4029",
+    "archive_sha256_expected_and_observed": "8d9200e8a91b432de9abbf976060ce6037fadbae8972e814fb13d5035c7eb40c",
+    "engineering_snapshot_sha256_expected_and_observed": "06ed683e3b2e05edcda1da9f54a281bfab27c5d9d72907cd9ca18bfd5ba9622e"
+  },
+  "toolchain": {
+    "node": "v22.16.0",
+    "npm": "10.9.2",
+    "runner": "ubuntu-24.04"
+  },
+  "observed_steps": {
+    "toolchain_verification": "SUCCESS",
+    "archive_identity_verification": "SUCCESS",
+    "engineering_snapshot_extraction": "SUCCESS",
+    "workspace_resolution": "SUCCESS",
+    "build_input_identity_recording": "SUCCESS",
+    "clean_build_1": "FAILED",
+    "artifact_inventory_1": "SKIPPED",
+    "clean_build_2": "SKIPPED",
+    "artifact_inventory_2": "SKIPPED",
+    "artifact_comparison": "SKIPPED"
+  },
+  "failure": {
+    "command": "npm ci --ignore-scripts --no-audit --no-fund",
+    "exit_code": 1,
+    "error_code": "EUSAGE",
+    "class": "PACKAGE_JSON_PACKAGE_LOCK_OUT_OF_SYNC",
+    "message": "npm ci can only install packages when your package.json and package-lock.json are in sync.",
+    "observed_mismatches": [
+      "lock file's ajv@6.15.0 does not satisfy ajv@8.20.0",
+      "Missing ajv@6.15.0 from lock file",
+      "Missing fast-uri@3.1.7 from lock file",
+      "lock file's json-schema-traverse@0.4.1 does not satisfy json-schema-traverse@1.0.0",
+      "Missing require-from-string@2.0.2 from lock file",
+      "Missing json-schema-traverse@0.4.1 from lock file"
+    ]
+  },
+  "evidence_interpretation": {
+    "build_success": "NOT_OBSERVED",
+    "artifact_generated": false,
+    "artifact_identity": "NOT_GENERATED_BY_THIS_GATE",
+    "second_build": "NOT_EXECUTED",
+    "determinism": "NOT_COMPUTABLE",
+    "source_to_artifact_binding": "UNPROVEN",
+    "this_is_not": "A source archive hash mismatch or deployment failure"
+  },
+  "remediation_gate": {
+    "name": "DEPENDENCY_LOCK_COHERENCE_GATE_v1",
+    "status": "BLOCKED_BY_CANONICAL_SNAPSHOT_INCONSISTENCY",
+    "required_action": "Resolve package.json/package-lock.json coherence in a controlled source revision, then regenerate any affected canonical package artifacts and recompute all downstream hashes before re-entering BUILD_ARTIFACT_DETERMINISM_GATE_v1.",
+    "prohibited_shortcut": "Do not bypass npm ci, do not use npm install merely to obtain a build, and do not silently rewrite the canonical archive or historical evidence."
+  },
+  "safety": {
+    "supabase_mutation": false,
+    "deployment": false,
+    "authority_invocation": false,
+    "canonical_promotion": false,
+    "merge": false,
+    "synthetic_pass": false
+  },
+  "final_decision": "BUILD_ARTIFACT_DETERMINISM_GATE_v1 = HOLD / NEED MORE EVIDENCE"
+}

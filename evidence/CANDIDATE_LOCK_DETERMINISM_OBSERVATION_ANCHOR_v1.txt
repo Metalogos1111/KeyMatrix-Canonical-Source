@@ -1,0 +1,2 @@
+OBSERVATION ANCHOR
+Controlled branch execution boundary. No technical source mutation is represented by this marker. Candidate workflow outcome must be read from GitHub Actions evidence only.

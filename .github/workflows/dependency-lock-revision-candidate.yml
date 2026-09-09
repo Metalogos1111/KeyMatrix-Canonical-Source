@@ -1,0 +1,79 @@
+name: Dependency Lock Revision Candidate
+
+on:
+  push:
+    branches:
+      - controlled/dependency-lock-revision-001
+  workflow_dispatch:
+
+jobs:
+  regenerate-lock-candidate:
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout controlled revision branch
+        uses: actions/checkout@v4
+
+      - name: Verify toolchain
+        run: |
+          node --version
+          npm --version
+
+      - name: Extract canonical engineering snapshot
+        run: |
+          set -euo pipefail
+          mkdir -p work
+          unzip -q KEYMATRIX_CANONICAL_SOURCE_001.zip -d work/archive
+          tar -xzf work/archive/KEYMATRIX_CANONICAL_SOURCE_001/engineering-snapshot/keymatrix-grok-engineering.tgz -C work
+          test -f work/package.json
+          test -f work/package-lock.json
+
+      - name: Capture baseline identities
+        run: |
+          set -euo pipefail
+          sha256sum work/package.json work/package-lock.json | tee work/baseline-sha256.txt
+
+      - name: Regenerate lockfile candidate only
+        working-directory: work
+        run: |
+          set -euo pipefail
+          npm install --package-lock-only --ignore-scripts --no-audit --no-fund --prefer-online
+
+      - name: Validate package.json unchanged and npm ci coherence
+        working-directory: work
+        run: |
+          set -euo pipefail
+          BASE_PACKAGE_JSON_SHA=$(awk '$2=="work/package.json" {print $1}' baseline-sha256.txt)
+          CURRENT_PACKAGE_JSON_SHA=$(sha256sum package.json | awk '{print $1}')
+          test "$BASE_PACKAGE_JSON_SHA" = "$CURRENT_PACKAGE_JSON_SHA"
+          npm ci --ignore-scripts --no-audit --no-fund --prefer-online
+          sha256sum package-lock.json | tee candidate-lock-sha256.txt
+
+      - name: Package candidate evidence
+        run: |
+          set -euo pipefail
+          mkdir -p evidence-out
+          cp work/package-lock.json evidence-out/package-lock.candidate.json
+          cp work/baseline-sha256.txt evidence-out/baseline-sha256.txt
+          cp work/candidate-lock-sha256.txt evidence-out/candidate-lock-sha256.txt
+          cat > evidence-out/DEPENDENCY_LOCK_REVISION_CANDIDATE_RESULT.json <<'EOF'
+          {
+            "gate": "DEPENDENCY_LOCK_COHERENCE_GATE_v1",
+            "execution": "CONTROLLED_LOCKFILE_CANDIDATE_REGENERATION",
+            "status": "OBSERVED",
+            "package_json_change": false,
+            "application_source_change": false,
+            "canonical_archive_mutation": false,
+            "historical_evidence_mutation": false,
+            "candidate_lock_commit": false,
+            "next_gate": "BUILD_ARTIFACT_DETERMINISM_GATE_v1"
+          }
+          EOF
+
+      - name: Upload candidate evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: dependency-lock-revision-candidate
+          path: evidence-out/
+          if-no-files-found: error

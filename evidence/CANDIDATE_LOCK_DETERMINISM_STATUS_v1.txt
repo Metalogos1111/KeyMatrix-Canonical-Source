@@ -1,0 +1,1 @@
+STATUS: NEED MORE EVIDENCE until the candidate workflow completes with observable build #1, build #2, inventories, and SHA-256 comparison.

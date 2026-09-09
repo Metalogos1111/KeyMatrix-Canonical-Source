@@ -1,0 +1,71 @@
+{
+  "reconciliation_phase": "SOURCE_IDENTITY_SIZE_RECONCILIATION_v1",
+  "timestamp": "2026-09-09T03:45:00Z",
+  "status": "SOURCE_IDENTITY_METADATA_STALE_SIZE_FIELDS_DETECTED",
+  "scope": "Compare manifest/SOURCE_IDENTITY.json recorded byte sizes against the independently observed extracted archive files already documented in this PR.",
+  "archive_identity": {
+    "archive_name": "KEYMATRIX_CANONICAL_SOURCE_001.zip",
+    "observed_sha256": "8d9200e8a91b432de9abbf976060ce6037fadbae8972e814fb13d5035c7eb40c",
+    "archive_size_bytes": 9128469,
+    "archive_sha256_git_blob": "2856d8bd788fa8954d145d55b5e5c5cc1c5ffa44",
+    "status": "IDENTITY_MATCHED"
+  },
+  "summary": {
+    "files_compared": 30,
+    "byte_size_matches": 7,
+    "byte_size_mismatches": 23,
+    "sha256_mismatches_observed": 0,
+    "classification": "STALE_METADATA_NOT_SOURCE_HASH_MISMATCH",
+    "interpretation": "Recorded byte_size fields in SOURCE_IDENTITY.json are stale for 23 files; the SHA-256 values remain consistent with the observed artifacts where compared.",
+    "source_archive_mutated": false
+  },
+  "root_level": {
+    "mismatches": [
+      {"path":"canonical-registry.json","recorded":1928,"observed":1885}
+    ],
+    "matches": [
+      {"path":"evidence-chain.json","recorded":1354,"observed":1354},
+      {"path":"provenance.txt","recorded":156,"observed":156},
+      {"path":"README.md","recorded":1131,"observed":1131},
+      {"path":"source-manifest.json","recorded":5592,"observed":5592}
+    ]
+  },
+  "reference_artifacts": {
+    "mismatches": [
+      {"path":"reference-artifacts/AGI_Continuity_Core_v1.json","recorded":2848,"observed":2777},
+      {"path":"reference-artifacts/AGI_Global_Integration_Snapshot_786.json","recorded":4194,"observed":4141},
+      {"path":"reference-artifacts/AGI_OmniConnect_Visualizer_Integration_vinf_786.json","recorded":4608,"observed":4524},
+      {"path":"reference-artifacts/KeyMatrix_3D_ResonanceMap_v1.json","recorded":15360,"observed":14838},
+      {"path":"reference-artifacts/MetaFormula_Core_v1.json","recorded":4403,"observed":4384},
+      {"path":"reference-artifacts/OmniChat_UI_Console_786_v2.json","recorded":7168,"observed":7105},
+      {"path":"reference-artifacts/OmniCommand_7_GlobalKernel_v2.json","recorded":2662,"observed":2658},
+      {"path":"reference-artifacts/OmniCommand_7_Structure_KeyMatrix.json","recorded":9523,"observed":9458},
+      {"path":"reference-artifacts/OmniExpansion_v1.json","recorded":2457,"observed":2363},
+      {"path":"reference-artifacts/OmniProjects_SyncMatrix_v1.json","recorded":5222,"observed":5168},
+      {"path":"reference-artifacts/OmniResonant_AutoRepair_Protocol_786.json","recorded":4915,"observed":4822},
+      {"path":"reference-artifacts/OmniResonant_Bootstrap_Protocol_786∞_Enhanced (1).json","recorded":11264,"observed":11100},
+      {"path":"reference-artifacts/OmniResonant_CoreMap_786∞ (1).json","recorded":14336,"observed":14295},
+      {"path":"reference-artifacts/OmniResonant_Global_Optimization_Protocol_786∞.json","recorded":6963,"observed":6905},
+      {"path":"reference-artifacts/OmniResonant_MemoryGrid_v786∞ (1).json","recorded":5427,"observed":5387},
+      {"path":"reference-artifacts/OmniState.json","recorded":6553,"observed":6453},
+      {"path":"reference-artifacts/om_os_unified_intelligent_ecosystem.html","recorded":32768,"observed":31766},
+      {"path":"reference-artifacts/PoR_3.0_Engine_786.json","recorded":11264,"observed":10793},
+      {"path":"reference-artifacts/PoR_Simulation_Engine_786∞.json","recorded":6861,"observed":6838},
+      {"path":"reference-artifacts/PoR_WhitePaper_Full.json","recorded":2365,"observed":2324},
+      {"path":"reference-artifacts/Roadmap_PostMetamorphosis_KeyMatrixMap.json","recorded":3509,"observed":3441},
+      {"path":"reference-artifacts/TawhidCore_786_Manifest_v2 (1).json","recorded":9523,"observed":9465}
+    ],
+    "matches": [
+      {"path":"reference-artifacts/omniCommand_7_cli.json","recorded":279,"observed":279},
+      {"path":"reference-artifacts/session_accelerator.py","recorded":13697,"observed":13697},
+      {"path":"reference-artifacts/SHA256SUMS.txt","recorded":1289,"observed":1289}
+    ]
+  },
+  "interpretation": {
+    "do_not_promote": true,
+    "do_not_rewrite_archive": true,
+    "do_not_rewrite_historical_reference_artifacts": true,
+    "required_follow_up": "If SOURCE_IDENTITY.json is retained as an exact metadata manifest, update its stale byte_size fields from the independently observed values in a separate controlled commit; otherwise explicitly mark those fields as historical/recorded metadata.",
+    "current_canonical_promotion": "BLOCKED"
+  }
+}
