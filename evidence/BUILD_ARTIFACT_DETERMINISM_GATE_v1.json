@@ -1,0 +1,111 @@
+{
+  "gate": "BUILD_ARTIFACT_DETERMINISM_GATE_v1",
+  "recorded_at": "2026-09-09T04:08:00Z",
+  "status": "HOLD_NEED_MORE_EVIDENCE",
+  "decision": "CANNOT_PASS",
+  "purpose": "Establish an evidence-bound link from the exact source snapshot to a reproducible build and a deterministic artifact identity/hash.",
+  "source_snapshot": {
+    "archive": "KEYMATRIX_CANONICAL_SOURCE_001.zip",
+    "archive_sha256": "8d9200e8a91b432de9abbf976060ce6037fadbae8972e814fb13d5035c7eb40c",
+    "engineering_snapshot": "engineering-snapshot/keymatrix-grok-engineering.tgz",
+    "engineering_snapshot_sha256": "06ed683e3b2e05edcda1da9f54a281bfab27c5d9d72907cd9ca18bfd5ba9622e",
+    "engineering_snapshot_bytes": 9055005,
+    "source_commit_recorded_in_package": "8c37863402d92dc65829a1d27036b32c80ea4029",
+    "status": "OBSERVED_IDENTITY"
+  },
+  "build_inputs": {
+    "package_json_sha256": "4be3b95d4fb86fae18a48daa5f675cd6031741394e645ac84764e7189a940a54",
+    "package_lock_sha256": "6e4221b159909bcbca15d4dbeeb37db6e9e37478caf27c62c845f88e1658d031",
+    "vite_config_sha256": "5451c22b17e7d8408674909b3d231f0ae4a4d017b740491ce7df008d961a7eee",
+    "tsconfig_sha256": "8abad87a6c62322f1f4fdff02d5f3f764ea10a98c49cfafccdc288a0dced492f",
+    "app_env_wrapper_sha256": "a846b68bd3645299c23eef965d9ef226df3a500d345d7576c23f7a2b2ff643c7",
+    "resolved_tool_versions_from_lock": {
+      "vite": "8.2.2",
+      "typescript": "5.9.3",
+      "nitro": "3.0.260610-beta",
+      "@vitejs/plugin-react": "5.2.0",
+      "@tanstack/react-start": "1.168.50"
+    },
+    "observed_runtime": {
+      "node": "v22.16.0",
+      "npm": "10.9.2"
+    },
+    "status": "OBSERVED_INPUT_METADATA"
+  },
+  "safe_build_contract": {
+    "build_command_for_this_gate": "node scripts/with-app-env.mjs vite build",
+    "reason": "The package.json build script additionally runs db:migrate; this gate must isolate compilation/artifact production from database mutation.",
+    "database_mutation": false,
+    "deployment": false,
+    "authority_invocation": false
+  },
+  "execution_attempt": {
+    "environment": "isolated temporary extraction under /tmp/km-build-gate",
+    "source_extraction": "COMPLETED",
+    "source_archive_sha256_recomputed": true,
+    "engineering_snapshot_sha256_recomputed": true,
+    "dependency_install": {
+      "command": "npm ci --ignore-scripts --no-audit --no-fund",
+      "result": "TIMEOUT",
+      "timeout_seconds": 120,
+      "interpretation": "Dependency installation did not complete in the available execution window."
+    },
+    "offline_retry": {
+      "command": "npm ci --ignore-scripts --no-audit --no-fund --offline",
+      "result": "FAILED",
+      "error_class": "ENOTCACHED",
+      "missing_cached_dependency_example": "ajv",
+      "interpretation": "The local npm cache does not contain all packages required by the locked dependency graph."
+    },
+    "build_execution": "NOT_EXECUTED",
+    "build_artifact_generated_by_this_gate": false
+  },
+  "prior_artifact_observation": {
+    "source": "keymatrix_grok_build_artifact_reconciliation_2026-09-07.json",
+    "classification": "HISTORICAL_OBSERVED_ARTIFACT_NOT_CURRENT_DETERMINISM_PROOF",
+    "observed_server_entry_sha256": "5a1855f335e3a5a4613672eed0008e33fdd604ca5e0471116e582771cdbbe510",
+    "observed_client_entry_sha256": "ef494e538fc09fc55e22e2a8505c7dd4c134a98ca9b572d122f9000b1b301025",
+    "observed_temporal_issue": "The recorded build output predates the latest source modification in the separate extracted engineering workspace.",
+    "source_to_artifact_binding": "UNPROVEN",
+    "reusability_for_this_gate": "NOT_ACCEPTED"
+  },
+  "determinism_requirements": {
+    "required_evidence": [
+      "Exact source snapshot identity",
+      "Exact dependency lock identity",
+      "Exact build runtime/toolchain identity",
+      "Successful build from a clean dependency installation",
+      "Complete artifact inventory with byte sizes and SHA-256 values",
+      "Second clean build under the same declared inputs",
+      "Artifact tree/hash equality across both builds",
+      "Recorded build logs and exit status",
+      "No database mutation and no deployment during this gate"
+    ],
+    "determinism_decision_rule": "PASS only if two independent clean builds from identical declared inputs produce byte-identical artifact inventories; otherwise HOLD/FAIL according to the observed discrepancy.",
+    "synthetic_pass_forbidden": true
+  },
+  "current_evidence_matrix": {
+    "source_identity": "VERIFIED",
+    "dependency_lock_identity": "VERIFIED",
+    "build_toolchain_identity": "OBSERVED",
+    "clean_dependency_install": "NOT_COMPLETED",
+    "build_success": "NOT_OBSERVED",
+    "artifact_identity": "NOT_GENERATED_BY_THIS_GATE",
+    "second_reproducible_build": "NOT_EXECUTED",
+    "artifact_byte_equality": "NOT_COMPUTABLE",
+    "source_to_artifact_link": "UNPROVEN",
+    "gate_status": "HOLD_NEED_MORE_EVIDENCE"
+  },
+  "constraints_maintained": {
+    "pr_left_open": true,
+    "merge": false,
+    "deployment": false,
+    "supabase_mutation": false,
+    "authority_invocation": false,
+    "canonical_promotion": false,
+    "source_archive_mutation": false,
+    "historical_artifact_rewrite": false
+  },
+  "next_gate_condition": "Obtain a clean build environment capable of resolving package-lock.json, execute two clean builds using the safe build command, capture complete artifact manifests and hashes, then compare them before opening ARTIFACT_TO_DEPLOYMENT_GATE.",
+  "final_decision": "BUILD_ARTIFACT_DETERMINISM_GATE_v1 = HOLD / NEED MORE EVIDENCE"
+}
