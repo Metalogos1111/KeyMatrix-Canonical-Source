@@ -25,6 +25,7 @@ jobs:
       CANDIDATE_RUN_ID: 34295367797
       EXPECTED_NODE: 22.16.0
       EXPECTED_NPM: 10.9.2
+      SOURCE_DATE_EPOCH: 1757370000
 
     steps:
       - name: Checkout controlled build branch
@@ -44,6 +45,7 @@ jobs:
           set -euo pipefail
           test "$(node --version)" = "v${EXPECTED_NODE}"
           test "$(npm --version)" = "${EXPECTED_NPM}"
+          test "${SOURCE_DATE_EPOCH}" = "1757370000"
 
       - name: Verify canonical archive identity
         shell: bash
@@ -122,6 +124,7 @@ jobs:
             echo "candidate_run_id=$CANDIDATE_RUN_ID"
             echo "node=$(node --version)"
             echo "npm=$(npm --version)"
+            echo "source_date_epoch=$SOURCE_DATE_EPOCH"
           } | tee "$GITHUB_WORKSPACE/build-inputs.txt"
 
       - name: Clean build #1
@@ -132,6 +135,15 @@ jobs:
           rm -rf node_modules .vercel .output dist build
           npm ci --ignore-scripts --no-audit --no-fund
           ./node_modules/.bin/vite build 2>&1 | tee "$GITHUB_WORKSPACE/build-1.log"
+
+      - name: Capture nitro.json #1
+        working-directory: ${{ steps.workspace.outputs.root }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f .vercel/output/nitro.json
+          cp .vercel/output/nitro.json "$GITHUB_WORKSPACE/nitro-build-1.json"
+          sha256sum .vercel/output/nitro.json | tee "$GITHUB_WORKSPACE/nitro-build-1.sha256"
 
       - name: Inventory build #1
         working-directory: ${{ steps.workspace.outputs.root }}
@@ -159,6 +171,15 @@ jobs:
           npm ci --ignore-scripts --no-audit --no-fund
           ./node_modules/.bin/vite build 2>&1 | tee "$GITHUB_WORKSPACE/build-2.log"
 
+      - name: Capture nitro.json #2
+        working-directory: ${{ steps.workspace.outputs.root }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f .vercel/output/nitro.json
+          cp .vercel/output/nitro.json "$GITHUB_WORKSPACE/nitro-build-2.json"
+          sha256sum .vercel/output/nitro.json | tee "$GITHUB_WORKSPACE/nitro-build-2.sha256"
+
       - name: Inventory build #2
         working-directory: ${{ steps.workspace.outputs.root }}
         shell: bash
@@ -176,15 +197,21 @@ jobs:
             printf '%s\t%s\t%s\n' "$rel" "$size" "$sha"
           done < "$GITHUB_WORKSPACE/build-2-paths.tmp" > "$GITHUB_WORKSPACE/build-2-manifest.tsv"
 
-      - name: Compare artifact inventories
+      - name: Compare nitro metadata and artifact inventories
         shell: bash
         run: |
           set -euo pipefail
+          if ! cmp -s nitro-build-1.json nitro-build-2.json; then
+            echo 'NITRO_METADATA_DETERMINISM = HOLD/FAIL: nitro.json differs.' >&2
+            diff -u nitro-build-1.json nitro-build-2.json || true
+            exit 1
+          fi
           if ! cmp -s build-1-manifest.tsv build-2-manifest.tsv; then
             echo 'BUILD_ARTIFACT_DETERMINISM_CANDIDATE = HOLD/FAIL: artifact inventories differ.' >&2
             diff -u build-1-manifest.tsv build-2-manifest.tsv || true
             exit 1
           fi
+          echo 'NITRO_METADATA_DETERMINISM = PASS_OBSERVED: nitro.json bytes match.'
           echo 'BUILD_ARTIFACT_DETERMINISM_CANDIDATE = VERIFIED: byte sizes and SHA-256 values match.'
 
       - name: Publish candidate build evidence
@@ -201,3 +228,7 @@ jobs:
             build-2-manifest.tsv
             build-1-root.txt
             build-2-root.txt
+            nitro-build-1.json
+            nitro-build-2.json
+            nitro-build-1.sha256
+            nitro-build-2.sha256
