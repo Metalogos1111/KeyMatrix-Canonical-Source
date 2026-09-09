@@ -97,8 +97,8 @@ jobs:
           target='date: (/* @__PURE__ */ new Date()).toJSON(),'
           replacement='date: (/* @__PURE__ */ process.env.SOURCE_DATE_EPOCH ? new Date(process.env.SOURCE_DATE_EPOCH * 1000) : new Date()).toJSON(),'
           count=s.count(target)
-          if count != 1:
-              raise SystemExit(f'nitro.json date target count={count}, expected=1')
+          if count != 2:
+              raise SystemExit(f'nitro date target count={count}, expected=2')
           s=s.replace(target,replacement)
           replacements=[
           ('mtime: stat.mtime.toJSON(),','mtime: (process.env.SOURCE_DATE_EPOCH ? new Date(process.env.SOURCE_DATE_EPOCH * 1000) : stat.mtime).toJSON(),'),
