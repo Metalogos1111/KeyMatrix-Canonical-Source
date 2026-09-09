@@ -1,0 +1,198 @@
+name: Build Artifact Semantic Determinism Candidate
+
+on:
+  push:
+    branches:
+      - controlled/dependency-lock-build-001
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  semantic-determinism-candidate:
+    name: Two builds with explicit volatile metadata normalization
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    env:
+      EXPECTED_ARCHIVE_SHA256: 8d9200e8a91b432de9abbf976060ce6037fadbae8972e814fb13d5035c7eb40c
+      EXPECTED_ENGINEERING_SHA256: 06ed683e3b2e05edcda1da9f54a281bfab27c5d9d72907cd9ca18bfd5ba9622e
+      EXPECTED_PACKAGE_JSON_SHA256: 4be3b95d4fb86fae18a48daa5f675cd6031741394e645ac84764e7189a940a54
+      EXPECTED_CANDIDATE_LOCK_SHA256: 91c02f58775201f63877e2c03acfee7ceacfc4e5f0feeb3dd4df1a4c4f351acc
+      EXPECTED_CANDIDATE_ARTIFACT_SHA256: 5b68db15029b8215ad1bb96a4e513ec631502cbe8f5f826137cf5313324018f2
+      CANDIDATE_ARTIFACT_ID: 10082912240
+      EXPECTED_NODE: 22.16.0
+      EXPECTED_NPM: 10.9.2
+
+    steps:
+      - name: Checkout controlled build branch
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Install exact Node toolchain
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.16.0
+          check-latest: false
+
+      - name: Verify toolchain
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(node --version)" = "v${EXPECTED_NODE}"
+          test "$(npm --version)" = "${EXPECTED_NPM}"
+
+      - name: Verify canonical archive identity
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f KEYMATRIX_CANONICAL_SOURCE_001.zip
+          actual="$(sha256sum KEYMATRIX_CANONICAL_SOURCE_001.zip | awk '{print $1}')"
+          test "$actual" = "$EXPECTED_ARCHIVE_SHA256"
+
+      - name: Download observed candidate artifact
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          curl -fsSL \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${GH_TOKEN}" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/artifacts/${CANDIDATE_ARTIFACT_ID}/zip" \
+            -o candidate-artifact.zip
+          actual="$(sha256sum candidate-artifact.zip | awk '{print $1}')"
+          test "$actual" = "$EXPECTED_CANDIDATE_ARTIFACT_SHA256"
+          unzip -q candidate-artifact.zip -d candidate-artifact
+          test -f candidate-artifact/package-lock.candidate.json
+          actual_lock="$(sha256sum candidate-artifact/package-lock.candidate.json | awk '{print $1}')"
+          test "$actual_lock" = "$EXPECTED_CANDIDATE_LOCK_SHA256"
+
+      - name: Extract canonical engineering snapshot
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf extracted
+          mkdir -p extracted
+          unzip -q KEYMATRIX_CANONICAL_SOURCE_001.zip -d extracted
+          tgz="extracted/KEYMATRIX_CANONICAL_SOURCE_001/engineering-snapshot/keymatrix-grok-engineering.tgz"
+          test -f "$tgz"
+          actual="$(sha256sum "$tgz" | awk '{print $1}')"
+          test "$actual" = "$EXPECTED_ENGINEERING_SHA256"
+          mkdir -p extracted/KEYMATRIX_CANONICAL_SOURCE_001/engineering-snapshot/workspace
+          tar -xzf "$tgz" -C extracted/KEYMATRIX_CANONICAL_SOURCE_001/engineering-snapshot/workspace
+
+      - name: Locate and bind candidate lock
+        id: workspace
+        shell: bash
+        run: |
+          set -euo pipefail
+          root="extracted/KEYMATRIX_CANONICAL_SOURCE_001/engineering-snapshot/workspace"
+          if test -f "$root/package.json"; then root="$root";
+          elif test -f "$root/keymatrix-grok-engineering/package.json"; then root="$root/keymatrix-grok-engineering";
+          else echo 'package.json not found after snapshot extraction' >&2; exit 1; fi
+          echo "root=$root" >> "$GITHUB_OUTPUT"
+          actual_pkg="$(sha256sum "$root/package.json" | awk '{print $1}')"
+          test "$actual_pkg" = "$EXPECTED_PACKAGE_JSON_SHA256"
+          cp "$GITHUB_WORKSPACE/candidate-artifact/package-lock.candidate.json" "$root/package-lock.json"
+          actual_lock="$(sha256sum "$root/package-lock.json" | awk '{print $1}')"
+          test "$actual_lock" = "$EXPECTED_CANDIDATE_LOCK_SHA256"
+          {
+            echo "archive_sha256=$EXPECTED_ARCHIVE_SHA256"
+            echo "engineering_sha256=$EXPECTED_ENGINEERING_SHA256"
+            echo "package_json_sha256=$actual_pkg"
+            echo "candidate_lock_sha256=$actual_lock"
+            echo "candidate_artifact_sha256=$EXPECTED_CANDIDATE_ARTIFACT_SHA256"
+            echo "node=$(node --version)"
+            echo "npm=$(npm --version)"
+          } | tee "$GITHUB_WORKSPACE/semantic-build-inputs.txt"
+
+      - name: Clean build #1
+        working-directory: ${{ steps.workspace.outputs.root }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf node_modules .vercel .output dist build
+          npm ci --ignore-scripts --no-audit --no-fund
+          ./node_modules/.bin/vite build 2>&1 | tee "$GITHUB_WORKSPACE/semantic-build-1.log"
+
+      - name: Inventory build #1
+        working-directory: ${{ steps.workspace.outputs.root }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          root=.vercel/output
+          test -d "$root"
+          find "$root" -type f -printf '%P\t%s\n' | sort > "$GITHUB_WORKSPACE/semantic-build-1-paths.tmp"
+          while IFS=$'\t' read -r rel size; do
+            sha="$(sha256sum "$root/$rel" | awk '{print $1}')"
+            printf '%s\t%s\t%s\n' "$rel" "$size" "$sha"
+          done < "$GITHUB_WORKSPACE/semantic-build-1-paths.tmp" > "$GITHUB_WORKSPACE/semantic-build-1-manifest.tsv"
+          test -f "$root/nitro.json"
+
+      - name: Clean build #2
+        working-directory: ${{ steps.workspace.outputs.root }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf node_modules .vercel .output dist build
+          npm ci --ignore-scripts --no-audit --no-fund
+          ./node_modules/.bin/vite build 2>&1 | tee "$GITHUB_WORKSPACE/semantic-build-2.log"
+
+      - name: Inventory build #2
+        working-directory: ${{ steps.workspace.outputs.root }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          root=.vercel/output
+          test -d "$root"
+          find "$root" -type f -printf '%P\t%s\n' | sort > "$GITHUB_WORKSPACE/semantic-build-2-paths.tmp"
+          while IFS=$'\t' read -r rel size; do
+            sha="$(sha256sum "$root/$rel" | awk '{print $1}')"
+            printf '%s\t%s\t%s\n' "$rel" "$size" "$sha"
+          done < "$GITHUB_WORKSPACE/semantic-build-2-paths.tmp" > "$GITHUB_WORKSPACE/semantic-build-2-manifest.tsv"
+          test -f "$root/nitro.json"
+
+      - name: Compare semantic artifact inventories
+        working-directory: ${{ steps.workspace.outputs.root }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          awk -F '\t' '$1 != "nitro.json"' "$GITHUB_WORKSPACE/semantic-build-1-manifest.tsv" > "$GITHUB_WORKSPACE/semantic-build-1-nitro-excluded.tsv"
+          awk -F '\t' '$1 != "nitro.json"' "$GITHUB_WORKSPACE/semantic-build-2-manifest.tsv" > "$GITHUB_WORKSPACE/semantic-build-2-nitro-excluded.tsv"
+          cmp -s "$GITHUB_WORKSPACE/semantic-build-1-nitro-excluded.tsv" "$GITHUB_WORKSPACE/semantic-build-2-nitro-excluded.tsv"
+          node --input-type=module - <<'NODE'
+          import fs from 'node:fs';
+          const root = process.cwd();
+          const a = JSON.parse(fs.readFileSync(`${root}/.vercel/output/nitro.json`, 'utf8'));
+          fs.rmSync(`${root}/.vercel/output/nitro.json`, { force: true });
+          const first = structuredClone(a);
+          const firstDate = first.date;
+          if (typeof firstDate !== 'string' || Number.isNaN(Date.parse(firstDate))) throw new Error('build #2 nitro.json date is missing or invalid');
+          console.log(`build_2_nitro_date=${firstDate}`);
+          NODE
+          # Rebuild #1 and #2 nitro.json from the saved manifests is intentionally avoided:
+          # semantic comparison below reads the actual files captured in separate directories.
+          mkdir -p "$GITHUB_WORKSPACE/semantic-nitro"
+          git diff --no-index /dev/null /dev/null >/dev/null 2>&1 || true
+          echo 'NON_NITRO_ARTIFACTS_MATCH=TRUE' > "$GITHUB_WORKSPACE/semantic-comparison.txt"
+          echo 'NITRO_METADATA_COMPARISON_REQUIRES_SEPARATE_BUILD_OUTPUT_CAPTURE=TRUE' >> "$GITHUB_WORKSPACE/semantic-comparison.txt"
+          echo 'SEMANTIC_DETERMINISM_CANDIDATE=HOLD: workflow must capture both nitro.json files before normalization.' >&2
+          exit 1
+
+      - name: Publish semantic candidate evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-artifact-semantic-determinism-candidate-evidence-${{ github.sha }}
+          if-no-files-found: error
+          path: |
+            semantic-build-inputs.txt
+            semantic-build-1.log
+            semantic-build-2.log
+            semantic-build-1-manifest.tsv
+            semantic-build-2-manifest.tsv
+            semantic-comparison.txt
