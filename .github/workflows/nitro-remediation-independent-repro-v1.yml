@@ -1,0 +1,219 @@
+name: NITRO Remediation Independent Reproduction v1
+
+on:
+  push:
+    branches: ["controlled/nitro-remediation-repro-001"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  reproduce:
+    name: Independent SOURCE_DATE_EPOCH remediation reproduction
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    env:
+      EXPECTED_ARCHIVE_SHA256: 8d9200e8a91b432de9abbf976060ce6037fadbae8972e814fb13d5035c7eb40c
+      EXPECTED_ENGINEERING_SHA256: 06ed683e3b2e05edcda1da9f54a281bfab27c5d9d72907cd9ca18bfd5ba9622e
+      EXPECTED_PACKAGE_JSON_SHA256: 4be3b95d4fb86fae18a48daa5f675cd6031741394e645ac84764e7189a940a54
+      EXPECTED_CANDIDATE_LOCK_SHA256: 91c02f58775201f63877e2c03acfee7ceacfc4e5f0feeb3dd4df1a4c4f351acc
+      CANDIDATE_ARTIFACT_ID: 10082912240
+      EXPECTED_NODE: 22.16.0
+      EXPECTED_NPM: 10.9.2
+      SOURCE_DATE_EPOCH: 1757370000
+
+    steps:
+      - name: Checkout reproduction branch
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Install exact Node toolchain
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.16.0
+          check-latest: false
+
+      - name: Verify source and candidate inputs
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          test "$(node --version)" = "v${EXPECTED_NODE}"
+          test "$(npm --version)" = "${EXPECTED_NPM}"
+          test -f KEYMATRIX_CANONICAL_SOURCE_001.zip
+          test "$(sha256sum KEYMATRIX_CANONICAL_SOURCE_001.zip | awk '{print $1}')" = "$EXPECTED_ARCHIVE_SHA256"
+          curl -fsSL \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${GH_TOKEN}" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/artifacts/${CANDIDATE_ARTIFACT_ID}/zip" \
+            -o candidate-artifact.zip
+          rm -rf candidate-artifact extracted
+          mkdir -p candidate-artifact extracted
+          unzip -q candidate-artifact.zip -d candidate-artifact
+          test -f candidate-artifact/package-lock.candidate.json
+          test "$(sha256sum candidate-artifact/package-lock.candidate.json | awk '{print $1}')" = "$EXPECTED_CANDIDATE_LOCK_SHA256"
+          unzip -q KEYMATRIX_CANONICAL_SOURCE_001.zip -d extracted
+          tgz="extracted/KEYMATRIX_CANONICAL_SOURCE_001/engineering-snapshot/keymatrix-grok-engineering.tgz"
+          test -f "$tgz"
+          test "$(sha256sum "$tgz" | awk '{print $1}')" = "$EXPECTED_ENGINEERING_SHA256"
+          mkdir -p extracted/KEYMATRIX_CANONICAL_SOURCE_001/engineering-snapshot/workspace
+          tar -xzf "$tgz" -C extracted/KEYMATRIX_CANONICAL_SOURCE_001/engineering-snapshot/workspace
+
+      - name: Locate workspace and bind candidate lock
+        id: workspace
+        shell: bash
+        run: |
+          set -euo pipefail
+          root="extracted/KEYMATRIX_CANONICAL_SOURCE_001/engineering-snapshot/workspace"
+          if test -f "$root/package.json"; then root="$root"; \
+          elif test -f "$root/keymatrix-grok-engineering/package.json"; then root="$root/keymatrix-grok-engineering"; \
+          else echo 'package.json not found' >&2; exit 1; fi
+          echo "root=$root" >> "$GITHUB_OUTPUT"
+          test "$(sha256sum "$root/package.json" | awk '{print $1}')" = "$EXPECTED_PACKAGE_JSON_SHA256"
+          cp candidate-artifact/package-lock.candidate.json "$root/package-lock.json"
+          test "$(sha256sum "$root/package-lock.json" | awk '{print $1}')" = "$EXPECTED_CANDIDATE_LOCK_SHA256"
+
+      - name: Clean install and resolve Nitro
+        working-directory: ${{ steps.workspace.outputs.root }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf node_modules .vercel .output dist build
+          npm ci --ignore-scripts --no-audit --no-fund
+          node -e "console.log(require('nitro/package.json').version)" | tee "$GITHUB_WORKSPACE/nitro-version.txt"
+          test "$(cat "$GITHUB_WORKSPACE/nitro-version.txt")" = "3.0.260610-beta"
+
+      - name: Apply independent controlled remediation
+        working-directory: ${{ steps.workspace.outputs.root }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          NITRO_DIR="$(node -e "console.log(require.resolve('nitro/package.json'))" | xargs dirname)"
+          python3 - "$NITRO_DIR" "$GITHUB_WORKSPACE/remediation-evidence.txt" <<'PY'
+          import pathlib, re, sys, hashlib
+          root = pathlib.Path(sys.argv[1])
+          out = pathlib.Path(sys.argv[2])
+          epoch = "process.env.SOURCE_DATE_EPOCH ? new Date(process.env.SOURCE_DATE_EPOCH * 1000) : new Date()"
+          replacements = 0
+          touched = []
+          patterns = [
+              (re.compile(r'new Date\(\)\.toJSON\(\)'), f'({epoch}).toJSON()'),
+              (re.compile(r'new Date\(\)\.toISOString\(\)'), f'({epoch}).toISOString()'),
+              (re.compile(r'stat\.mtime\.toJSON\(\)'), '(process.env.SOURCE_DATE_EPOCH ? new Date(process.env.SOURCE_DATE_EPOCH * 1000) : stat.mtime).toJSON()'),
+              (re.compile(r'await promises\.stat\(fsPath\)\.then\(\(s\) => s\.mtime\.toJSON\(\)\)'), 'process.env.SOURCE_DATE_EPOCH ? new Date(process.env.SOURCE_DATE_EPOCH * 1000).toJSON() : await promises.stat(fsPath).then((s) => s.mtime.toJSON())'),
+          ]
+          before_hash = {}
+          after_hash = {}
+          for p in root.rglob('*.mjs'):
+              try: text = p.read_text()
+              except Exception: continue
+              old = text
+              before_hash[str(p)] = hashlib.sha256(old.encode()).hexdigest()
+              for pat, repl in patterns:
+                  text, n = pat.subn(repl, text)
+                  replacements += n
+              if text != old:
+                  p.write_text(text)
+                  touched.append(str(p))
+              after_hash[str(p)] = hashlib.sha256(text.encode()).hexdigest()
+          remaining = []
+          for p in root.rglob('*.mjs'):
+              try: text = p.read_text()
+              except Exception: continue
+              if 'new Date().toJSON()' in text or 'stat.mtime.toJSON()' in text or 'fsPath).then((s) => s.mtime.toJSON())' in text:
+                  remaining.append(str(p))
+          with out.open('w') as f:
+              f.write(f'SOURCE_DATE_EPOCH=1757370000\n')
+              f.write(f'REPLACEMENTS={replacements}\n')
+              f.write(f'TOUCHED_FILES={len(touched)}\n')
+              for p in touched: f.write(f'TOUCHED={p}\n')
+              f.write(f'REMAINING_VOLATILE_PATTERNS={len(remaining)}\n')
+              for p in remaining: f.write(f'REMAINING={p}\n')
+              for p in touched:
+                  f.write(f'BEFORE_SHA256={before_hash[p]} {p}\n')
+                  f.write(f'AFTER_SHA256={after_hash[p]} {p}\n')
+          if replacements < 1 or remaining:
+              raise SystemExit('Controlled remediation was not applied completely')
+          print(out.read_text())
+          PY
+
+      - name: Clean build #1
+        working-directory: ${{ steps.workspace.outputs.root }}
+        shell: bash
+        env:
+          SOURCE_DATE_EPOCH: 1757370000
+        run: |
+          set -euo pipefail
+          rm -rf .vercel .output dist build
+          ./node_modules/.bin/vite build 2>&1 | tee "$GITHUB_WORKSPACE/build-1.log"
+          test -f .vercel/output/nitro.json
+          cp .vercel/output/nitro.json "$GITHUB_WORKSPACE/nitro-build-1.json"
+          find .vercel/output -type f -printf '%P\t%s\n' | sort > "$GITHUB_WORKSPACE/build-1-paths.tmp"
+          while IFS=$'\t' read -r rel size; do sha="$(sha256sum ".vercel/output/$rel" | awk '{print $1}')"; printf '%s\t%s\t%s\n' "$rel" "$size" "$sha"; done < "$GITHUB_WORKSPACE/build-1-paths.tmp" > "$GITHUB_WORKSPACE/build-1-manifest.tsv"
+          sha256sum .vercel/output/nitro.json | tee "$GITHUB_WORKSPACE/nitro-build-1.sha256"
+
+      - name: Clean build #2
+        working-directory: ${{ steps.workspace.outputs.root }}
+        shell: bash
+        env:
+          SOURCE_DATE_EPOCH: 1757370000
+        run: |
+          set -euo pipefail
+          rm -rf node_modules .vercel .output dist build
+          npm ci --ignore-scripts --no-audit --no-fund
+          NITRO_DIR="$(node -e "console.log(require.resolve('nitro/package.json'))" | xargs dirname)"
+          python3 - "$NITRO_DIR" <<'PY'
+          import pathlib,re,sys
+          root=pathlib.Path(sys.argv[1])
+          pats=[
+            (re.compile(r'new Date\(\)\.toJSON\(\)'), '(process.env.SOURCE_DATE_EPOCH ? new Date(process.env.SOURCE_DATE_EPOCH * 1000) : new Date()).toJSON()'),
+            (re.compile(r'new Date\(\)\.toISOString\(\)'), '(process.env.SOURCE_DATE_EPOCH ? new Date(process.env.SOURCE_DATE_EPOCH * 1000) : new Date()).toISOString()'),
+            (re.compile(r'stat\.mtime\.toJSON\(\)'), '(process.env.SOURCE_DATE_EPOCH ? new Date(process.env.SOURCE_DATE_EPOCH * 1000) : stat.mtime).toJSON()'),
+            (re.compile(r'await promises\.stat\(fsPath\)\.then\(\(s\) => s\.mtime\.toJSON\(\)\)'), 'process.env.SOURCE_DATE_EPOCH ? new Date(process.env.SOURCE_DATE_EPOCH * 1000).toJSON() : await promises.stat(fsPath).then((s) => s.mtime.toJSON())'),
+          ]
+          for p in root.rglob('*.mjs'):
+            try:t=p.read_text()
+            except:continue
+            for pat,repl in pats:t=pat.sub(repl,t)
+            p.write_text(t)
+          PY
+          ./node_modules/.bin/vite build 2>&1 | tee "$GITHUB_WORKSPACE/build-2.log"
+          test -f .vercel/output/nitro.json
+          cp .vercel/output/nitro.json "$GITHUB_WORKSPACE/nitro-build-2.json"
+          find .vercel/output -type f -printf '%P\t%s\n' | sort > "$GITHUB_WORKSPACE/build-2-paths.tmp"
+          while IFS=$'\t' read -r rel size; do sha="$(sha256sum ".vercel/output/$rel" | awk '{print $1}')"; printf '%s\t%s\t%s\n' "$rel" "$size" "$sha"; done < "$GITHUB_WORKSPACE/build-2-paths.tmp" > "$GITHUB_WORKSPACE/build-2-manifest.tsv"
+          sha256sum .vercel/output/nitro.json | tee "$GITHUB_WORKSPACE/nitro-build-2.sha256"
+
+      - name: Verify independent reproduction
+        shell: bash
+        run: |
+          set -euo pipefail
+          cmp -s nitro-build-1.json nitro-build-2.json
+          cmp -s build-1-manifest.tsv build-2-manifest.tsv
+          echo 'NITRO_JSON_BYTE_EQUAL=PASS_OBSERVED' | tee determinism-result.txt
+          echo 'FULL_OUTPUT_MANIFEST_EQUAL=PASS_OBSERVED' | tee -a determinism-result.txt
+          echo 'INDEPENDENT_REPRODUCTION=PASS_OBSERVED' | tee -a determinism-result.txt
+
+      - name: Publish independent evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: nitro-remediation-independent-repro-v1-${{ github.sha }}
+          if-no-files-found: error
+          path: |
+            nitro-version.txt
+            remediation-evidence.txt
+            build-1.log
+            build-2.log
+            nitro-build-1.json
+            nitro-build-2.json
+            nitro-build-1.sha256
+            nitro-build-2.sha256
+            build-1-manifest.tsv
+            build-2-manifest.tsv
+            determinism-result.txt
