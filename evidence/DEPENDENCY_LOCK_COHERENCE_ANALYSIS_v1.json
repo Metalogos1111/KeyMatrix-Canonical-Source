@@ -1,0 +1,110 @@
+{
+  "gate": "DEPENDENCY_LOCK_COHERENCE_GATE_v1",
+  "analysis_version": "1.0",
+  "recorded_at": "2026-09-09T04:30:00+04:00",
+  "status": "BLOCKED",
+  "decision": "LOCK_REGENERATION_REQUIRED",
+  "scope": "READ_ONLY_ANALYSIS_ONLY",
+  "source_identity": {
+    "canonical_archive_sha256": "8d9200e8a91b432de9abbf976060ce6037fadbae8972e814fb13d5035c7eb40c",
+    "engineering_snapshot_sha256": "06ed683e3b2e05edcda1da9f54a281bfab27c5d9d72907cd9ca18bfd5ba9622e",
+    "package_json_sha256": "4be3b95d4fb86fae18a48daa5f675cd6031741394e645ac84764e7189a940a54",
+    "package_lock_sha256": "6e4221b159909bcbca15d4dbeeb37db6e9e37478caf27c62c845f88e1658d031"
+  },
+  "observed_ci": {
+    "workflow": "Build Artifact Determinism Gate",
+    "run_id": 34294016857,
+    "job_id": 102286555948,
+    "toolchain": {
+      "node": "v22.16.0",
+      "npm": "10.9.2",
+      "runner": "ubuntu-24.04"
+    },
+    "failed_command": "npm ci --ignore-scripts --no-audit --no-fund",
+    "exit_code": 1,
+    "error_code": "EUSAGE",
+    "failure_class": "PACKAGE_JSON_PACKAGE_LOCK_OUT_OF_SYNC"
+  },
+  "dependency_graph_observation": {
+    "root_package": "app-builder-workspace",
+    "lockfile_version": 3,
+    "root_package_json_declares": {
+      "@hookform/resolvers": "^5.7.0",
+      "eslint": "^9.20.0"
+    },
+    "lock_resolves": {
+      "@hookform/resolvers": "5.9.1",
+      "eslint": "9.39.5",
+      "@eslint/eslintrc": "3.3.7",
+      "ajv_at_root": "6.15.0"
+    },
+    "conflict": {
+      "@hookform/resolvers_peer_optional": "ajv ^8.12.0",
+      "current_root_ajv": "6.15.0",
+      "eslint_ajv_requirement": "^6.14.0",
+      "result": "single_root_ajv_6_cannot_satisfy_resolvers_optional_peer_ajv_8"
+    },
+    "observed_missing_or_incompatible_entries": [
+      "ajv@6.15.0 missing from required peer-resolution position",
+      "ajv@8.20.0 required by npm resolution",
+      "fast-uri@3.1.7 missing from lock",
+      "json-schema-traverse@1.0.0 required for ajv8 graph",
+      "json-schema-traverse@0.4.1 retained by ajv6 graph",
+      "require-from-string@2.0.2 missing from lock"
+    ]
+  },
+  "root_cause_assessment": {
+    "classification": "STALE_OR_INCOMPLETE_LOCK_GRAPH",
+    "package_json_coherence": "NO_DIRECT_AJV_DECLARATION; ROOT_DEPENDENCY_DECLARATIONS_MATCH_LOCK_ROOT",
+    "package_lock_coherence": "FAIL",
+    "primary_trigger": "@hookform/resolvers 5.9.1 introduces optional peer range ajv ^8.12.0 while lockfile retains ajv 6.15.0 at root for ESLint dependency graph",
+    "source_code_change_required": false,
+    "lockfile_revision_required": true
+  },
+  "candidate_revision": {
+    "type": "DEPENDENCY_METADATA_REVISION",
+    "minimal_intended_change": "Regenerate package-lock.json from the existing package.json using the pinned Node/npm toolchain, allowing npm to construct a valid dual-version AJV graph if required.",
+    "files_expected_to_change": [
+      "package-lock.json"
+    ],
+    "package_json_change": "NOT_RECOMMENDED_AT_THIS_GATE",
+    "reason": "The observed blocker is lock-graph coherence, not evidence that the application explicitly requires a new direct ajv dependency. Adding ajv directly would change declared dependency semantics and is therefore a larger revision than lock regeneration alone.",
+    "expected_resolution_shape": "ajv 8.x available for @hookform/resolvers peer resolution while ajv 6.x remains available in the ESLint dependency graph at the appropriate nested location, with corresponding transitive packages recorded in package-lock.json."
+  },
+  "controlled_procedure": [
+    "Preserve the current canonical archive and all historical hashes unchanged.",
+    "Create a new controlled source-revision branch from the current canonical engineering snapshot.",
+    "Regenerate only package-lock.json from the unchanged package.json with Node 22.16.0 and npm 10.9.2.",
+    "Verify npm ci succeeds without modifying package.json.",
+    "Record new package-lock SHA-256 and dependency graph evidence.",
+    "Recompute engineering snapshot and canonical package hashes because the snapshot content changed.",
+    "Run the Build Artifact Determinism Gate twice from clean state.",
+    "Only after both builds succeed compare inventories and evaluate artifact determinism.",
+    "Keep the current canonical snapshot as immutable historical provenance; do not overwrite it."
+  ],
+  "rejected_shortcuts": [
+    "npm install used only to obtain a build",
+    "bypassing npm ci",
+    "--legacy-peer-deps as a production resolution",
+    "silently adding ajv to package.json without dependency-ownership justification",
+    "rewriting the existing canonical archive in place",
+    "merging PR #1 before deterministic build evidence exists"
+  ],
+  "validation_limits": {
+    "offline_candidate_regeneration": "NOT_COMPLETED",
+    "reason": "The isolated npm package-lock-only attempt could not complete because the local npm cache lacked an optional Tailwind WASM package tarball; this does not invalidate the CI-observed root cause.",
+    "candidate_lock_sha256": null,
+    "build_after_revision": "NOT_EXECUTED",
+    "determinism": "NOT_COMPUTABLE"
+  },
+  "safety": {
+    "canonical_archive_mutated": false,
+    "historical_evidence_mutated": false,
+    "supabase_mutation": false,
+    "deployment": false,
+    "authority_invocation": false,
+    "merge": false,
+    "synthetic_pass": false
+  },
+  "final_state": "DEPENDENCY_LOCK_COHERENCE_GATE_v1 = BLOCKED / NEED MORE EVIDENCE"
+}

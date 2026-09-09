@@ -1,0 +1,172 @@
+name: Build Artifact Determinism Gate
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'KEYMATRIX_CANONICAL_SOURCE_001.zip'
+      - 'evidence/**'
+      - 'manifest/**'
+      - '.github/workflows/build-artifact-determinism.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  determinism:
+    name: Two clean reproducible builds
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    env:
+      EXPECTED_ARCHIVE_SHA256: 8d9200e8a91b432de9abbf976060ce6037fadbae8972e814fb13d5035c7eb40c
+      EXPECTED_ENGINEERING_SHA256: 06ed683e3b2e05edcda1da9f54a281bfab27c5d9d72907cd9ca18bfd5ba9622e
+      EXPECTED_NODE: 22.16.0
+      EXPECTED_NPM: 10.9.2
+
+    steps:
+      - name: Checkout exact PR source
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Install exact Node toolchain
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.16.0
+          check-latest: false
+
+      - name: Verify toolchain
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(node --version)" = "v${EXPECTED_NODE}"
+          test "$(npm --version)" = "${EXPECTED_NPM}"
+
+      - name: Verify canonical archive identity
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f KEYMATRIX_CANONICAL_SOURCE_001.zip
+          actual="$(sha256sum KEYMATRIX_CANONICAL_SOURCE_001.zip | awk '{print $1}')"
+          test "$actual" = "$EXPECTED_ARCHIVE_SHA256"
+
+      - name: Extract canonical engineering snapshot
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf extracted
+          mkdir -p extracted
+          unzip -q KEYMATRIX_CANONICAL_SOURCE_001.zip -d extracted
+          tgz="extracted/KEYMATRIX_CANONICAL_SOURCE_001/engineering-snapshot/keymatrix-grok-engineering.tgz"
+          test -f "$tgz"
+          actual="$(sha256sum "$tgz" | awk '{print $1}')"
+          test "$actual" = "$EXPECTED_ENGINEERING_SHA256"
+          mkdir -p extracted/KEYMATRIX_CANONICAL_SOURCE_001/engineering-snapshot/workspace
+          tar -xzf "$tgz" -C extracted/KEYMATRIX_CANONICAL_SOURCE_001/engineering-snapshot/workspace
+
+      - name: Locate engineering workspace
+        id: workspace
+        shell: bash
+        run: |
+          set -euo pipefail
+          root="extracted/KEYMATRIX_CANONICAL_SOURCE_001/engineering-snapshot/workspace"
+          if test -f "$root/package.json"; then
+            echo "root=$root" >> "$GITHUB_OUTPUT"
+          elif test -f "$root/keymatrix-grok-engineering/package.json"; then
+            echo "root=$root/keymatrix-grok-engineering" >> "$GITHUB_OUTPUT"
+          else
+            echo 'package.json not found after snapshot extraction' >&2
+            exit 1
+          fi
+
+      - name: Record build input identities
+        working-directory: ${{ steps.workspace.outputs.root }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          {
+            echo "source_archive_sha256=$EXPECTED_ARCHIVE_SHA256"
+            echo "engineering_snapshot_sha256=$EXPECTED_ENGINEERING_SHA256"
+            echo "node=$(node --version)"
+            echo "npm=$(npm --version)"
+            sha256sum package.json package-lock.json vite.config.ts tsconfig.json scripts/with-app-env.mjs
+          } | tee "$GITHUB_WORKSPACE/build-inputs.txt"
+
+      - name: Clean build #1
+        working-directory: ${{ steps.workspace.outputs.root }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf node_modules .vercel .output dist build
+          npm ci --ignore-scripts --no-audit --no-fund
+          node scripts/with-app-env.mjs vite build 2>&1 | tee "$GITHUB_WORKSPACE/build-1.log"
+
+      - name: Inventory build #1
+        working-directory: ${{ steps.workspace.outputs.root }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          if test -d .vercel/output; then root=.vercel/output;
+          elif test -d .output; then root=.output;
+          elif test -d dist; then root=dist;
+          elif test -d build; then root=build;
+          else echo 'No recognized build artifact root' >&2; exit 1; fi
+          echo "$root" > "$GITHUB_WORKSPACE/build-1-root.txt"
+          find "$root" -type f -printf '%P\t%s\n' | sort > "$GITHUB_WORKSPACE/build-1-paths.tmp"
+          while IFS=$'\t' read -r rel size; do
+            sha="$(sha256sum "$root/$rel" | awk '{print $1}')"
+            printf '%s\t%s\t%s\n' "$rel" "$size" "$sha"
+          done < "$GITHUB_WORKSPACE/build-1-paths.tmp" > "$GITHUB_WORKSPACE/build-1-manifest.tsv"
+
+      - name: Clean build #2
+        working-directory: ${{ steps.workspace.outputs.root }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf node_modules .vercel .output dist build
+          npm ci --ignore-scripts --no-audit --no-fund
+          node scripts/with-app-env.mjs vite build 2>&1 | tee "$GITHUB_WORKSPACE/build-2.log"
+
+      - name: Inventory build #2
+        working-directory: ${{ steps.workspace.outputs.root }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          if test -d .vercel/output; then root=.vercel/output;
+          elif test -d .output; then root=.output;
+          elif test -d dist; then root=dist;
+          elif test -d build; then root=build;
+          else echo 'No recognized build artifact root' >&2; exit 1; fi
+          echo "$root" > "$GITHUB_WORKSPACE/build-2-root.txt"
+          find "$root" -type f -printf '%P\t%s\n' | sort > "$GITHUB_WORKSPACE/build-2-paths.tmp"
+          while IFS=$'\t' read -r rel size; do
+            sha="$(sha256sum "$root/$rel" | awk '{print $1}')"
+            printf '%s\t%s\t%s\n' "$rel" "$size" "$sha"
+          done < "$GITHUB_WORKSPACE/build-2-paths.tmp" > "$GITHUB_WORKSPACE/build-2-manifest.tsv"
+
+      - name: Compare artifact inventories
+        shell: bash
+        run: |
+          set -euo pipefail
+          if ! cmp -s build-1-manifest.tsv build-2-manifest.tsv; then
+            echo 'BUILD_ARTIFACT_DETERMINISM = HOLD/FAIL: artifact inventories differ.' >&2
+            diff -u build-1-manifest.tsv build-2-manifest.tsv || true
+            exit 1
+          fi
+          echo 'BUILD_ARTIFACT_DETERMINISM = VERIFIED: byte sizes and SHA-256 values match.'
+
+      - name: Publish build evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-artifact-determinism-evidence-${{ github.sha }}
+          if-no-files-found: error
+          path: |
+            build-inputs.txt
+            build-1.log
+            build-2.log
+            build-1-manifest.tsv
+            build-2-manifest.tsv
+            build-1-root.txt
+            build-2-root.txt

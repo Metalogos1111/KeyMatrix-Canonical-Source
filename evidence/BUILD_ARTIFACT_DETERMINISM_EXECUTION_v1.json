@@ -1,0 +1,83 @@
+{
+  "gate": "BUILD_ARTIFACT_DETERMINISM_GATE_v1",
+  "execution_record": "BUILD_ARTIFACT_DETERMINISM_EXECUTION_v1",
+  "recorded_at": "2026-09-09T00:13:00Z",
+  "status": "HOLD_NEED_MORE_EVIDENCE",
+  "decision": "CANNOT_PASS",
+  "objective": "Obtain evidence binding the exact source snapshot to two clean reproducible builds and byte-identical artifact inventories.",
+  "source_identity": {
+    "archive": "KEYMATRIX_CANONICAL_SOURCE_001.zip",
+    "archive_sha256_observed": "8d9200e8a91b432de9abbf976060ce6037fadbae8972e814fb13d5035c7eb40c",
+    "engineering_snapshot": "engineering-snapshot/keymatrix-grok-engineering.tgz",
+    "engineering_snapshot_sha256_observed": "06ed683e3b2e05edcda1da9f54a281bfab27c5d9d72907cd9ca18bfd5ba9622e",
+    "source_commit_recorded_in_package": "8c37863402d92dc65829a1d27036b32c80ea4029",
+    "status": "VERIFIED_IDENTITY"
+  },
+  "local_clean_environment_attempt": {
+    "node": "v22.16.0",
+    "npm": "10.9.2",
+    "npm_cache_entries": 0,
+    "online_dependency_install": {
+      "command": "npm ci --ignore-scripts --no-audit --no-fund",
+      "result": "TIMEOUT",
+      "timeout_seconds": 300,
+      "log_bytes": 0,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "offline_dependency_install": {
+      "command": "npm ci --ignore-scripts --no-audit --no-fund --offline",
+      "result": "FAILED",
+      "exit_code": 1,
+      "error_class": "ENOTCACHED",
+      "missing_cached_dependency_example": "ajv",
+      "log_bytes": 1219,
+      "log_sha256": "9db9c96b8e73b7c675b2478f3458dd70b5988d9a1b78996df9de9891796490d8"
+    },
+    "build_execution": "NOT_EXECUTED",
+    "artifact_generation": "NOT_OBSERVED"
+  },
+  "remote_reproducible_build_attempt": {
+    "method": "GitHub Actions workflow committed to the PR branch",
+    "workflow_path": ".github/workflows/build-artifact-determinism.yml",
+    "workflow_commit": "ed2c2315286b1380285585bd41e65189386e2786",
+    "workflow_contract": {
+      "runner": "ubuntu-24.04",
+      "node": "22.16.0",
+      "npm": "10.9.2",
+      "clean_install": "npm ci --ignore-scripts --no-audit --no-fund",
+      "safe_build": "node scripts/with-app-env.mjs vite build",
+      "build_count": 2,
+      "database_mutation": false,
+      "deployment": false,
+      "authority_invocation": false,
+      "artifact_evidence_upload": true
+    },
+    "workflow_status_observed": "NOT_OBSERVED_AT_RECORDING_TIME",
+    "commit_workflow_runs_observed": 0,
+    "commit_combined_statuses_observed": 0,
+    "interpretation": "Workflow definition is present, but no execution result has been observed yet. This is not a PASS and does not prove build success."
+  },
+  "determinism_rule": {
+    "pass_requires": [
+      "clean dependency installation completes",
+      "build #1 succeeds",
+      "build #2 succeeds",
+      "complete artifact inventories are captured",
+      "artifact path sets are identical",
+      "artifact byte sizes are identical",
+      "artifact SHA-256 values are identical",
+      "build logs and exit status are retained"
+    ],
+    "current_result": "HOLD_NEED_MORE_EVIDENCE",
+    "synthetic_pass_forbidden": true
+  },
+  "safety_and_authority_boundary": {
+    "pr_left_open": true,
+    "merge": false,
+    "deployment": false,
+    "supabase_mutation": false,
+    "authority_invocation": false,
+    "canonical_promotion": "BLOCKED"
+  },
+  "next_gate": "Await actual GitHub Actions execution evidence; if two clean builds complete, compare uploaded manifests before opening ARTIFACT_TO_DEPLOYMENT_GATE."
+}

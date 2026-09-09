@@ -1,0 +1,205 @@
+{
+  "reconciliation_phase": "REFERENCE_ARTIFACT_VERIFICATION_v1",
+  "timestamp": "2026-09-09T02:58:00Z",
+  "status": "FORENSIC_READ_ONLY_ANALYSIS_COMPLETE",
+  "methodology": "Cross-verify SHA256SUMS.txt declared paths against local filesystem and packaged contents",
+  
+  "critical_finding": {
+    "title": "EXTERNAL_REFERENCES_NOT_PACKAGED",
+    "summary": "All 11 files declared in reference-artifacts/SHA256SUMS.txt point to /mnt/data/KM-SWARM-005/ paths which are NOT present in the canonical package and NOT available on local filesystem",
+    "implication": "SHA256SUMS.txt is an external reference manifest, not a local package inventory"
+  },
+
+  "reconciliation_table": [
+    {
+      "index": 1,
+      "declared_path": "/mnt/data/KM-SWARM-005/M002_ARTIFACTIZATION_REPORT.md",
+      "declared_sha256": "d274efe052dde48d8c1e0b45d2725ba892327cc4b6eadd32e471418601ce7912",
+      "local_file_exists": false,
+      "local_file_status": "NOT_FOUND",
+      "observed_byte_size": null,
+      "observed_sha256": null,
+      "hash_comparison_status": "NOT_COMPUTABLE",
+      "packaged_in_canonical_zip": false,
+      "found_under_different_path": false,
+      "classification": "EXTERNAL_REFERENCE + NOT_LOCALLY_AVAILABLE"
+    },
+    {
+      "index": 2,
+      "declared_path": "/mnt/data/KM-SWARM-005/SWARM_CONFLICT_PACKET.v1.json",
+      "declared_sha256": "adc71d5e96cdccae9b265c0b913f91c6f6c0892ed255145161a8ebc5e4b19606",
+      "local_file_exists": false,
+      "local_file_status": "NOT_FOUND",
+      "observed_byte_size": null,
+      "observed_sha256": null,
+      "hash_comparison_status": "NOT_COMPUTABLE",
+      "packaged_in_canonical_zip": false,
+      "found_under_different_path": false,
+      "classification": "EXTERNAL_REFERENCE + NOT_LOCALLY_AVAILABLE"
+    },
+    {
+      "index": 3,
+      "declared_path": "/mnt/data/KM-SWARM-005/SWARM_DECISION_PACKET.v1.json",
+      "declared_sha256": "b4a58867ca857931fc1b6e9dd30aa8c20e520024583dae309c5aa12d95997972",
+      "local_file_exists": false,
+      "local_file_status": "NOT_FOUND",
+      "observed_byte_size": null,
+      "observed_sha256": null,
+      "hash_comparison_status": "NOT_COMPUTABLE",
+      "packaged_in_canonical_zip": false,
+      "found_under_different_path": false,
+      "classification": "EXTERNAL_REFERENCE + NOT_LOCALLY_AVAILABLE"
+    },
+    {
+      "index": 4,
+      "declared_path": "/mnt/data/KM-SWARM-005/SWARM_MASTER_PROTOCOL.md",
+      "declared_sha256": "56dbd7b2edc9a5a52ba3dcd5f19443c3103155834177d5b17ba4db0354793317",
+      "local_file_exists": false,
+      "local_file_status": "NOT_FOUND",
+      "observed_byte_size": null,
+      "observed_sha256": null,
+      "hash_comparison_status": "NOT_COMPUTABLE",
+      "packaged_in_canonical_zip": false,
+      "found_under_different_path": false,
+      "classification": "EXTERNAL_REFERENCE + NOT_LOCALLY_AVAILABLE"
+    },
+    {
+      "index": 5,
+      "declared_path": "/mnt/data/KM-SWARM-005/SWARM_RESULT_PACKET.v1.json",
+      "declared_sha256": "be8dbfaa2d9402e4f72ff1c7c6b569b33e36a262ef7a3c8c25d00fb778948cfd",
+      "local_file_exists": false,
+      "local_file_status": "NOT_FOUND",
+      "observed_byte_size": null,
+      "observed_sha256": null,
+      "hash_comparison_status": "NOT_COMPUTABLE",
+      "packaged_in_canonical_zip": false,
+      "found_under_different_path": false,
+      "classification": "EXTERNAL_REFERENCE + NOT_LOCALLY_AVAILABLE"
+    },
+    {
+      "index": 6,
+      "declared_path": "/mnt/data/KM-SWARM-005/SWARM_STATE/conflict_registry.json",
+      "declared_sha256": "39b1896933c5c3bd754b58e0d1a673a55246ef1915ade1b12f23a489b4e093be",
+      "local_file_exists": false,
+      "local_file_status": "NOT_FOUND",
+      "observed_byte_size": null,
+      "observed_sha256": null,
+      "hash_comparison_status": "NOT_COMPUTABLE",
+      "packaged_in_canonical_zip": false,
+      "found_under_different_path": false,
+      "classification": "EXTERNAL_REFERENCE + NOT_LOCALLY_AVAILABLE"
+    },
+    {
+      "index": 7,
+      "declared_path": "/mnt/data/KM-SWARM-005/SWARM_STATE/decision_log.json",
+      "declared_sha256": "f83f41c873f60e879a08b3f0086d320bf03136bec8a419147e2d0b7c022b7c5d",
+      "local_file_exists": false,
+      "local_file_status": "NOT_FOUND",
+      "observed_byte_size": null,
+      "observed_sha256": null,
+      "hash_comparison_status": "NOT_COMPUTABLE",
+      "packaged_in_canonical_zip": false,
+      "found_under_different_path": false,
+      "classification": "EXTERNAL_REFERENCE + NOT_LOCALLY_AVAILABLE"
+    },
+    {
+      "index": 8,
+      "declared_path": "/mnt/data/KM-SWARM-005/SWARM_STATE/result_registry.json",
+      "declared_sha256": "ec20687f4e0e235d3e6cbd225fcd5617c51d9368a991bac9fc984d6b3e403d74",
+      "local_file_exists": false,
+      "local_file_status": "NOT_FOUND",
+      "observed_byte_size": null,
+      "observed_sha256": null,
+      "hash_comparison_status": "NOT_COMPUTABLE",
+      "packaged_in_canonical_zip": false,
+      "found_under_different_path": false,
+      "classification": "EXTERNAL_REFERENCE + NOT_LOCALLY_AVAILABLE"
+    },
+    {
+      "index": 9,
+      "declared_path": "/mnt/data/KM-SWARM-005/SWARM_STATE/task_queue.json",
+      "declared_sha256": "da0c61470e59a0cb413fa06df3c01cc1ba598bbe4bd852532528768a4f475da6",
+      "local_file_exists": false,
+      "local_file_status": "NOT_FOUND",
+      "observed_byte_size": null,
+      "observed_sha256": null,
+      "hash_comparison_status": "NOT_COMPUTABLE",
+      "packaged_in_canonical_zip": false,
+      "found_under_different_path": false,
+      "classification": "EXTERNAL_REFERENCE + NOT_LOCALLY_AVAILABLE"
+    },
+    {
+      "index": 10,
+      "declared_path": "/mnt/data/KM-SWARM-005/SWARM_TASK_PACKET.v1.json",
+      "declared_sha256": "a6235ec435dc42bc59522a8c535f77097940c034bcdf48176b5d68177d799444",
+      "local_file_exists": false,
+      "local_file_status": "NOT_FOUND",
+      "observed_byte_size": null,
+      "observed_sha256": null,
+      "hash_comparison_status": "NOT_COMPUTABLE",
+      "packaged_in_canonical_zip": false,
+      "found_under_different_path": false,
+      "classification": "EXTERNAL_REFERENCE + NOT_LOCALLY_AVAILABLE"
+    },
+    {
+      "index": 11,
+      "declared_path": "/mnt/data/KM-SWARM-005/TEST_PLAN.txt",
+      "declared_sha256": "2bbca653303f618b8e500fa0753245f3bccd9e8ccdf1d89d82fcff718f024b7a",
+      "local_file_exists": false,
+      "local_file_status": "NOT_FOUND",
+      "observed_byte_size": null,
+      "observed_sha256": null,
+      "hash_comparison_status": "NOT_COMPUTABLE",
+      "packaged_in_canonical_zip": false,
+      "found_under_different_path": false,
+      "classification": "EXTERNAL_REFERENCE + NOT_LOCALLY_AVAILABLE"
+    }
+  ],
+
+  "summary_by_classification": {
+    "total_references_in_sha256sums": 11,
+    "packaged_and_matched": 0,
+    "external_reference": 11,
+    "missing": 11,
+    "hash_mismatch": 0,
+    "path_mismatch": 0,
+    "not_locally_available": 11
+  },
+
+  "interpretation": {
+    "key_distinction": "HASH_CORRESPONDENCE ≠ PACKAGE_MEMBERSHIP",
+    "evidence": "SHA256SUMS.txt declares external artifact hashes but does NOT prove these artifacts are packaged in KEYMATRIX_CANONICAL_SOURCE_001.zip",
+    "implication": "SHA256SUMS.txt appears to be a reference manifest pointing to runtime/deployment artifacts, not a local package inventory"
+  },
+
+  "evidence_gaps": {
+    "gap_1": "No evidence that /mnt/data/KM-SWARM-005/ directory or its contents ever existed on this system",
+    "gap_2": "No evidence that these 11 artifacts are packaged in the canonical ZIP",
+    "gap_3": "No evidence that these 11 artifacts are required for canonical source identity",
+    "gap_4": "Relationship between SHA256SUMS.txt and actual packaged contents is UNPROVEN"
+  },
+
+  "gates_after_reconciliation": {
+    "SOURCE_PACKAGE_RECONCILIATION": "PARTIAL_COMPLETE",
+    "REFERENCE_ARTIFACT_RECONCILIATION": "EXTERNAL_ONLY_NO_LOCAL_PROOF",
+    "ENGINEERING_SNAPSHOT_CONTENT_RECONCILIATION": "PENDING",
+    "DEPLOYMENT_SOURCE_OWNERSHIP": "UNPROVEN",
+    "CANONICAL_PROMOTION": "BLOCKED"
+  },
+
+  "constraints_maintained": {
+    "no_file_copy": true,
+    "no_sha256sums_modification": true,
+    "no_artifact_modification": true,
+    "no_archive_rebuild": true,
+    "no_deployment": true,
+    "no_supabase_mutation": true,
+    "no_authority_invocation": true,
+    "no_canonical_promotion": true,
+    "forensic_read_only": true
+  },
+
+  "next_gate": "ENGINEERING_SNAPSHOT_CONTENT_RECONCILIATION",
+  "git_commit": "2ea48cdb511cebb1dc0bebdbd09aa7afaa21a732",
+  "generated_at": "2026-09-09T02:58:00Z"
+}
