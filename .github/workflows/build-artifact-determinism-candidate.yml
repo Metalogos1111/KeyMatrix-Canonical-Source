@@ -131,7 +131,7 @@ jobs:
           set -euo pipefail
           rm -rf node_modules .vercel .output dist build
           npm ci --ignore-scripts --no-audit --no-fund
-          node scripts/with-app-env.mjs vite build 2>&1 | tee "$GITHUB_WORKSPACE/build-1.log"
+          ./node_modules/.bin/vite build 2>&1 | tee "$GITHUB_WORKSPACE/build-1.log"
 
       - name: Inventory build #1
         working-directory: ${{ steps.workspace.outputs.root }}
@@ -157,7 +157,7 @@ jobs:
           set -euo pipefail
           rm -rf node_modules .vercel .output dist build
           npm ci --ignore-scripts --no-audit --no-fund
-          node scripts/with-app-env.mjs vite build 2>&1 | tee "$GITHUB_WORKSPACE/build-2.log"
+          ./node_modules/.bin/vite build 2>&1 | tee "$GITHUB_WORKSPACE/build-2.log"
 
       - name: Inventory build #2
         working-directory: ${{ steps.workspace.outputs.root }}
