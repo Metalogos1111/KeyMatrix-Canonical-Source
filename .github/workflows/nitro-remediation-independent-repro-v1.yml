@@ -84,7 +84,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          NITRO_DIR="$(node -e "console.log(require.resolve('nitro/package.json'))" | xargs dirname)
+          NITRO_DIR="$(node -e "console.log(require.resolve('nitro/package.json'))" | xargs dirname)"
           python3 - "$NITRO_DIR" "$GITHUB_WORKSPACE/remediation-evidence.txt" <<'PY'
           import pathlib, re, sys, hashlib
           root = pathlib.Path(sys.argv[1]); out = pathlib.Path(sys.argv[2])
