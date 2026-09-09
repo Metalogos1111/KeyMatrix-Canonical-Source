@@ -35,8 +35,6 @@ jobs:
         with:
           node-version: 22.16.0
           check-latest: false
-          cache: npm
-          cache-dependency-path: extracted/KEYMATRIX_CANONICAL_SOURCE_001/engineering-snapshot/workspace/package-lock.json
 
       - name: Verify toolchain
         shell: bash
@@ -115,8 +113,8 @@ jobs:
           elif test -d build; then root=build;
           else echo 'No recognized build artifact root' >&2; exit 1; fi
           echo "$root" > "$GITHUB_WORKSPACE/build-1-root.txt"
-          find "$root" -type f -printf '%P\t%s\t' | sort > "$GITHUB_WORKSPACE/build-1-paths.tmp"
-          while IFS=$'\t' read -r rel size _; do
+          find "$root" -type f -printf '%P\t%s\n' | sort > "$GITHUB_WORKSPACE/build-1-paths.tmp"
+          while IFS=$'\t' read -r rel size; do
             sha="$(sha256sum "$root/$rel" | awk '{print $1}')"
             printf '%s\t%s\t%s\n' "$rel" "$size" "$sha"
           done < "$GITHUB_WORKSPACE/build-1-paths.tmp" > "$GITHUB_WORKSPACE/build-1-manifest.tsv"
@@ -141,8 +139,8 @@ jobs:
           elif test -d build; then root=build;
           else echo 'No recognized build artifact root' >&2; exit 1; fi
           echo "$root" > "$GITHUB_WORKSPACE/build-2-root.txt"
-          find "$root" -type f -printf '%P\t%s\t' | sort > "$GITHUB_WORKSPACE/build-2-paths.tmp"
-          while IFS=$'\t' read -r rel size _; do
+          find "$root" -type f -printf '%P\t%s\n' | sort > "$GITHUB_WORKSPACE/build-2-paths.tmp"
+          while IFS=$'\t' read -r rel size; do
             sha="$(sha256sum "$root/$rel" | awk '{print $1}')"
             printf '%s\t%s\t%s\n' "$rel" "$size" "$sha"
           done < "$GITHUB_WORKSPACE/build-2-paths.tmp" > "$GITHUB_WORKSPACE/build-2-manifest.tsv"
