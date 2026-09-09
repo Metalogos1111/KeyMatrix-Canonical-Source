@@ -1,0 +1,33 @@
+{
+  "gate": "BUILD_ARTIFACT_DETERMINISM_CANDIDATE_TRIGGER_v1",
+  "status": "CONTROLLED_TRIGGER_REQUESTED",
+  "recorded_at": "2026-09-09T04:00:00+04:00",
+  "purpose": "Trigger the existing candidate-lock reproducible-build workflow on controlled/dependency-lock-build-001 without mutating the canonical archive or package.json.",
+  "baseline": {
+    "package_json_sha256": "4be3b95d4fb86fae18a48daa5f675cd6031741394e645ac84764e7189a940a54",
+    "package_lock_sha256_before": "6e4221b159909bcbca15d4dbeeb37db6e9e37478caf27c62c845f88e1658d031",
+    "candidate_lock_sha256": "91c02f58775201f63877e2c03acfee7ceacfc4e5f0feeb3dd4df1a4c4f351acc",
+    "candidate_artifact_id": 10082912240,
+    "candidate_artifact_sha256": "5b68db15029b8215ad1bb96a4e513ec631502cbe8f5f826137cf5313324018f2"
+  },
+  "expected_behavior": [
+    "verify canonical archive identity",
+    "download and verify observed candidate lock artifact",
+    "bind candidate lock without changing package.json",
+    "execute clean build #1",
+    "execute clean build #2",
+    "compare byte sizes and SHA-256 manifests",
+    "publish build evidence"
+  ],
+  "safety": {
+    "canonical_archive_mutation": false,
+    "package_json_mutation": false,
+    "historical_evidence_overwrite": false,
+    "supabase_mutation": false,
+    "deployment": false,
+    "authority_invocation": false,
+    "merge": false,
+    "synthetic_pass": false
+  },
+  "decision": "CONTROLLED_CANDIDATE_BUILD_GATE"
+}
