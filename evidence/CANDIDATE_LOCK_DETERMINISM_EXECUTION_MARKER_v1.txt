@@ -1,0 +1,5 @@
+CONTROLLED EXECUTION MARKER
+Gate: BUILD_ARTIFACT_DETERMINISM_CANDIDATE
+Candidate lock SHA-256: 91c02f58775201f63877e2c03acfee7ceacfc4e5f0feeb3dd4df1a4c4f351acc
+No canonical source, package.json, deployment, merge, authority, or Supabase mutation is authorized by this marker.
+Execution result must be determined only from the candidate workflow's observable CI evidence.
