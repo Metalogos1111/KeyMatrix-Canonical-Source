@@ -1,0 +1,45 @@
+{
+  "gate": "DEPENDENCY_LOCK_COHERENCE_GATE_v1",
+  "artifact": "DEPENDENCY_LOCK_REVISION_PLAN_v1",
+  "status": "READY_FOR_CONTROLLED_REVISION",
+  "decision": "LOCKFILE_ONLY_REVISION",
+  "branch": "controlled/dependency-lock-revision-001",
+  "base_commit": "2d20dc40f85de4dc415bd0e6a506e0ac192b8c31",
+  "source_preservation": {
+    "canonical_archive_sha256": "8d9200e8a91b432de9abbf976060ce6037fadbae8972e814fb13d5035c7eb40c",
+    "engineering_snapshot_sha256": "06ed683e3b2e05edcda1da9f54a281bfab27c5d9d72907cd9ca18bfd5ba9622e",
+    "package_json_sha256": "4be3b95d4fb86fae18a48daa5f675cd6031741394e645ac84764e7189a940a54",
+    "package_lock_sha256_before": "6e4221b159909bcbca15d4dbeeb37db6e9e37478caf27c62c845f88e1658d031"
+  },
+  "observed_blocker": {
+    "npm_ci": "EUSAGE",
+    "classification": "PACKAGE_JSON_PACKAGE_LOCK_OUT_OF_SYNC",
+    "ajv_root": "6.15.0",
+    "resolver_peer_optional": "ajv ^8.12.0",
+    "missing_or_incompatible": ["ajv@8.20.0", "fast-uri@3.1.7", "json-schema-traverse@1.0.0", "require-from-string@2.0.2"]
+  },
+  "revision_contract": {
+    "allowed_file_changes": ["package-lock.json"],
+    "package_json_change": false,
+    "application_source_change": false,
+    "canonical_archive_overwrite": false,
+    "historical_evidence_overwrite": false,
+    "toolchain": {"node": "22.16.0", "npm": "10.9.2"},
+    "required_command": "npm install --package-lock-only --ignore-scripts --no-audit --no-fund",
+    "postcondition": "npm ci --ignore-scripts --no-audit --no-fund succeeds with unchanged package.json"
+  },
+  "validation": {
+    "candidate_lock_sha256": null,
+    "npm_ci_after_revision": "NOT_EXECUTED",
+    "build": "NOT_EXECUTED",
+    "determinism": "NOT_COMPUTABLE"
+  },
+  "safety": {
+    "supabase_mutation": false,
+    "deployment": false,
+    "authority_invocation": false,
+    "merge": false,
+    "synthetic_pass": false
+  },
+  "final_state": "CONTROLLED_REVISION_BRANCH_CREATED; LOCKFILE REGENERATION STILL REQUIRES EXECUTION IN A NETWORK-CAPABLE CLEAN ENVIRONMENT"
+}
