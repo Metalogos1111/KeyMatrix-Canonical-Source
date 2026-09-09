@@ -1,0 +1,1 @@
+HANDOFF: candidate workflow execution requested on controlled/dependency-lock-build-001. This evidence-only commit is not a promotion or merge. Evaluate only the workflow run generated from this branch after this commit.
