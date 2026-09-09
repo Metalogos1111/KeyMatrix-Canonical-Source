@@ -1,0 +1,4 @@
+FINAL CONTROLLED TRIGGER
+Run the existing Build Artifact Determinism Candidate workflow on this controlled branch.
+Required sequence: candidate lock -> clean install/build #1 -> inventory #1 -> clean install/build #2 -> inventory #2 -> exact path/size/SHA-256 comparison.
+Do not promote, merge, deploy, mutate canonical archive, mutate package.json, invoke authority, or mutate Supabase.
