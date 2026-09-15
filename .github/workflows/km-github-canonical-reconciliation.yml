@@ -57,7 +57,6 @@ jobs:
             test "${seen[$f]:-0}" = 1 || { echo "MISSING_EXPECTED_FILE=$f"; exit 1; }
           done
 
-          # Canonical root is immutable for this controlled gate.
           if git diff --name-only "$BASE" "$HEAD" | grep -Fxq 'CANONICAL_SOURCE_ROOT.md'; then
             echo 'CANONICAL_ROOT_MUTATED=TRUE'
             exit 1
@@ -105,9 +104,11 @@ jobs:
               assert phrase in gate, phrase
           PY
 
-          # Secret/high-risk string guard over all changed text files.
+          # Scan changed artifacts, excluding this verifier itself because the verifier
+          # necessarily contains the literal patterns it is designed to detect.
           while IFS= read -r f; do
             case "$f" in
+              .github/workflows/km-github-canonical-reconciliation.yml) continue ;;
               *.md|*.json|*.yml|*.yaml|*.txt)
                 if git show "$HEAD:$f" | grep -Eiq 'service_role|secret[_-]?key|private[_-]?key'; then
                   echo "SENSITIVE_SECRET_PATTERN_IN=$f"
