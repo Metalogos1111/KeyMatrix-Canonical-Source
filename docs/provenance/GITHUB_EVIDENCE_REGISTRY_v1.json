@@ -35,6 +35,15 @@
       "status": "READY / BLOCKED",
       "role": "execution-surface-acquisition",
       "note": "Records concrete PrimeCore adapter and MetaCore12 backend seams while preserving the identity and runtime evidence boundary."
+    },
+    {
+      "artifact_id": "KM-CORE-PAIR-01-REAL-RECEIVER-PROBE-001",
+      "artifact_type": "execution_evidence",
+      "repository_path": "docs/evidence/KM-CORE-PAIR-01-REAL-RECEIVER-PROBE-001.json",
+      "status": "OBSERVED / RECEIVER_PROTOCOL_EXECUTED / EXTERNAL_INFERENCE_UNAVAILABLE",
+      "role": "read_only_receiver_protocol_evidence",
+      "artifact_sha256": "8a40272232ccd9d89fbd6273da70e70e86038eda747cb7297d83395ac4275de7",
+      "note": "Local built KeyMatrix server accepted a correctly serialized server-function request twice and returned the fail-closed unavailable result because XAI_API_KEY was absent. No external inference, compatibility score, identity promotion or SOT mutation was claimed."
     }
   ],
   "current_measurement_chain": {
@@ -48,11 +57,13 @@
   "current_execution_surface": {
     "primecore": "CONCRETE ADAPTER / MOCK SURFACE",
     "metacore12": "CONCRETE FASTAPI SURFACE / EXTERNAL INFERENCE UNPROVEN",
-    "pair01": "BLOCKED",
-    "reason": "MetaCore12 identity is not proven equivalent to MetaCore; no real multi-core runtime evidence exists."
+    "keymatrix_server": "CONCRETE NITRO BUILD / READONLY SERVER-FUNCTION RECEIVER OBSERVED",
+    "askMetaLogos": "SERVER FUNCTION PROTOCOL OBSERVED / EXTERNAL INFERENCE UNAVAILABLE",
+    "pair01": "RECEIVER PROTOCOL OBSERVED; COMPATIBILITY BLOCKED",
+    "reason": "A real receiver protocol was executed and reproduced, but PrimeCore remains mock-only and MetaLogos identity/external inference are not proven."
   },
   "authority": "NONE",
-  "capability_execution": "NOT_PERFORMED",
+  "capability_execution": "RECEIVER_PROTOCOL_ONLY",
   "identity_promotion": "NOT_PERFORMED",
   "sot": "UNCHANGED",
   "warning": "Registry entries are provenance observations and references; they are not authority, verifier results, canonical promotion, deployment evidence, or production proof."
