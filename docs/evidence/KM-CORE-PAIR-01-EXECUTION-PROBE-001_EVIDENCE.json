@@ -1,0 +1,27 @@
+{
+  "gate_id": "KM-CORE-PAIR-01-EXECUTION-PROBE-001",
+  "status": "OBSERVED / COMPATIBILITY_NOT_SCORED",
+  "authority": "NONE",
+  "source_artifacts": {
+    "PrimeCore_adapter": {"sha256": "e2322a9d31d75f9af240b47aea7feebc730115d3637e99248212882c85d943ef", "classification": "MOCK_ONLY"},
+    "MetaCore12_backend": {"sha256": "0e996e091f83849b2f88948a8e6aef448ce072b9ba181dda9b8c475f05a4efc", "classification": "LOCAL_REAL_HTTP_MECHANICS / CAPABILITY_UNPROVEN"}
+  },
+  "observed": {
+    "PrimeCore_initialize": true,
+    "PrimeCore_backend": "Mock/CPU",
+    "PrimeCore_output_sha256": "e5b0a2454f542d65dbcc5cfd0886016a2a17f2e387ce73d2ce145442706712f6",
+    "MetaCore12_root_http": 200,
+    "MetaCore12_status_http": 200,
+    "MetaCore12_status": {"coherence_gate": 0.99, "rsn_balance": 15420.5, "usdc_balance": 0.0, "status_field": "OPTIMIZED"}
+  },
+  "repeatability": {
+    "PrimeCore_output_hash_equal": true,
+    "MetaCore12_readonly_status_equal": true,
+    "OmniState_sha256_before": "045f856b2b853d04004c34b8faba34b89734c5ec2f29854623d2826463e0e2eb",
+    "OmniState_sha256_after": "045f856b2b853d04004c34b8faba34b89734c5ec2f29854623d2826463e0e2eb",
+    "state_mutation_observed": false
+  },
+  "composition": {"executed": false, "reason": "No safe read-only cross-surface interface exists in the exact artifacts. POST /api/transmute was not invoked because it mutates state and may emit simulated output."},
+  "not_proven": ["real PrimeCore model inference", "MetaCore12 external Gemini inference", "MetaCore12 identity equivalence to MetaCore", "PrimeCore × MetaCore compatibility", "synergy score", "production deployment", "canonical promotion"],
+  "decision": "FIRST OBSERVABLE EXECUTION SURFACE PROBE RECORDED; MULTI-CORE COMPATIBILITY REMAINS BLOCKED / NEED MORE EVIDENCE"
+}
