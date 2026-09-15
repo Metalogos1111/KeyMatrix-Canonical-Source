@@ -18,7 +18,7 @@
     "PrimeCore_output_hash_equal": true,
     "MetaCore12_readonly_status_equal": true,
     "OmniState_sha256_before": "045f856b2b853d04004c34b8faba34b89734c5ec2f29854623d2826463e0e2eb",
-    "OmniState_sha256_after": "045f856b2b853d04004c34b89734c5ec2f29854623d2826463e0e2eb",
+    "OmniState_sha256_after": "045f856b2b853d04004c34b8faba34b89734c5ec2f29854623d2826463e0e2eb",
     "state_mutation_observed": false
   },
   "composition": {"executed": false, "reason": "No safe read-only cross-surface interface exists in the exact artifacts. POST /api/transmute was not invoked because it mutates state and may emit simulated output."},
