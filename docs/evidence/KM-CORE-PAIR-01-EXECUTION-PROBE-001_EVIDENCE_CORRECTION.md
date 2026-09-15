@@ -1,14 +1,14 @@
 CORRECTION NOTICE
 
-The immediately preceding persisted Pair-01 evidence file contains a transcription error in the MetaCore12 source SHA field. It must NOT be treated as the authoritative hash record.
+The immediately preceding persisted Pair-01 evidence file contained a transcription error in the MetaCore12 source SHA field. That value must NOT be treated as authoritative.
 
 Authoritative observed MetaCore12 source SHA-256:
 0e996e091f83849b2f8891fa30e856f448ce072b9ba181dda9b8c475f05a4efc
 
-Authoritative local evidence artifact:
-KM-CORE-PAIR-01-EXECUTION-PROBE-001_EVIDENCE.json
-SHA-256:
-e41d6c7e383365fe0e9001f2ea84f805ad605cd4574ed87dbb3959c01ab80dd2
+The persisted evidence JSON has now been reconciled to this authoritative source hash.
+
+The persisted evidence also records the no-mutation state hash pair:
+045f856b2b853d04004c34b8faba34b89734c5ec2f29854623d2826463e0e2eb
 
 Status remains:
 OBSERVED / COMPATIBILITY_NOT_SCORED
