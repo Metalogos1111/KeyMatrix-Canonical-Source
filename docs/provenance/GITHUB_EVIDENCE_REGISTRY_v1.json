@@ -1,0 +1,45 @@
+{
+  "registry_id": "GITHUB_EVIDENCE_REGISTRY_v1",
+  "gate_id": "KM-GITHUB-CANONICAL-PERSISTENCE-RECONCILIATION-001",
+  "status": "DECLARED",
+  "provenance": {
+    "repository": "Metalogos1111/KeyMatrix-Canonical-Source",
+    "base_branch": "main",
+    "controlled_branch": "km-github-evidence-reconciliation-001",
+    "purpose": "persistent source and provenance plane"
+  },
+  "promotion_rule": "STATUS := DERIVE(EVIDENCE)",
+  "entries": [
+    {
+      "artifact_id": "KEYMATRIX_CANONICAL_SOURCE_001.zip",
+      "artifact_type": "source_package",
+      "repository_path": "KEYMATRIX_CANONICAL_SOURCE_001.zip",
+      "github_blob_sha1_observed": "2856d8bd788fa8954d145d55b5e5c5cc1c5ffa44",
+      "status": "CANONICAL_CANDIDATE",
+      "role": "source_provenance",
+      "note": "GitHub blob identity observed; this does not prove package content or runtime status."
+    },
+    {
+      "artifact_id": "CANONICAL_SOURCE_ROOT.md",
+      "artifact_type": "provenance_document",
+      "repository_path": "CANONICAL_SOURCE_ROOT.md",
+      "github_blob_sha1_observed": "e99124065292a56a6db56a42a7b837b4ab14d241",
+      "status": "OBSERVED",
+      "role": "provenance_boundary",
+      "note": "Document explicitly distinguishes documented, implemented, deployed, verified and proven states."
+    }
+  ],
+  "current_measurement_chain": {
+    "input_measurement_001": "VERIFIED*",
+    "cost_risk_calibration_001": "VERIFIED*",
+    "calibration_data_001": "HOLD",
+    "remediation_001": "NEXT",
+    "ground_truth_001": "BLOCKED",
+    "roi_002": "BLOCKED"
+  },
+  "authority": "NONE",
+  "capability_execution": "NOT_PERFORMED",
+  "identity_promotion": "NOT_PERFORMED",
+  "sot": "UNCHANGED",
+  "warning": "Registry entries are provenance observations and references; they are not authority, verifier results, canonical promotion, deployment evidence, or production proof."
+}
