@@ -27,6 +27,14 @@
       "status": "OBSERVED",
       "role": "provenance_boundary",
       "note": "Document explicitly distinguishes documented, implemented, deployed, verified and proven states."
+    },
+    {
+      "artifact_id": "KM-CORE-EXECUTION-SURFACE-DISCOVERY-001",
+      "artifact_type": "gate",
+      "repository_path": "docs/gates/KM-CORE-EXECUTION-SURFACE-DISCOVERY-001.md",
+      "status": "READY / BLOCKED",
+      "role": "execution-surface-acquisition",
+      "note": "Records concrete PrimeCore adapter and MetaCore12 backend seams while preserving the identity and runtime evidence boundary."
     }
   ],
   "current_measurement_chain": {
@@ -36,6 +44,12 @@
     "remediation_001": "NEXT",
     "ground_truth_001": "BLOCKED",
     "roi_002": "BLOCKED"
+  },
+  "current_execution_surface": {
+    "primecore": "CONCRETE ADAPTER / MOCK SURFACE",
+    "metacore12": "CONCRETE FASTAPI SURFACE / EXTERNAL INFERENCE UNPROVEN",
+    "pair01": "BLOCKED",
+    "reason": "MetaCore12 identity is not proven equivalent to MetaCore; no real multi-core runtime evidence exists."
   },
   "authority": "NONE",
   "capability_execution": "NOT_PERFORMED",
