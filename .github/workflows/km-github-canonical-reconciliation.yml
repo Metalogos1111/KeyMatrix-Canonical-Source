@@ -50,8 +50,10 @@ jobs:
           git diff --check "$BASE" "$HEAD"
           python - <<'PY'
           import json
+          import os
           import subprocess
           from pathlib import Path
+          base=os.environ['BASE']; head=os.environ['HEAD']
           registry=json.loads(Path('docs/provenance/GITHUB_EVIDENCE_REGISTRY_v1.json').read_text(encoding='utf-8'))
           required=['registry_id','gate_id','status','provenance','promotion_rule','entries','current_measurement_chain','authority','capability_execution','identity_promotion','sot']
           missing=[k for k in required if k not in registry]
@@ -90,11 +92,11 @@ jobs:
           gate=Path('docs/gates/KM-GITHUB-CANONICAL-PERSISTENCE-RECONCILIATION-001.md').read_text(encoding='utf-8')
           for phrase in ['DOCUMENTED != IMPLEMENTED != DEPLOYED != VERIFIED != PROVEN','No synthetic PASS.','No hidden authority.','No implicit ALLOW.','BRANCH PERSISTENCE != CANONICAL PROMOTION']:
               assert phrase in gate, phrase
-          changed=subprocess.check_output(['git','diff','--name-only',BASE,HEAD],text=True).splitlines()
+          changed=subprocess.check_output(['git','diff','--name-only',base,head],text=True).splitlines()
           for f in changed:
               if f.endswith('.json'):
-                  subprocess.run(['git','show',f'{HEAD}:{f}'],check=True,stdout=subprocess.PIPE,text=True)
-                  json.loads(subprocess.check_output(['git','show',f'{HEAD}:{f}'],text=True))
+                  raw=subprocess.check_output(['git','show',f'{head}:{f}'],text=True)
+                  json.loads(raw)
           PY
           while IFS= read -r f; do
             case "$f" in
