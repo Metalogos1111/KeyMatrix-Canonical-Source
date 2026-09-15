@@ -47,8 +47,10 @@ jobs:
           test "${#files[@]}" -eq "${#expected[@]}" || { echo "UNEXPECTED_DIFF_FILE_COUNT=${#files[@]} EXPECTED=${#expected[@]}"; printf '%s\n' "${files[@]}"; exit 1; }
           for f in "${expected[@]}"; do test "${seen[$f]:-0}" = 1 || { echo "MISSING_EXPECTED_FILE=$f"; exit 1; }; done
           if git diff --name-only "$BASE" "$HEAD" | grep -Fxq 'CANONICAL_SOURCE_ROOT.md'; then echo 'CANONICAL_ROOT_MUTATED=TRUE'; exit 1; fi
+          git diff --check "$BASE" "$HEAD"
           python - <<'PY'
           import json
+          import subprocess
           from pathlib import Path
           registry=json.loads(Path('docs/provenance/GITHUB_EVIDENCE_REGISTRY_v1.json').read_text(encoding='utf-8'))
           required=['registry_id','gate_id','status','provenance','promotion_rule','entries','current_measurement_chain','authority','capability_execution','identity_promotion','sot']
@@ -88,6 +90,11 @@ jobs:
           gate=Path('docs/gates/KM-GITHUB-CANONICAL-PERSISTENCE-RECONCILIATION-001.md').read_text(encoding='utf-8')
           for phrase in ['DOCUMENTED != IMPLEMENTED != DEPLOYED != VERIFIED != PROVEN','No synthetic PASS.','No hidden authority.','No implicit ALLOW.','BRANCH PERSISTENCE != CANONICAL PROMOTION']:
               assert phrase in gate, phrase
+          changed=subprocess.check_output(['git','diff','--name-only',BASE,HEAD],text=True).splitlines()
+          for f in changed:
+              if f.endswith('.json'):
+                  subprocess.run(['git','show',f'{HEAD}:{f}'],check=True,stdout=subprocess.PIPE,text=True)
+                  json.loads(subprocess.check_output(['git','show',f'{HEAD}:{f}'],text=True))
           PY
           while IFS= read -r f; do
             case "$f" in
