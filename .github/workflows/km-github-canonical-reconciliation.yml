@@ -1,0 +1,110 @@
+name: KM-GITHUB-CANONICAL-RECONCILIATION
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  reconcile:
+    name: KM-GITHUB-CANONICAL-RECONCILIATION
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout PR head
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Reconcile controlled PR
+        shell: bash
+        env:
+          PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          set -euo pipefail
+          export BASE="$PR_BASE_SHA"
+          export HEAD="$PR_HEAD_SHA"
+
+          test -n "$BASE"
+          test -n "$HEAD"
+
+          expected_1='docs/gates/KM-GITHUB-CANONICAL-PERSISTENCE-RECONCILIATION-001.md'
+          expected_2='docs/provenance/GITHUB_EVIDENCE_REGISTRY_v1.json'
+          expected_3='.github/workflows/km-github-canonical-reconciliation.yml'
+
+          mapfile -t files < <(git diff --name-only "$BASE" "$HEAD")
+          declare -A seen=()
+          for f in "${files[@]}"; do seen["$f"]=1; done
+
+          # Allow the workflow file itself because this is the verification mechanism
+          # being introduced in the same controlled branch.
+          for f in "$expected_1" "$expected_2" "$expected_3"; do
+            test "${seen[$f]:-0}" = 1 || { echo "MISSING_EXPECTED_FILE=$f"; exit 1; }
+          done
+
+          if [ "${#files[@]}" -ne 3 ]; then
+            echo "UNEXPECTED_DIFF_FILE_COUNT=${#files[@]}"
+            printf '%s\n' "${files[@]}"
+            exit 1
+          fi
+
+          # Canonical root is immutable for this gate.
+          if git diff --name-only "$BASE" "$HEAD" | grep -Fxq 'CANONICAL_SOURCE_ROOT.md'; then
+            echo 'CANONICAL_ROOT_MUTATED=TRUE'
+            exit 1
+          fi
+
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          p = Path('docs/provenance/GITHUB_EVIDENCE_REGISTRY_v1.json')
+          data = json.loads(p.read_text(encoding='utf-8'))
+
+          required = ['registry_id', 'gate_id', 'status', 'provenance', 'promotion_rule', 'entries', 'current_measurement_chain', 'authority', 'capability_execution', 'identity_promotion', 'sot']
+          missing = [k for k in required if k not in data]
+          if missing:
+              raise SystemExit(f'MISSING_REQUIRED_FIELDS={missing}')
+
+          assert data['gate_id'] == 'KM-GITHUB-CANONICAL-PERSISTENCE-RECONCILIATION-001'
+          assert data['promotion_rule'] == 'STATUS := DERIVE(EVIDENCE)'
+          assert data['authority'] == 'NONE'
+          assert data['capability_execution'] == 'NOT_PERFORMED'
+          assert data['identity_promotion'] == 'NOT_PERFORMED'
+          assert data['sot'] == 'UNCHANGED'
+
+          chain = data['current_measurement_chain']
+          assert chain['calibration_data_001'] == 'HOLD'
+          assert chain['ground_truth_001'] == 'BLOCKED'
+          assert chain['roi_002'] == 'BLOCKED'
+
+          gate = Path('docs/gates/KM-GITHUB-CANONICAL-PERSISTENCE-RECONCILIATION-001.md').read_text(encoding='utf-8')
+          required_phrases = [
+              'DOCUMENTED != IMPLEMENTED != DEPLOYED != VERIFIED != PROVEN',
+              'No synthetic PASS.',
+              'No hidden authority.',
+              'No implicit ALLOW.',
+              'BRANCH PERSISTENCE != CANONICAL PROMOTION',
+          ]
+          for phrase in required_phrases:
+              assert phrase in gate, phrase
+          PY
+
+          # Basic secret/high-risk string guard for the documentation/registry files.
+          if git show "$HEAD:$expected_1" | grep -Eiq 'service_role|secret[_-]?key|private[_-]?key'; then
+            echo 'SENSITIVE_SECRET_PATTERN_IN_GATE=TRUE'
+            exit 1
+          fi
+          if git show "$HEAD:$expected_2" | grep -Eiq 'service_role|secret[_-]?key|private[_-]?key'; then
+            echo 'SENSITIVE_SECRET_PATTERN_IN_REGISTRY=TRUE'
+            exit 1
+          fi
+
+          echo 'KM-GITHUB-CANONICAL-RECONCILIATION=PASS'
+          echo 'MAIN_MUTATION_BY_WORKFLOW=FALSE'
+          echo 'CANONICAL_ROOT_MUTATED=FALSE'
+          echo 'AUTHORITY=NONE'
