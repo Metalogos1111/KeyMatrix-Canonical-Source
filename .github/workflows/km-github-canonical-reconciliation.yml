@@ -28,100 +28,75 @@ jobs:
           set -euo pipefail
           export BASE="$PR_BASE_SHA"
           export HEAD="$PR_HEAD_SHA"
-
           test -n "$BASE"
           test -n "$HEAD"
-
           expected=(
             '.github/workflows/km-github-canonical-reconciliation.yml'
             'docs/evidence/KM-CORE-PAIR-01-EXECUTION-PROBE-001_EVIDENCE.json'
             'docs/evidence/KM-CORE-PAIR-01-EXECUTION-PROBE-001_EVIDENCE_CORRECTION.md'
             'docs/evidence/KM-CORE-PAIR-01-EXECUTION-PROBE-001_RUNNOTE.md'
+            'docs/evidence/KM-CORE-PAIR-01-REAL-RECEIVER-PROBE-001.json'
             'docs/gates/KM-CORE-EXECUTION-SURFACE-DISCOVERY-001.md'
             'docs/gates/KM-CORE-PAIR-01-TASK-SPEC-001.md'
             'docs/gates/KM-GITHUB-CANONICAL-PERSISTENCE-RECONCILIATION-001.md'
             'docs/provenance/GITHUB_EVIDENCE_REGISTRY_v1.json'
           )
-
           mapfile -t files < <(git diff --name-only "$BASE" "$HEAD")
           declare -A seen=()
           for f in "${files[@]}"; do seen["$f"]=1; done
-
-          test "${#files[@]}" -eq "${#expected[@]}" || {
-            echo "UNEXPECTED_DIFF_FILE_COUNT=${#files[@]} EXPECTED=${#expected[@]}"
-            printf '%s\n' "${files[@]}"
-            exit 1
-          }
-
-          for f in "${expected[@]}"; do
-            test "${seen[$f]:-0}" = 1 || { echo "MISSING_EXPECTED_FILE=$f"; exit 1; }
-          done
-
-          if git diff --name-only "$BASE" "$HEAD" | grep -Fxq 'CANONICAL_SOURCE_ROOT.md'; then
-            echo 'CANONICAL_ROOT_MUTATED=TRUE'
-            exit 1
-          fi
-
+          test "${#files[@]}" -eq "${#expected[@]}" || { echo "UNEXPECTED_DIFF_FILE_COUNT=${#files[@]} EXPECTED=${#expected[@]}"; printf '%s\n' "${files[@]}"; exit 1; }
+          for f in "${expected[@]}"; do test "${seen[$f]:-0}" = 1 || { echo "MISSING_EXPECTED_FILE=$f"; exit 1; }; done
+          if git diff --name-only "$BASE" "$HEAD" | grep -Fxq 'CANONICAL_SOURCE_ROOT.md'; then echo 'CANONICAL_ROOT_MUTATED=TRUE'; exit 1; fi
           python - <<'PY'
-          import json, re
+          import json
           from pathlib import Path
-
-          registry = json.loads(Path('docs/provenance/GITHUB_EVIDENCE_REGISTRY_v1.json').read_text(encoding='utf-8'))
-          required = ['registry_id', 'gate_id', 'status', 'provenance', 'promotion_rule', 'entries', 'current_measurement_chain', 'authority', 'capability_execution', 'identity_promotion', 'sot']
-          missing = [k for k in required if k not in registry]
-          if missing:
-              raise SystemExit(f'MISSING_REQUIRED_FIELDS={missing}')
-          assert registry['gate_id'] == 'KM-GITHUB-CANONICAL-PERSISTENCE-RECONCILIATION-001'
-          assert registry['promotion_rule'] == 'STATUS := DERIVE(EVIDENCE)'
-          assert registry['authority'] == 'NONE'
-          assert registry['identity_promotion'] == 'NOT_PERFORMED'
-          assert registry['sot'] == 'UNCHANGED'
-          chain = registry['current_measurement_chain']
-          assert chain['calibration_data_001'] == 'HOLD'
-          assert chain['ground_truth_001'] == 'BLOCKED'
-          assert chain['roi_002'] == 'BLOCKED'
-
-          evidence_path = Path('docs/evidence/KM-CORE-PAIR-01-EXECUTION-PROBE-001_EVIDENCE.json')
-          evidence = json.loads(evidence_path.read_text(encoding='utf-8'))
-          assert evidence['gate_id'] == 'KM-CORE-PAIR-01-EXECUTION-PROBE-001'
-          assert evidence['status'] == 'OBSERVED / COMPATIBILITY_NOT_SCORED'
-          assert evidence['authority'] == 'NONE'
+          registry=json.loads(Path('docs/provenance/GITHUB_EVIDENCE_REGISTRY_v1.json').read_text(encoding='utf-8'))
+          required=['registry_id','gate_id','status','provenance','promotion_rule','entries','current_measurement_chain','authority','capability_execution','identity_promotion','sot']
+          missing=[k for k in required if k not in registry]
+          if missing: raise SystemExit(f'MISSING_REQUIRED_FIELDS={missing}')
+          assert registry['gate_id']=='KM-GITHUB-CANONICAL-PERSISTENCE-RECONCILIATION-001'
+          assert registry['promotion_rule']=='STATUS := DERIVE(EVIDENCE)'
+          assert registry['authority']=='NONE'
+          assert registry['identity_promotion']=='NOT_PERFORMED'
+          assert registry['sot']=='UNCHANGED'
+          chain=registry['current_measurement_chain']
+          assert chain['calibration_data_001']=='HOLD'
+          assert chain['ground_truth_001']=='BLOCKED'
+          assert chain['roi_002']=='BLOCKED'
+          evidence=json.loads(Path('docs/evidence/KM-CORE-PAIR-01-EXECUTION-PROBE-001_EVIDENCE.json').read_text(encoding='utf-8'))
+          assert evidence['gate_id']=='KM-CORE-PAIR-01-EXECUTION-PROBE-001'
+          assert evidence['status']=='OBSERVED / COMPATIBILITY_NOT_SCORED'
+          assert evidence['authority']=='NONE'
           assert evidence['composition']['executed'] is False
           assert evidence['repeatability']['state_mutation_observed'] is False
-          assert evidence['repeatability']['OmniState_sha256_before'] == evidence['repeatability']['OmniState_sha256_after']
+          assert evidence['repeatability']['OmniState_sha256_before']==evidence['repeatability']['OmniState_sha256_after']
           assert 'MetaCore12 identity equivalence to MetaCore' in evidence['not_proven']
-
-          correction = Path('docs/evidence/KM-CORE-PAIR-01-EXECUTION-PROBE-001_EVIDENCE_CORRECTION.md').read_text(encoding='utf-8')
-          authoritative_sha = '0e996e091f83849b2f8891fa30e856f448ce072b9ba181dda9b8c475f05a4efc'
+          correction=Path('docs/evidence/KM-CORE-PAIR-01-EXECUTION-PROBE-001_EVIDENCE_CORRECTION.md').read_text(encoding='utf-8')
+          authoritative_sha='0e996e091f83849b2f8891fa30e856f448ce072b9ba181dda9b8c475f05a4efc'
           assert authoritative_sha in correction
-          assert evidence['source_artifacts']['MetaCore12_backend']['sha256'] == authoritative_sha
-
-          gate = Path('docs/gates/KM-GITHUB-CANONICAL-PERSISTENCE-RECONCILIATION-001.md').read_text(encoding='utf-8')
-          required_phrases = [
-              'DOCUMENTED != IMPLEMENTED != DEPLOYED != VERIFIED != PROVEN',
-              'No synthetic PASS.',
-              'No hidden authority.',
-              'No implicit ALLOW.',
-              'BRANCH PERSISTENCE != CANONICAL PROMOTION',
-          ]
-          for phrase in required_phrases:
+          assert evidence['source_artifacts']['MetaCore12_backend']['sha256']==authoritative_sha
+          receiver=json.loads(Path('docs/evidence/KM-CORE-PAIR-01-REAL-RECEIVER-PROBE-001.json').read_text(encoding='utf-8'))
+          assert receiver['gate_id']=='KM-CORE-PAIR-01-REAL-RECEIVER-PROBE-001'
+          assert receiver['status']=='OBSERVED / RECEIVER_PROTOCOL_EXECUTED / EXTERNAL_INFERENCE_UNAVAILABLE'
+          assert receiver['authority']=='NONE'
+          assert receiver['sot_mutation'] is False
+          assert receiver['repeatability']['both_http_200'] is True
+          assert receiver['repeatability']['response_sha_equal'] is True
+          assert receiver['repeatability']['state_unchanged'] is True
+          assert receiver['interpretation']['external_xai_inference'] is False
+          assert 'PrimeCore × MetaLogos semantic compatibility' in receiver['not_proven']
+          gate=Path('docs/gates/KM-GITHUB-CANONICAL-PERSISTENCE-RECONCILIATION-001.md').read_text(encoding='utf-8')
+          for phrase in ['DOCUMENTED != IMPLEMENTED != DEPLOYED != VERIFIED != PROVEN','No synthetic PASS.','No hidden authority.','No implicit ALLOW.','BRANCH PERSISTENCE != CANONICAL PROMOTION']:
               assert phrase in gate, phrase
           PY
-
-          # Scan changed artifacts, excluding this verifier itself because the verifier
-          # necessarily contains the literal patterns it is designed to detect.
           while IFS= read -r f; do
             case "$f" in
               .github/workflows/km-github-canonical-reconciliation.yml) continue ;;
               *.md|*.json|*.yml|*.yaml|*.txt)
-                if git show "$HEAD:$f" | grep -Eiq 'service_role|secret[_-]?key|private[_-]?key'; then
-                  echo "SENSITIVE_SECRET_PATTERN_IN=$f"
-                  exit 1
-                fi
+                if git show "$HEAD:$f" | grep -Eiq 'service_role|secret[_-]?key|private[_-]?key'; then echo "SENSITIVE_SECRET_PATTERN_IN=$f"; exit 1; fi
                 ;;
             esac
           done < <(git diff --name-only "$BASE" "$HEAD")
-
           echo 'KM-GITHUB-CANONICAL-RECONCILIATION=PASS'
           echo 'CURRENT_PR_SCOPE_RECONCILED=TRUE'
           echo 'MAIN_MUTATION_BY_WORKFLOW=FALSE'
