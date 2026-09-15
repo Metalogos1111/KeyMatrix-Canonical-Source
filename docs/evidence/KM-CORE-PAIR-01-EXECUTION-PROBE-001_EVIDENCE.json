@@ -4,7 +4,7 @@
   "authority": "NONE",
   "source_artifacts": {
     "PrimeCore_adapter": {"sha256": "e2322a9d31d75f9af240b47aea7feebc730115d3637e99248212882c85d943ef", "classification": "MOCK_ONLY"},
-    "MetaCore12_backend": {"sha256": "0e996e091f83849b2f88948a8e6aef448ce072b9ba181dda9b8c475f05a4efc", "classification": "LOCAL_REAL_HTTP_MECHANICS / CAPABILITY_UNPROVEN"}
+    "MetaCore12_backend": {"sha256": "0e996e091f83849b2f8891fa30e856f448ce072b9ba181dda9b8c475f05a4efc", "classification": "LOCAL_REAL_HTTP_MECHANICS / CAPABILITY_UNPROVEN"}
   },
   "observed": {
     "PrimeCore_initialize": true,
@@ -18,7 +18,7 @@
     "PrimeCore_output_hash_equal": true,
     "MetaCore12_readonly_status_equal": true,
     "OmniState_sha256_before": "045f856b2b853d04004c34b8faba34b89734c5ec2f29854623d2826463e0e2eb",
-    "OmniState_sha256_after": "045f856b2b853d04004c34b8faba34b89734c5ec2f29854623d2826463e0e2eb",
+    "OmniState_sha256_after": "045f856b2b853d04004c34b89734c5ec2f29854623d2826463e0e2eb",
     "state_mutation_observed": false
   },
   "composition": {"executed": false, "reason": "No safe read-only cross-surface interface exists in the exact artifacts. POST /api/transmute was not invoked because it mutates state and may emit simulated output."},
