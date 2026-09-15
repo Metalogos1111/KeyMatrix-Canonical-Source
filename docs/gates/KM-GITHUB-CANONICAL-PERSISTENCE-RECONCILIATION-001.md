@@ -33,7 +33,7 @@ The persisted Pair-01 evidence JSON must contain the authoritative backend hash 
 ## Real receiver protocol evidence
 `KM-CORE-PAIR-01-REAL-RECEIVER-PROBE-001` records a local execution against the built KeyMatrix `askMetaLogos` server-function protocol. The request was serialized using the runtime's observed Seroval contract and executed twice with identical input and response hashes.
 
-The observed response was the fail-closed `unavailable` result because no `XAI_API_KEY` was present in the local environment. This proves only receiver protocol reachability and deterministic fail-closed behavior; it does not prove external inference or semantic Core compatibility.
+The observed response was the fail-closed `unavailable` result because no `XAI_API_KEY` was present in the local environment. This proves receiver protocol reachability and deterministic fail-closed behavior only; it does not prove external inference or semantic Core compatibility.
 
 ## Verification requirements
 1. Exact branch-vs-main diff contains only controlled expected scope.
