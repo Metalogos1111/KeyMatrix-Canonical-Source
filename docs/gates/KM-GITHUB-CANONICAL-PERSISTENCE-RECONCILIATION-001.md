@@ -30,6 +30,11 @@ Persisted no-mutation state hash:
 
 The persisted Pair-01 evidence JSON must contain the authoritative backend hash and equal before/after state hashes when declaring `state_mutation_observed=false`.
 
+## Real receiver protocol evidence
+`KM-CORE-PAIR-01-REAL-RECEIVER-PROBE-001` records a local execution against the built KeyMatrix `askMetaLogos` server-function protocol. The request was serialized using the runtime's observed Seroval contract and executed twice with identical input and response hashes.
+
+The observed response was the fail-closed `unavailable` result because no `XAI_API_KEY` was present in the local environment. This proves only receiver protocol reachability and deterministic fail-closed behavior; it does not prove external inference or semantic Core compatibility.
+
 ## Verification requirements
 1. Exact branch-vs-main diff contains only controlled expected scope.
 2. `CANONICAL_SOURCE_ROOT.md` is unchanged.
@@ -37,8 +42,9 @@ The persisted Pair-01 evidence JSON must contain the authoritative backend hash 
 4. Pair-01 evidence remains `OBSERVED / COMPATIBILITY_NOT_SCORED`.
 5. Persisted MetaCore12 source SHA equals the correction SHA.
 6. State before/after hashes are equal when evidence declares no mutation.
-7. Secret-pattern scan rejects introduced prohibited credential material.
-8. CI success is not compatibility proof or merge authorization.
+7. Real receiver evidence records `AUTHORITY=NONE`, no SOT mutation, repeated identical response hashes, and external inference unavailable when the credential is absent.
+8. Secret-pattern scan rejects introduced prohibited credential material.
+9. CI success is not compatibility proof or merge authorization.
 
 ## Promotion boundary
 No Core identity promotion, compatibility promotion, production claim, or canonical promotion is authorized by this gate.
