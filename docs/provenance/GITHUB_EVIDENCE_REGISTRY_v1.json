@@ -1,0 +1,17 @@
+{
+  "registry_id":"GITHUB_EVIDENCE_REGISTRY_v1",
+  "gate_id":"KM-GITHUB-CANONICAL-PERSISTENCE-RECONCILIATION-001",
+  "status":"DECLARED",
+  "provenance":{"repository":"Metalogos1111/KeyMatrix-Canonical-Source","base_branch":"main","controlled_branch":"km-github-evidence-reconciliation-001","purpose":"persistent source and provenance plane"},
+  "promotion_rule":"STATUS := DERIVE(EVIDENCE)",
+  "entries":[
+    {"artifact_id":"KEYMATRIX_CANONICAL_SOURCE_001.zip","artifact_type":"source_package","repository_path":"KEYMATRIX_CANONICAL_SOURCE_001.zip","github_blob_sha1_observed":"2856d8bd788fa8954d145d55b5e5c5cc1c5ffa44","status":"CANONICAL_CANDIDATE","role":"source_provenance","note":"GitHub blob identity observed; this does not prove package content or runtime status."},
+    {"artifact_id":"CANONICAL_SOURCE_ROOT.md","artifact_type":"provenance_document","repository_path":"CANONICAL_SOURCE_ROOT.md","github_blob_sha1_observed":"e99124065292a56a6db56a42a7b837b4ab14d241","status":"OBSERVED","role":"provenance_boundary","note":"Document explicitly distinguishes documented, implemented, deployed, verified and proven states."},
+    {"artifact_id":"KM-CORE-EXECUTION-SURFACE-DISCOVERY-001","artifact_type":"gate","repository_path":"docs/gates/KM-CORE-EXECUTION-SURFACE-DISCOVERY-001.md","status":"READY / BLOCKED","role":"execution-surface-acquisition","note":"Records concrete PrimeCore adapter and MetaCore12 backend seams while preserving identity/runtime evidence boundaries."},
+    {"artifact_id":"KM-CORE-PAIR-01-REAL-RECEIVER-PROBE-001","artifact_type":"execution_evidence","repository_path":"docs/evidence/KM-CORE-PAIR-01-REAL-RECEIVER-PROBE-001.json","status":"OBSERVED / RECEIVER_PROTOCOL_EXECUTED / EXTERNAL_INFERENCE_UNAVAILABLE","role":"read_only_receiver_protocol_evidence","artifact_sha256":"8a40272232ccd9d89fbd6273da70e70e86038eda747cb7297d83395ac4275de7","note":"Local built KeyMatrix server accepted a correctly serialized server-function request twice and returned fail-closed unavailable because XAI_API_KEY was absent. No external inference, compatibility score, identity promotion or SOT mutation was claimed."}
+  ],
+  "current_measurement_chain":{"input_measurement_001":"VERIFIED*","cost_risk_calibration_001":"VERIFIED*","calibration_data_001":"HOLD","remediation_001":"NEXT","ground_truth_001":"BLOCKED","roi_002":"BLOCKED"},
+  "current_execution_surface":{"primecore":"CONCRETE ADAPTER / MOCK SURFACE","metacore12":"CONCRETE FASTAPI SURFACE / EXTERNAL INFERENCE UNPROVEN","keymatrix_server":"CONCRETE NITRO BUILD / READONLY SERVER-FUNCTION RECEIVER OBSERVED","askMetaLogos":"SERVER FUNCTION PROTOCOL OBSERVED / EXTERNAL INFERENCE UNAVAILABLE","pair01":"RECEIVER PROTOCOL OBSERVED; COMPATIBILITY BLOCKED","reason":"A real receiver protocol was executed and reproduced, but PrimeCore remains mock-only and MetaLogos identity/external inference are not proven."},
+  "authority":"NONE","capability_execution":"RECEIVER_PROTOCOL_ONLY","identity_promotion":"NOT_PERFORMED","sot":"UNCHANGED",
+  "warning":"Registry entries are provenance observations and references; they are not authority, verifier results, canonical promotion, deployment evidence, or production proof."
+}
