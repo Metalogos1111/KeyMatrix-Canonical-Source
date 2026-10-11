@@ -614,6 +614,13 @@
       "result": "HOLD",
       "criteria": "Canonical promotion is supported by approved release lineage and verification evidence.",
       "limitation": "No canonical/source mutation or promotion performed."
+    },
+    {
+      "id": "CROSSCORE-SYNC-001",
+      "result": "PASS_WITH_OBSERVATION",
+      "criteria": "The shared F0/F1 synchronization contract is identical across all seven current package file readbacks.",
+      "evidence": "Seven Plugin Creator current-release reads returned 3829-character identical text payloads for sync/KM-CROSS-CORE-SYNC-001.md on 2026-10-11.",
+      "limitation": "Text payload equality only; no raw archive hash or runtime proof."
     }
   ],
   "mutation_budget": {
@@ -660,5 +667,36 @@
       "action": "Run observed runtime path, then independent reproduction of the selected UI/profile and package behavior.",
       "gate": "No runtime or PROVEN claim until evidence is recorded."
     }
-  ]
+  ],
+  "shared_sync_contract_crosscheck": {
+    "artifact": "sync/KM-CROSS-CORE-SYNC-001.md",
+    "source": "Read-only Plugin Creator current-release file readback on 2026-10-11",
+    "result": "EXACT_TEXT_EQUALITY_OBSERVED_7_OF_7",
+    "cores": [
+      "MetaLogos",
+      "MetaCore",
+      "PrimeCore",
+      "MindState",
+      "Archivarius",
+      "MetaForge",
+      "Sinqularity"
+    ],
+    "source_text_characters": 3829,
+    "all_private_scope": true,
+    "values_checked": [
+      "authority boundary",
+      "canonical SOT READ_ONLY",
+      "promotion HUMAN_APPROVAL_REQUIRED",
+      "seven-core role boundary",
+      "no epistemic status upgrade across cores",
+      "glyph is not authority",
+      "manifest is not runtime"
+    ],
+    "limitations": [
+      "Comparison was equality of tool-returned UTF-8 text payloads, not a raw-archive SHA-256 comparison.",
+      "Package source readback does not prove host registration, runtime invocation, or provider connectivity.",
+      "Not an independent external reproduction."
+    ],
+    "status": "PASS_WITH_OBSERVATION"
+  }
 }
