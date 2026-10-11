@@ -1,0 +1,336 @@
+{
+  "artifact_id": "KEYMATRIX_GLYPH_CORE_IDENTITY_CROSSWALK",
+  "version": "0.1.0",
+  "recorded_date": "2026-10-11",
+  "status": "OBSERVED_METADATA_CROSSWALK / PACKAGE_DRIFT_HOLD",
+  "mode": "READ_ONLY / EVIDENCE_FIRST / DERIVED_CONTROL_LAYER",
+  "authority": "NONE",
+  "canonical_sot": "READ_ONLY",
+  "promotion": "HUMAN_APPROVAL_REQUIRED",
+  "public_metadata_policy": {
+    "scope": "Seven packages observed as USER-scoped and PRIVATE-discoverability through read-only Plugin Creator metadata lookups.",
+    "exact_plugin_ids_persisted": false,
+    "exact_release_ids_persisted": false,
+    "reason": "Preserve private plugin metadata in this public repository artifact. Exact IDs remain in the private Plugin Creator/source record and were not copied here."
+  },
+  "evidence_sources": {
+    "glyph_profile": {
+      "artifact": "KeyMatrix_Glyph_Coherence_Registry_v1.1.1_20261005.json",
+      "sha256": "fbb53a21a0e509a5ea695f5907c0f0dca147c5e24b08c96a21b17634ee6e32bc",
+      "status": "APPROVED_FOR_UI_PRESENTATION_ONLY",
+      "caveat": "Embedded version is 1.1.0 while core_standard_version is 1.1.1; release lineage remains HOLD."
+    },
+    "core_order": {
+      "artifact": "MetaLogos 7Core Kernel current release file kernel/seven_core.yaml",
+      "observation": "The file lists MetaLogos, MetaCore, PrimeCore, MindState, Archivarius, MetaForge, Sinqularity in that order.",
+      "status": "CURRENT_PACKAGE_FILE_READBACK_OBSERVED",
+      "limitation": "A package file is not proof of host/runtime behavior or canonical SOT."
+    },
+    "current_package_metadata": {
+      "source": "Read-only Plugin Creator metadata and current-release file listing/readback, 2026-10-11",
+      "status": "OBSERVED_METADATA_ONLY",
+      "limitation": "Metadata and source file reads do not prove host registration, invocation, provider connectivity, or runtime execution."
+    },
+    "prior_reconciliation": "KM-7CORE-RELEASE-IDENTITY-LOCK-20261008-001",
+    "prior_coherence_snapshot": "KM-7CORE-COHERENCE-RECONCILIATION-20261008-001"
+  },
+  "display_policy": {
+    "core_key_is_primary": true,
+    "package_display_name_is_secondary": true,
+    "rationale": "Preserve the frozen seven-core identity while exposing implementation/package names separately. Never rename a core solely to match a plugin slug or UI displayName.",
+    "glyph_role": "Presentation/navigation affordance only; not capability, authority, evidence status, or runtime truth.",
+    "runtime_field": "Must be populated from a separate run-specific observation, never from package metadata."
+  },
+  "cores": [
+    {
+      "position": 1,
+      "glyph": "🌹",
+      "core_key": "MetaLogos",
+      "package_display_name": "MetaLogos 7Core Kernel",
+      "package_version": "100.0.88",
+      "package_scope": "USER",
+      "discoverability": "PRIVATE",
+      "metadata_readback": "OBSERVED",
+      "runtime_from_this_readback": "NOT_OBSERVED",
+      "source_file": "kernel/seven_core.yaml",
+      "notes": [
+        "Core key matches frozen order.",
+        "Private plugin identifiers intentionally omitted from this public artifact."
+      ]
+    },
+    {
+      "position": 2,
+      "glyph": "💟",
+      "core_key": "MetaCore",
+      "package_display_name": "metacore-core",
+      "package_version": "1.0.4",
+      "package_scope": "USER",
+      "discoverability": "PRIVATE",
+      "metadata_readback": "OBSERVED",
+      "runtime_from_this_readback": "NOT_OBSERVED",
+      "source_file": ".codex-plugin/plugin.json",
+      "notes": [
+        "Package interface currently displays lowercase package name; the KeyMatrix crosswalk keeps the user-approved core label MetaCore.",
+        "Potential UI label drift; no plugin package mutation performed."
+      ]
+    },
+    {
+      "position": 3,
+      "glyph": "⚛️",
+      "core_key": "PrimeCore",
+      "package_display_name": "PrimeCore Quantum Hybrid",
+      "package_version": "0.4.1",
+      "package_scope": "USER",
+      "discoverability": "PRIVATE",
+      "metadata_readback": "OBSERVED",
+      "runtime_from_this_readback": "NOT_OBSERVED",
+      "source_files": [
+        "plugin.json",
+        "manifest.json",
+        "PACKAGE_MANIFEST.json"
+      ],
+      "notes": [
+        "Core key remains PrimeCore; package display name remains PrimeCore Quantum Hybrid.",
+        "PACKAGE_MANIFEST.json declares version 0.3.0 and stale file sizes while current metadata/plugin.json/manifest.json declare 0.4.1; see package drift finding."
+      ]
+    },
+    {
+      "position": 4,
+      "glyph": "♒",
+      "core_key": "MindState",
+      "package_display_name": "MindState — KeyMatrix Cognitive State",
+      "package_version": "0.1.6",
+      "package_scope": "USER",
+      "discoverability": "PRIVATE",
+      "metadata_readback": "OBSERVED",
+      "runtime_from_this_readback": "NOT_OBSERVED",
+      "source_files": [
+        "plugin.json",
+        ".codex-plugin/plugin.json"
+      ],
+      "notes": [
+        "Composer manifest is status/capability metadata and does not declare a package version; no version conflict inferred from the absent version field."
+      ]
+    },
+    {
+      "position": 5,
+      "glyph": "🆔",
+      "core_key": "Archivarius",
+      "package_display_name": "Archivarius — Evidence-Bound Memory Core",
+      "package_version": "0.1.4",
+      "package_scope": "USER",
+      "discoverability": "PRIVATE",
+      "metadata_readback": "OBSERVED",
+      "runtime_from_this_readback": "NOT_OBSERVED",
+      "source_files": [
+        "plugin.json",
+        ".codex-plugin/plugin.json"
+      ],
+      "notes": [
+        "Plugin metadata and both package interface files agree on package version 0.1.4."
+      ]
+    },
+    {
+      "position": 6,
+      "glyph": "🧬",
+      "core_key": "MetaForge",
+      "package_display_name": "MetaForge Turbo Max",
+      "package_version": "1.3.3",
+      "package_scope": "USER",
+      "discoverability": "PRIVATE",
+      "metadata_readback": "OBSERVED",
+      "runtime_from_this_readback": "NOT_OBSERVED",
+      "source_file": "plugin.json",
+      "notes": [
+        "Core key remains MetaForge; package display name remains MetaForge Turbo Max."
+      ]
+    },
+    {
+      "position": 7,
+      "glyph": "♾️",
+      "core_key": "Sinqularity",
+      "package_display_name": "Sinqularity",
+      "package_version": "0.1.3",
+      "package_scope": "USER",
+      "discoverability": "PRIVATE",
+      "metadata_readback": "OBSERVED",
+      "runtime_from_this_readback": "NOT_OBSERVED",
+      "source_files": [
+        "plugin.json",
+        "manifest.json"
+      ],
+      "notes": [
+        "plugin.json and current package metadata declare 0.1.3; manifest.json declares 0.1.2. Historical alias Singularity remains a separate legacy alias, not an automatic rename."
+      ]
+    }
+  ],
+  "package_drift_findings": [
+    {
+      "id": "PKG-PCORE-001",
+      "package": "PrimeCore Quantum Hybrid",
+      "status": "HOLD / PACKAGE_MANIFEST_DRIFT_OBSERVED",
+      "observations": [
+        {
+          "field": "Plugin Creator current package metadata.version",
+          "value": "0.4.1"
+        },
+        {
+          "field": "plugin.json version",
+          "value": "0.4.1"
+        },
+        {
+          "field": "manifest.json version",
+          "value": "0.4.1"
+        },
+        {
+          "field": "PACKAGE_MANIFEST.json version",
+          "value": "0.3.0"
+        },
+        {
+          "field": "PACKAGE_MANIFEST.json file_count",
+          "value": 30
+        },
+        {
+          "field": ".codex-plugin/plugin.json size declared in PACKAGE_MANIFEST.json",
+          "value": 908
+        },
+        {
+          "field": ".codex-plugin/plugin.json current file-list size_bytes",
+          "value": 1345
+        },
+        {
+          "field": "README.md size declared in PACKAGE_MANIFEST.json",
+          "value": 318
+        },
+        {
+          "field": "README.md current file-list size_bytes",
+          "value": 506
+        },
+        {
+          "field": "manifest.json size declared in PACKAGE_MANIFEST.json",
+          "value": 2277
+        },
+        {
+          "field": "manifest.json current file-list size_bytes",
+          "value": 2749
+        }
+      ],
+      "interpretation": "PACKAGE_MANIFEST.json is inconsistent with multiple observed current-release file metadata fields. Treat as a stale or mismatched package-manifest artifact until rebuilt/verified; do not silently rewrite it.",
+      "next_evidence": [
+        "Recompute package file hashes/sizes from the exact current release archive.",
+        "Regenerate PACKAGE_MANIFEST.json in a candidate release only after exact package bytes are acquired.",
+        "Run package integrity validator and independent reproduction before publishing an updated release."
+      ],
+      "mutation_performed": false
+    },
+    {
+      "id": "PKG-SINQ-001",
+      "package": "Sinqularity",
+      "status": "HOLD / VERSION_LAYER_DRIFT_OBSERVED",
+      "observations": [
+        {
+          "field": "Plugin Creator current package metadata.version",
+          "value": "0.1.3"
+        },
+        {
+          "field": "plugin.json version",
+          "value": "0.1.3"
+        },
+        {
+          "field": "manifest.json version",
+          "value": "0.1.2"
+        }
+      ],
+      "interpretation": "Package-level identity and internal manifest version disagree. This may reflect an older internal manifest, but intent is not established; preserve both values pending version-layer rule.",
+      "next_evidence": [
+        "Read the exact source/release lineage for the manifest.",
+        "Determine whether manifest.version represents package release version or a separate internal version.",
+        "Apply a candidate-only patch and tests after the versioning contract is explicit."
+      ],
+      "mutation_performed": false
+    },
+    {
+      "id": "PKG-META-UI-001",
+      "package": "MetaCore",
+      "status": "CANDIDATE_UI_LABEL_DRIFT",
+      "observations": [
+        {
+          "field": "KeyMatrix seven-core core_key",
+          "value": "MetaCore"
+        },
+        {
+          "field": "Current .codex-plugin/plugin.json interface.displayName",
+          "value": "metacore-core"
+        }
+      ],
+      "interpretation": "The package's user-facing interface displayName differs in capitalization/label from the frozen core label. The crosswalk preserves MetaCore as the KeyMatrix core key and does not mutate the private plugin UI.",
+      "next_evidence": [
+        "Decide whether the package UI should show MetaCore while retaining package name metacore-core.",
+        "If approved, prepare a private candidate archive and validate before publishing a new plugin release."
+      ],
+      "mutation_performed": false
+    }
+  ],
+  "version_lineage": {
+    "registry_filename_version": "1.1.1",
+    "registry_embedded_version": "1.1.0",
+    "registry_core_standard_version": "1.1.1",
+    "result": "HOLD / RELEASE_LINEAGE_NOT_ESTABLISHED",
+    "action": "Do not edit registry source or infer release lineage from the plugin package crosswalk."
+  },
+  "gates": [
+    {
+      "id": "GCX-01",
+      "result": "PASS_WITH_OBSERVATION",
+      "criteria": "The fixed seven-core order is read back from the current MetaLogos package file.",
+      "evidence": "kernel/seven_core.yaml content read in current private release."
+    },
+    {
+      "id": "GCX-02",
+      "result": "PASS_WITH_OBSERVATION",
+      "criteria": "Seven current package metadata records returned and align in order with the selected glyph profile.",
+      "evidence": "Read-only Plugin Creator metadata readback on 2026-10-11; private identifiers excluded from this public artifact."
+    },
+    {
+      "id": "GCX-03",
+      "result": "HOLD",
+      "criteria": "Package manifests are internally consistent.",
+      "evidence": "PrimeCore PACKAGE_MANIFEST version/sizes conflict; Sinqularity manifest version drift; MetaCore UI label drift."
+    },
+    {
+      "id": "GCX-04",
+      "result": "NOT_RUN",
+      "criteria": "Host runtime for all seven cores is independently observed.",
+      "limitation": "This workflow read metadata and package source files only."
+    },
+    {
+      "id": "GCX-05",
+      "result": "NOT_PERFORMED",
+      "criteria": "Independent verifier reproduces all package content/hashes.",
+      "limitation": "No independent external runner was used."
+    },
+    {
+      "id": "GCX-06",
+      "result": "HOLD",
+      "criteria": "Registry version metadata and release lineage are resolved.",
+      "limitation": "No release/change record establishing v1.1.1 successor semantics was found in reviewed scope."
+    },
+    {
+      "id": "GCX-07",
+      "result": "HOLD",
+      "criteria": "Private plugin sources may be changed or new releases published.",
+      "limitation": "No plugin source, release or discoverability mutation authorized by this artifact."
+    }
+  ],
+  "mutation_budget": {
+    "canonical_sot": 0,
+    "plugin_source_files": 0,
+    "plugin_releases": 0,
+    "discoverability_changes": 0,
+    "automatic_promotions": 0
+  },
+  "global_runtime": "NOT_OBSERVED_BY_THIS_READBACK",
+  "independent_verification": "NOT_PERFORMED",
+  "decision": "OBSERVED_METADATA_CROSSWALK / PACKAGE_DRIFT_HOLD",
+  "next_action": "Fix package-manifest drift in a private candidate workflow with exact current-release bytes, separate tests and human-approved release. Keep the main glyph registry and canonical SOT unchanged."
+}
