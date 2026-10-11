@@ -1,0 +1,247 @@
+{
+  "artifact_id": "KEYMATRIX_GLYPH_COHERENCE_RECONCILIATION",
+  "version": "0.2.0",
+  "recorded_at": "2026-10-11",
+  "mode": "EVIDENCE_FIRST / DERIVED_CONTROL_LAYER",
+  "authority": "NONE",
+  "canonical_sot": "READ_ONLY",
+  "promotion_policy": "HUMAN_APPROVAL_REQUIRED",
+  "canonical_mutations": 0,
+  "source_rewrites": 0,
+  "automatic_promotions": 0,
+  "decision": "DISPLAY_PROFILE_APPROVED_BY_USER / CANONICAL_PROMOTION_HOLD",
+  "human_decision": {
+    "result": "APPROVED_FOR_UI_PRESENTATION_ONLY",
+    "evidence": "Prior project conversation record: user explicitly fixed the seven-core order and accepted the v1.1.1-named display standard on 2026-10-05; current turn reconfirms continuation.",
+    "approved_core_order": [
+      {
+        "position": 1,
+        "core_id": "MetaLogos",
+        "glyph": "🌹"
+      },
+      {
+        "position": 2,
+        "core_id": "MetaCore",
+        "glyph": "💟"
+      },
+      {
+        "position": 3,
+        "core_id": "PrimeCore",
+        "glyph": "⚛️"
+      },
+      {
+        "position": 4,
+        "core_id": "MindState",
+        "glyph": "♒"
+      },
+      {
+        "position": 5,
+        "core_id": "Archivarius",
+        "glyph": "🆔"
+      },
+      {
+        "position": 6,
+        "core_id": "MetaForge",
+        "glyph": "🧬"
+      },
+      {
+        "position": 7,
+        "core_id": "Sinqularity",
+        "glyph": "♾️"
+      }
+    ],
+    "scope_limit": "Approval selects the UI/display order only. It does not rewrite registry source bytes, fix embedded version metadata, grant runtime authority, or promote the registry to canonical SOT."
+  },
+  "selected_display_profile": {
+    "file": "KeyMatrix_Glyph_Coherence_Registry_v1.1.1_20261005.json",
+    "status": "APPROVED_FOR_UI_PRESENTATION_ONLY",
+    "sha256": "fbb53a21a0e509a5ea695f5907c0f0dca147c5e24b08c96a21b17634ee6e32bc",
+    "embedded_version": "1.1.0",
+    "core_standard_version": "1.1.1",
+    "unresolved_metadata_conflict": true,
+    "source_unchanged": true
+  },
+  "historical_profile": {
+    "file": "KeyMatrix_Glyph_Coherence_Registry_v1.1_20261005.json",
+    "sha256": "21ef4b01b735b825427504f11c72e3f18555db2050eddbfc50eb5bb61ecf4e70",
+    "status": "PRESERVED_HISTORICAL_CONFLICTING_PROFILE",
+    "source_unchanged": true
+  },
+  "identity_contract": {
+    "required_tuple": [
+      "visible_symbol",
+      "namespace",
+      "role",
+      "position"
+    ],
+    "provenance_fields": [
+      "source_ref",
+      "data_ref",
+      "source_artifact_id",
+      "record_version"
+    ],
+    "epistemic_status_field": "epistemic_status",
+    "missing_value_policy": "null + explicit missing-evidence finding",
+    "collision_policy": "same visible symbol may occur in multiple roles only with explicit structured qualification",
+    "composite_policy": "composite sequences are separate records and do not establish standalone glyph identity"
+  },
+  "collision_controls": [
+    {
+      "symbol": "🌹",
+      "roles": [
+        "MetaLogos core",
+        "RAHMA"
+      ],
+      "rule": "Always render role label"
+    },
+    {
+      "symbol": "🛡️",
+      "roles": [
+        "Sinqularity historical profile",
+        "SAFE"
+      ],
+      "rule": "Do not infer identity from symbol alone"
+    },
+    {
+      "symbol": "⚙️",
+      "roles": [
+        "MetaForge historical profile",
+        "SYS"
+      ],
+      "rule": "Require context and action label"
+    },
+    {
+      "symbol": "🧬",
+      "roles": [
+        "MetaForge approved display profile",
+        "LIFE"
+      ],
+      "rule": "Require context and action label"
+    },
+    {
+      "symbol": "👁️",
+      "roles": [
+        "OBSERVE epistemic status",
+        "DISCOVER pipeline"
+      ],
+      "rule": "Epistemic status is a separate typed field"
+    }
+  ],
+  "negative_constraints": [
+    {
+      "glyph": "🐠",
+      "concept": "آثار",
+      "relation": "NON_EDGE",
+      "status": "PRESERVED"
+    },
+    {
+      "glyph": "🧭",
+      "concept": "theological_authority",
+      "relation": "NON_EDGE",
+      "status": "PRESERVED"
+    },
+    {
+      "glyph": "📖",
+      "concept": "Quran_authority_token",
+      "relation": "NON_EDGE",
+      "status": "PRESERVED"
+    },
+    {
+      "glyph": "🪽",
+      "concept": "proven_continuation_semantics",
+      "relation": "NON_EDGE",
+      "status": "PRESERVED"
+    }
+  ],
+  "held_edges": [
+    {
+      "pair": "كتاب → 📖",
+      "status": "HOLD",
+      "reason": "Standalone namespace/role not observed; composite-only evidence."
+    },
+    {
+      "pair": "قبلة → 🧭",
+      "status": "HOLD",
+      "reason": "Edge type and qualified role unresolved."
+    },
+    {
+      "pair": "جناح → 🪽",
+      "status": "HOLD",
+      "reason": "Qualified role and semantic-role conflict unresolved."
+    },
+    {
+      "pair": "قلب → ❤️ / 💛",
+      "status": "HOLD",
+      "reason": "Equivalence or distinct qualified identities not established."
+    }
+  ],
+  "nur_stream_boundary": {
+    "protocol": "NUR_STREAM_GLYPH_FLOW_PROTOCOL_v1.1.json",
+    "role": "Editorial/publishing profile only",
+    "excluded_from": [
+      "canonical glyph assignments",
+      "concept-to-glyph edge authority",
+      "epistemic status"
+    ],
+    "rules": [
+      "One idea per physical line.",
+      "Source URL on separate unprefixed line.",
+      "Treat > as a literal line marker.",
+      "Separate Qur'anic source text from commentary."
+    ]
+  },
+  "gates": [
+    {
+      "id": "GLYPH-COH-01",
+      "result": "PASS_WITH_OBSERVATION",
+      "criteria": "User-approved seven-core UI order is recorded explicitly.",
+      "evidence": "Prior user decision record dated 2026-10-05."
+    },
+    {
+      "id": "GLYPH-COH-02",
+      "result": "PASS_WITH_OBSERVATION",
+      "criteria": "Source profiles remain separate and immutable.",
+      "evidence": "Source SHA-256 values recorded above; candidate branch only."
+    },
+    {
+      "id": "GLYPH-COH-03",
+      "result": "HOLD",
+      "criteria": "Embedded version metadata is reconciled through release evidence.",
+      "limitation": "No release manifest/changelog proving version correction in reviewed scope."
+    },
+    {
+      "id": "GLYPH-COH-04",
+      "result": "PASS_WITH_OBSERVATION",
+      "criteria": "Collision rules, negative constraints, and held edges are preserved.",
+      "evidence": "Structured fields in this overlay."
+    },
+    {
+      "id": "GLYPH-COH-05",
+      "result": "NOT_RUN",
+      "criteria": "Project runtime consumes the approved display profile correctly.",
+      "next_action": "Requires actual runtime/provider path and observable run evidence."
+    },
+    {
+      "id": "GLYPH-COH-06",
+      "result": "NOT_RUN",
+      "criteria": "Independent reproduction from exact project-side source bytes.",
+      "next_action": "Independent runner must fetch, hash, validate and report with separate run/trace IDs."
+    },
+    {
+      "id": "GLYPH-COH-07",
+      "result": "HOLD",
+      "criteria": "Canonical promotion.",
+      "limitation": "This change is display-only; no canonical promotion requested or performed."
+    }
+  ],
+  "next_actions": [
+    "Use this approved core order for UI/display integration only; keep runtime authority unchanged.",
+    "Obtain release/change evidence to resolve embedded version 1.1.0 versus core_standard_version 1.1.1.",
+    "Run project-side schema and collision validator against exact checked-in source bytes.",
+    "Capture a real runtime run_id, evidence_chain_id and observable provider response before making runtime claims.",
+    "Require independent reproduction before any verification/promotion gate."
+  ],
+  "runtime_status": "NOT_OBSERVED",
+  "independent_verification": "NOT_PERFORMED",
+  "canonical_promotion": "HOLD"
+}
