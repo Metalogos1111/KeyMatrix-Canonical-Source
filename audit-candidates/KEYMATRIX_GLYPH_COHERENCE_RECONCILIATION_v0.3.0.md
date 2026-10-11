@@ -19,6 +19,12 @@ The current MetaLogos package file `kernel/seven_core.yaml` was read back and li
 
 The glyph order is approved for UI presentation only. Core key is the stable KeyMatrix cross-core label; plugin/package slug and displayName are separate implementation labels. No plugin package was changed. Seven current Plugin Creator metadata records were read on 2026-10-11; each remains `USER` scoped and `PRIVATE` discoverability. Private plugin and release IDs were not copied into this public artifact.
 
+## Cross-core shared contract — equality observed 7/7
+
+Read `sync/KM-CROSS-CORE-SYNC-001.md` from the current release of all seven private packages through Plugin Creator. All seven returned text payloads were exactly equal at **3,829 characters**. The shared contract preserves `Authority: NONE`, `Canonical SOT: READ_ONLY`, `Promotion: HUMAN_APPROVAL_REQUIRED`, the fixed seven-core role boundary, and the non-equivalences such as `GLYPH != AUTHORITY` and `MANIFEST != RUNTIME`.
+
+This is an observed equality check over tool-returned text payloads, not a raw archive SHA-256 comparison, runtime execution, host registration, provider connectivity, or independent external reproduction. All seven packages remain `USER` scoped and `PRIVATE`; no package was mutated.
+
 ## Registry comparison — source difference confirmed, lineage still HOLD
 
 The earlier v0.2 audit marked `CON-009` as an unconfirmed lead because the exact older file had not yet been retrieved in that pass. The later v0.3 materialization confirmed distinct raw bytes and **7/7 core-position assignment differences**:
