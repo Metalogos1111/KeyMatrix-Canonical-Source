@@ -1,0 +1,145 @@
+{
+  "artifact_id": "KEYMATRIX_GLYPH_COHERENCE_RECONCILIATION_VALIDATION",
+  "version": "0.3.0",
+  "recorded_at": "2026-10-11",
+  "branch": "audit/glyph-coherence-candidate-2026-10-11",
+  "validation_scope": "Read-after-write structural assertions over the v0.3.0 GitHub candidate files, plus a separate direct read-only cross-package text-equality observation for the shared sync contract. This is not a runtime test or independent external reproduction.",
+  "source_blobs": {
+    "reconciliation_json": "cb8caee0fb1a224d52e052fbdbd6c6dc637723ee",
+    "reconciliation_markdown": "461649531746acb4bda373cd51ec9935b78bdf91"
+  },
+  "structural_tests": [
+    {
+      "name": "JSON parse",
+      "result": "PASS"
+    },
+    {
+      "name": "v0.3.0 candidate status",
+      "result": "PASS"
+    },
+    {
+      "name": "approved 7-core UI order",
+      "result": "PASS"
+    },
+    {
+      "name": "two registry snapshots and 7 position differences",
+      "result": "PASS"
+    },
+    {
+      "name": "release lineage remains HOLD",
+      "result": "PASS"
+    },
+    {
+      "name": "all seven package metadata rows remain USER/PRIVATE",
+      "result": "PASS"
+    },
+    {
+      "name": "private identifiers omitted",
+      "result": "PASS"
+    },
+    {
+      "name": "PrimeCore manifest drift retained",
+      "result": "PASS"
+    },
+    {
+      "name": "Sinqularity layer mismatch remains open review",
+      "result": "PASS"
+    },
+    {
+      "name": "MetaCore display label difference retained",
+      "result": "PASS"
+    },
+    {
+      "name": "four negative constraints remain",
+      "result": "PASS"
+    },
+    {
+      "name": "four candidate edges remain HOLD",
+      "result": "PASS"
+    },
+    {
+      "name": "local validator 9/9 and deterministic outputs 7/7",
+      "result": "PASS"
+    },
+    {
+      "name": "cross-core shared contract 7/7 equal",
+      "result": "PASS"
+    },
+    {
+      "name": "cross-core contract character count consistent",
+      "result": "PASS"
+    },
+    {
+      "name": "cross-core gate recorded",
+      "result": "PASS"
+    },
+    {
+      "name": "runtime not promoted",
+      "result": "PASS"
+    },
+    {
+      "name": "canonical promotion held",
+      "result": "PASS"
+    },
+    {
+      "name": "mutation budget zero",
+      "result": "PASS"
+    },
+    {
+      "name": "Markdown records shared contract equality and scope boundary",
+      "result": "PASS"
+    },
+    {
+      "name": "Markdown retains all package blockers",
+      "result": "PASS"
+    },
+    {
+      "name": "Markdown says canonical/private sources unchanged",
+      "result": "PASS"
+    }
+  ],
+  "direct_source_observation": {
+    "id": "CROSSCORE-SYNC-001",
+    "observation": "Read sync/KM-CROSS-CORE-SYNC-001.md from each of seven current package releases through Plugin Creator. All returned text payloads were exactly equal.",
+    "core_count": 7,
+    "source_text_characters": 3829,
+    "equality": "EXACT_TEXT_EQUALITY_OBSERVED_7_OF_7",
+    "raw_archive_hash_comparison": "NOT_PERFORMED",
+    "independent_reproduction": "NOT_PERFORMED",
+    "runtime": "NOT_OBSERVED"
+  },
+  "local_glyph_validator": {
+    "tests_total": 9,
+    "tests_pass": 9,
+    "tests_fail": 0,
+    "indexed_records": 187,
+    "records_with_incomplete_identity": 112,
+    "repeated_record_candidate_groups": 62,
+    "controlled_symbol_collisions": 5,
+    "negative_constraints": 4,
+    "deterministic_output_files_total": 7,
+    "byte_identical_output_files": 7,
+    "package_zip_sha256": "a96a1ce64edb65046d41f824d77abe25677a0668342eceaa07846e46866206f6",
+    "zip_integrity": "PASS",
+    "checksum_entries_verified": 22
+  },
+  "pass_count": 22,
+  "fail_count": 0,
+  "status": "PASS_WITH_OBSERVATION",
+  "authority": "NONE",
+  "canonical_sot": "READ_ONLY",
+  "canonical_mutations": 0,
+  "registry_source_mutations": 0,
+  "private_plugin_source_mutations": 0,
+  "private_plugin_releases": 0,
+  "discoverability_changes": 0,
+  "main_merges": 0,
+  "limitations": [
+    "All structural assertions are same-session checks over content authored/read back in this workflow.",
+    "Shared sync contract equality is text-payload equality; no raw archive hash comparison.",
+    "No live seven-core runtime or provider invocation was run.",
+    "Independent external reproduction was not performed.",
+    "Registry release lineage remains unresolved.",
+    "PrimeCore exact current-release archive could not be locally acquired; package manifest repair remains HOLD."
+  ]
+}
