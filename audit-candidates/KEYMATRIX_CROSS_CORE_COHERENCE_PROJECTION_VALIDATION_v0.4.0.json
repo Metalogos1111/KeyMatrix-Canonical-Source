@@ -5,8 +5,8 @@
   "branch": "audit/glyph-coherence-candidate-2026-10-11",
   "validation_scope": "Read-after-write structural checks over the candidate v0.4.0 JSON/Markdown plus separate direct Plugin Creator metadata and source-file observations. Not runtime verification or independent external reproduction.",
   "source_blobs": {
-    "json": "6cef68092594dc611979a27fb1b371127f6d8f08",
-    "markdown": "525d6431760af9d7bda24ccfff00340d72db13ff"
+    "json": "c0b484c7177ce3260ee078f9fad4c4e23481d59c",
+    "markdown": "e981bb674143f1a4937e0d5f8c79f9b3ced82c76"
   },
   "tests": [
     {
@@ -80,9 +80,33 @@
     {
       "name": "main remains unchanged",
       "result": "PASS"
+    },
+    {
+      "name": "Evidence-to-PrimeCore migration map parses and has 32/45 package inventory",
+      "result": "PASS"
+    },
+    {
+      "name": "All 25 shared paths counted; 19 text matches and 6 differences",
+      "result": "PASS"
+    },
+    {
+      "name": "Evidence-only cache/bytecode paths excluded from proposed migration",
+      "result": "PASS"
+    },
+    {
+      "name": "Core implementation and baseline test payloads match exactly",
+      "result": "PASS"
+    },
+    {
+      "name": "Manifest and unified-contract differences explicitly preserved",
+      "result": "PASS"
+    },
+    {
+      "name": "No migration, release, or package retirement performed",
+      "result": "PASS"
     }
   ],
-  "pass_count": 18,
+  "pass_count": 24,
   "fail_count": 0,
   "status": "PASS_WITH_OBSERVATION",
   "direct_observations": {
@@ -108,6 +132,17 @@
     "Plugin metadata and text payload equality do not prove host runtime.",
     "No independent external executor was used.",
     "Registry release lineage remains unresolved.",
-    "PrimeCore PACKAGE_MANIFEST scope and exact archive integrity remain HOLD."
-  ]
+    "PrimeCore PACKAGE_MANIFEST scope and exact archive integrity remain HOLD.",
+    "Migration map compares current file inventories and text payloads; exact release archives/hashes have not been acquired."
+  ],
+  "migration_map": {
+    "json_blob": "7f3978676eccf3e5451abb8b8e838fe799fe9f30",
+    "markdown_blob": "6c8f57a2fecc1df948566cd73ef36f1ab4f484e7",
+    "shared_paths": 25,
+    "exact_text_matches": 19,
+    "different_text_payloads": 6,
+    "evidence_only_generated_paths": 7,
+    "migration_executed": false,
+    "retirement_executed": false
+  }
 }
