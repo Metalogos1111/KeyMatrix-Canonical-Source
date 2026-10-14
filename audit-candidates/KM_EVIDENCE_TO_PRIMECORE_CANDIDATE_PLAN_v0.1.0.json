@@ -9,13 +9,13 @@
   "source": {
     "name": "evidence",
     "version": "1.0.0",
-    "current_release_id": "pluginrel_6ac33fff1fc48191b1a8894eaf060985",
+    "current_release_id_redacted": "PRIVATE_IDENTIFIER_NOT_RETAINED",
     "file_count": 32
   },
   "target": {
     "name": "primecore-quantum-hybrid",
     "version": "0.4.1",
-    "current_release_id": "pluginrel_6ac6b50b8e888191bb1c5b0b4f4a34bb",
+    "current_release_id_redacted": "PRIVATE_IDENTIFIER_NOT_RETAINED",
     "file_count": 45
   },
   "candidate_scope": "Private audit branch only; no private plugin source/release changes.",
