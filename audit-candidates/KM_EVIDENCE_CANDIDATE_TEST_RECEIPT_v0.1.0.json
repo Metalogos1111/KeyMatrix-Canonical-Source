@@ -1,0 +1,74 @@
+{
+  "artifact_id": "KM_EVIDENCE_CANDIDATE_TEST_RECEIPT",
+  "version": "0.1.0",
+  "observed_at": "2026-10-14",
+  "status": "PASS_WITH_OBSERVATION",
+  "authority": "NONE",
+  "canonical_sot": "READ_ONLY",
+  "input_source": "Current PrimeCore source text payloads read through Plugin Creator and reconstructed into /tmp/km-evidence-primecore-candidate; not an extracted archive.",
+  "archive_bytes_acquired": false,
+  "exact_release_archive_verified": false,
+  "commands": [
+    "PYTHONPATH=src python -m pytest -q",
+    "python -c 'a=123456789; b=987654321; m=1000000007; print((a*b)%m)' in a separate Python process with no PrimeCore import"
+  ],
+  "results": {
+    "pytest": {
+      "tests_collected": 9,
+      "passed": 9,
+      "failed": 0,
+      "exit_code": 0,
+      "elapsed_seconds": 0.05
+    },
+    "negative_authority": {
+      "fields": [
+        "authority",
+        "decision",
+        "allow",
+        "deny",
+        "promotion"
+      ],
+      "expected": "HOLD / authority_mutation_forbidden; authority=NONE; canonical_sot=READ_ONLY; promotion=HUMAN_APPROVAL_REQUIRED",
+      "tests_passed": 5,
+      "scope": "local reconstructed source text"
+    },
+    "golden_vector": {
+      "expected_result": 259106859,
+      "independent_process_output": "259106859",
+      "scope": "single modular-arithmetic golden vector only",
+      "independent_package_reproduction": false
+    }
+  },
+  "initial_attempt": {
+    "command": "python -m pytest -q",
+    "result": "FAIL_COLLECTION",
+    "cause": "Temporary candidate package was not on sys.path (ModuleNotFoundError: primecore_qh).",
+    "correction": "Reran with PYTHONPATH=src.",
+    "note": "The initial collection failure is retained; it is not erased by the successful corrected run."
+  },
+  "limitations": [
+    "The local workspace was reconstructed from tool-returned text payloads; line endings/byte encoding/archive layout were not verified against raw archive bytes.",
+    "The 9/9 tests cover reconstructed core, MindState boundary and existing migration tests; they do not validate a packaged migration candidate.",
+    "Separate-process reproduction proves only the golden vector result, not source provenance, full package behavior, provider runtime, host registration, or full PrimeCore correctness.",
+    "Historical EPM-05/EPM-06/EPM-07 records remain historical and were not relabeled as this run."
+  ],
+  "gates": {
+    "exact_archive_hashes": "NOT_OBSERVED",
+    "manifest_recalculation": "NOT_RUN",
+    "package_candidate_build": "BLOCKED",
+    "regression_on_reconstructed_text": "PASS_WITH_OBSERVATION",
+    "negative_authority_on_reconstructed_text": "PASS_WITH_OBSERVATION",
+    "independent_candidate_package_reproduction": "NOT_PERFORMED",
+    "standalone_evidence_retirement": "NOT_AUTHORIZED"
+  },
+  "mutation_budget": {
+    "canonical_sot": 0,
+    "private_plugin_source": 0,
+    "private_plugin_release": 0,
+    "package_retirement": 0,
+    "deletion": 0,
+    "main_merge": 0,
+    "deployment": 0,
+    "promotion": 0
+  }
+}
