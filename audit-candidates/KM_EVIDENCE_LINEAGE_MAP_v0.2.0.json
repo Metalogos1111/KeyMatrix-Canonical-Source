@@ -1,0 +1,362 @@
+{
+  "artifact_id": "KM_EVIDENCE_LINEAGE_MAP",
+  "version": "0.2.0",
+  "recorded_at": "2026-10-14",
+  "mode": "READ_ONLY / EVIDENCE_FIRST",
+  "authority": "NONE",
+  "canonical_sot": "READ_ONLY",
+  "promotion": "HUMAN_APPROVAL_REQUIRED",
+  "source_package": {
+    "name": "evidence",
+    "version": "1.0.0",
+    "scope": "USER",
+    "discoverability": "PRIVATE",
+    "current_release_id_redacted": "PRIVATE_IDENTIFIER_NOT_RETAINED",
+    "file_count": 32
+  },
+  "target_package": {
+    "name": "primecore-quantum-hybrid",
+    "version": "0.4.1",
+    "scope": "USER",
+    "discoverability": "PRIVATE",
+    "current_release_id_redacted": "PRIVATE_IDENTIFIER_NOT_RETAINED",
+    "file_count": 45
+  },
+  "method": {
+    "observations": "Plugin Creator current package metadata, current file inventories, and selected UTF-8 text payload readbacks on 2026-10-14.",
+    "archive_bytes_acquired": false,
+    "archive_sha256_computed": false,
+    "per_file_sha256_recomputed": false,
+    "equality_scope": "Tool-returned text payload equality and existing manifest-declared digests only; no raw archive equality is claimed.",
+    "current_target_identity_is_not_historical_target_identity": true
+  },
+  "historical_lineage_anchor": {
+    "record": "evidence/migration/EPM-04-PROVENANCE-BINDING.json",
+    "historical_target_version": "0.3.5",
+    "historical_target_release_id_redacted": "PRIVATE_IDENTIFIER_NOT_RETAINED",
+    "current_target_version": "0.4.1",
+    "interpretation": "EPM-04 is a historical record bound to a prior PrimeCore release. It must not be silently rewritten to claim that its recorded target was the current 0.4.1 release."
+  },
+  "records": [
+    {
+      "id": "EL-001",
+      "source_path": "evidence/P1_P2_GATE_EVIDENCE.json",
+      "target_path": "evidence/P1_P2_GATE_EVIDENCE.json",
+      "source_declared_sha256": "48cc2b7a48ed31c5104ea35c32a520d592ad1d7c350edf1d7ab5a1fe2d1a6040",
+      "target_declared_sha256": "48cc2b7a48ed31c5104ea35c32a520d592ad1d7c350edf1d7ab5a1fe2d1a6040",
+      "source_lineage": "evidence current release 1.0.0",
+      "field_map": [
+        "/gate_id",
+        "/artifact_id",
+        "/version",
+        "/decision",
+        "/manifest_id",
+        "/contract_files[]",
+        "/baseline/known_result",
+        "/baseline/result_hash",
+        "/baseline/source_verification_record",
+        "/baseline/independent_node_result",
+        "/baseline/independent_result_matches",
+        "/baseline/deterministic_result_hash_match",
+        "/package_hygiene/*",
+        "/boundary/*",
+        "/environment/*",
+        "/record_hash"
+      ],
+      "relation": "EXACT_TEXT_PAYLOAD_EQUALITY_OBSERVED",
+      "disposition": "PRESERVE_AS_HISTORICAL_EVIDENCE_WITH_SOURCE_RELEASE_PROVENANCE",
+      "caveat": "Declared file digest matches in both package manifests; not freshly recomputed from archive bytes."
+    },
+    {
+      "id": "EL-002",
+      "source_path": "evidence/baseline_input.json",
+      "target_path": "evidence/baseline_input.json",
+      "source_declared_sha256": "41103954653a406a1cecd9e0b1f51db391999e5b7afc9ebb38fe76b662e871ee",
+      "target_declared_sha256": "41103954653a406a1cecd9e0b1f51db391999e5b7afc9ebb38fe76b662e871ee",
+      "field_map": [
+        "/operation",
+        "/a",
+        "/b",
+        "/modulus"
+      ],
+      "relation": "EXACT_TEXT_PAYLOAD_EQUALITY_OBSERVED",
+      "disposition": "RETAIN_PATH_AND_ORIGINAL_SOURCE_RELEASE_REFERENCE",
+      "caveat": "Input record alone is not proof of execution."
+    },
+    {
+      "id": "EL-003",
+      "source_path": "evidence/baseline_verification_p1p2.json",
+      "target_path": "evidence/baseline_verification_p1p2.json",
+      "source_declared_sha256": "938f0c700171e133e07fe6c08e8aef55f13852ffcf63d8e7b5321e4d39f459b7",
+      "target_declared_sha256": "938f0c700171e133e07fe6c08e8aef55f13852ffcf63d8e7b5321e4d39f459b7",
+      "field_map": [
+        "/verification_id",
+        "/request/*",
+        "/run1/run_id",
+        "/run1/result",
+        "/run1/result_hash",
+        "/run1/evidence_hash",
+        "/run2/run_id",
+        "/run2/result",
+        "/run2/result_hash",
+        "/run2/evidence_hash",
+        "/node_independent_result",
+        "/independent_result_matches",
+        "/deterministic_result_hash_match",
+        "/mindstate_packet/*",
+        "/decision"
+      ],
+      "relation": "EXACT_TEXT_PAYLOAD_EQUALITY_OBSERVED",
+      "disposition": "RETAIN_AS_HISTORICAL_RECORD; DO_NOT_REUSE_RUN_IDS_FOR_NEW_EXECUTION",
+      "caveat": "The embedded independent_result fields are historical assertions; this map does not re-verify their original execution."
+    },
+    {
+      "id": "EL-004",
+      "source_path": "evidence/first_run.json",
+      "target_path": "evidence/first_run.json",
+      "source_declared_sha256": "99a3fd80592a7ff2f16ec1a7e3e00fc99e00a4fe0e23ffbfe3b6def1c113e947",
+      "target_declared_sha256": "99a3fd80592a7ff2f16ec1a7e3e00fc99e00a4fe0e23ffbfe3b6def1c113e947",
+      "field_map": [
+        "/request/*",
+        "/run1/run_id",
+        "/run1/result",
+        "/run1/result_hash",
+        "/run1/evidence_hash",
+        "/run2/run_id",
+        "/run2/result",
+        "/run2/result_hash",
+        "/run2/evidence_hash",
+        "/result_hash_match",
+        "/mindstate_packet/*"
+      ],
+      "relation": "EXACT_TEXT_PAYLOAD_EQUALITY_OBSERVED",
+      "disposition": "RETAIN_AS_HISTORICAL_FIRST_RUN_RECORD",
+      "caveat": "Distinct run IDs from baseline_verification_p1p2.json are preserved; no deduplication based only on equal result values."
+    },
+    {
+      "id": "EL-005",
+      "source_path": "evidence/verification.json",
+      "target_path": "evidence/verification.json",
+      "source_declared_sha256": "938f0c700171e133e07fe6c08e8aef55f13852ffcf63d8e7b5321e4d39f459b7",
+      "target_declared_sha256": "938f0c700171e133e07fe6c08e8aef55f13852ffcf63d8e7b5321e4d39f459b7",
+      "field_map": [
+        "/verification_id",
+        "/request/*",
+        "/run1/*",
+        "/run2/*",
+        "/node_independent_result",
+        "/independent_result_matches",
+        "/deterministic_result_hash_match",
+        "/mindstate_packet/*",
+        "/decision"
+      ],
+      "relation": "EXACT_TEXT_PAYLOAD_EQUALITY_OBSERVED",
+      "disposition": "RETAIN_BOTH_PATH_IDENTITIES; NOTE_PAYLOAD_DUPLICATES baseline_verification_p1p2.json",
+      "caveat": "Same declared digest and observed payload do not erase original filename/path identity."
+    },
+    {
+      "id": "EL-006",
+      "source_path": "PACKAGE_MANIFEST.json",
+      "target_path": "PACKAGE_MANIFEST.json",
+      "source_declared_sha256": null,
+      "target_declared_sha256": null,
+      "field_map": [
+        "/artifact_id",
+        "/package_state",
+        "/file_count",
+        "/self_hash_excluded",
+        "/files[]/path",
+        "/files[]/sha256",
+        "/files[]/bytes",
+        "/authority",
+        "/canonical_sot",
+        "/promotion"
+      ],
+      "relation": "DIFFERENT_PACKAGE_SNAPSHOTS",
+      "disposition": "PRESERVE_SOURCE_MANIFEST_AS_HISTORICAL_INPUT; DO_NOT_RECALCULATE_OR_OVERWRITE",
+      "caveat": "Source manifest declares artifact PRIMECORE-QUANTUM-HYBRID-PLUGIN-0.2.0, file_count 22. PrimeCore manifest is a different inventory; exact archive bytes not acquired."
+    },
+    {
+      "id": "EL-007",
+      "source_path": "PACKAGE_SHA256.txt",
+      "target_path": "PACKAGE_SHA256.txt",
+      "source_declared_sha256": null,
+      "target_declared_sha256": null,
+      "field_map": [
+        "each line: declared SHA256 + relative path"
+      ],
+      "relation": "DIFFERENT_DIGEST_FORMATS",
+      "disposition": "PRESERVE_SOURCE_PER_FILE_DIGEST_LIST_AS_HISTORICAL_PROVENANCE",
+      "caveat": "Source file contains per-file SHA-256 entries; current PrimeCore file contains only PACKAGE_MANIFEST_SHA256. No digest was recomputed."
+    },
+    {
+      "id": "EL-008",
+      "source_path": "manifest.json",
+      "target_path": "manifest.json",
+      "source_declared_sha256": "14afc1d42779585ed080e9a0f262d8f4305f3540c44bc4bd1eb017fc65645850",
+      "target_declared_sha256": "578ba9b6b84558adb6796ddb1c51de1051a6cbd0bd0c77fdadef00f3e31da696",
+      "field_map": [
+        "/manifest_id",
+        "/plugin_id",
+        "/version",
+        "/release_state",
+        "/entrypoint",
+        "/capabilities_bound[]",
+        "/capabilities_unbound[]",
+        "/identity/*",
+        "/security/*",
+        "/contracts/*",
+        "/gates[]",
+        "/next_gates[]",
+        "/non_goals[]"
+      ],
+      "relation": "DIFFERENT_MANIFESTS",
+      "disposition": "PRESERVE_BOTH; TARGET_MANIFEST_IS_NOT_A_DROP_IN_REPLACEMENT_FOR_SOURCE_MANIFEST",
+      "caveat": "Declared source hash is historical manifest content metadata, not a newly computed archive hash."
+    },
+    {
+      "id": "EL-009",
+      "source_path": "README.md",
+      "target_path": "README.md",
+      "source_declared_sha256": "8571c588c76d56b08aaba38861682ef5d9dca4e884b45b2baa670a77a0cc434d",
+      "target_declared_sha256": null,
+      "field_map": [
+        "all lines; package identity and release scope"
+      ],
+      "relation": "DIFFERENT_DESCRIPTIVE_SNAPSHOTS",
+      "disposition": "KEEP_TARGET_README; RETAIN_SOURCE_README_IN_PROVENANCE_ONLY",
+      "caveat": "Source README is 744 bytes in the current source file listing and source manifest; target README is a different 506-byte description. This is an observed content/size difference, not an archive integrity conclusion."
+    },
+    {
+      "id": "EL-010",
+      "source_path": ".codex-plugin/plugin.json",
+      "target_path": ".codex-plugin/plugin.json",
+      "source_declared_sha256": null,
+      "target_declared_sha256": null,
+      "field_map": [
+        "package name/version/interface fields"
+      ],
+      "relation": "DIFFERENT_PLUGIN_INTERFACES",
+      "disposition": "DO_NOT_COPY_SOURCE_INTERFACE_OVER_CURRENT_PRIMECORE_INTERFACE",
+      "caveat": "Interface metadata differs; package identity and interface must remain package-specific."
+    },
+    {
+      "id": "EL-011",
+      "source_path": "docs/UNIFIED_CONTRACT.md",
+      "target_path": "docs/UNIFIED_CONTRACT.md",
+      "source_declared_sha256": "4c66c4a42fb95fb8b988a6d7be32cc2895004582bf5c2f8032b51b0a4652cd33",
+      "target_declared_sha256": "6172b45032f37a55abfc0c6b617db2569e3032d91840732a0d90a79c96d7bcde",
+      "field_map": [
+        "identity/trust boundary",
+        "pipeline",
+        "bound capability",
+        "deferred adapters",
+        "MindState packet boundary",
+        "MetaForge boundary",
+        "release rule"
+      ],
+      "relation": "CONTRACT_SNAPSHOTS_DIFFER",
+      "disposition": "PRESERVE_SOURCE_CONTRACT_FOR_LINEAGE; TARGET_CONTRACT_REMAINS_AUTHORITATIVE_FOR_TARGET_PACKAGE",
+      "caveat": "Source says only deterministic modular arithmetic bound and NFS/ECM/AI/Quantum deferred; target describes a later bounded MindState transition boundary. Compare clause-by-clause before consolidation."
+    },
+    {
+      "id": "EL-012",
+      "source_path": "docs/P1_P2_GATE_REPORT.md",
+      "target_path": "docs/P1_P2_GATE_REPORT.md",
+      "source_declared_sha256": "282ce253b1cd3645d21350d15b13fe278d8daf27443aea1ac6e5ab549add75d5",
+      "target_declared_sha256": "282ce253b1cd3645d21350d15b13fe278d8daf27443aea1ac6e5ab549add75d5",
+      "field_map": [
+        "P1 identity claims",
+        "P2 contract claims",
+        "golden-vector result/hash",
+        "pytest count",
+        "independent Node.js claim",
+        "deferred adapters",
+        "sandbox-candidate decision"
+      ],
+      "relation": "EXACT_TEXT_PAYLOAD_EQUALITY_OBSERVED",
+      "disposition": "PRESERVE_AS_HISTORICAL_REPORT; RE-EXECUTE_TESTS_FOR_NEW_CANDIDATE",
+      "caveat": "Historical PASS statements are not inherited as proof of a new candidate."
+    },
+    {
+      "id": "EL-013",
+      "source_path": "contracts/* and skills/* (19 shared exact paths overall)",
+      "target_path": "same relative paths",
+      "source_declared_sha256": "Declared source manifest digests match target manifest digests on shared files",
+      "target_declared_sha256": "same declared values for the shared files",
+      "field_map": [
+        "all content bytes/lines in each matching file"
+      ],
+      "relation": "19_SHARED_PATHS_EXACT_TEXT_EQUALITY_OBSERVED",
+      "disposition": "REFERENCE_TARGET_COPY; KEEP_SOURCE_LINEAGE_REFERENCE",
+      "caveat": "This group includes contracts/evidence.schema.json, adapter/request/result schemas, MindState packet schema, skills and source/test code; equality was based on returned text payloads, not raw archive hashes."
+    },
+    {
+      "id": "EL-014",
+      "source_path": "generated cache/bytecode paths (7)",
+      "target_path": null,
+      "source_declared_sha256": null,
+      "target_declared_sha256": null,
+      "field_map": [
+        "path and file type only"
+      ],
+      "relation": "SOURCE_ONLY_GENERATED_ARTIFACTS",
+      "disposition": "EXCLUDE_FROM_CLEAN_CANDIDATE_BUILD; DO_NOT_DELETE_FROM_SOURCE",
+      "caveat": "Four pytest cache entries and three .pyc files; exclusions are candidate-build rules, not source deletion."
+    }
+  ],
+  "record_identity_rules": [
+    "Preserve path, source package version, current source release ID, source artifact IDs, embedded run IDs, timestamps and declared hashes as separate fields.",
+    "Do not overwrite historical EPM-04 target version 0.3.5/release ID with current target version 0.4.1.",
+    "Do not treat matching values or duplicate payloads as proof that two executions are the same event.",
+    "Do not promote a historical record's status from its embedded text; original runtime observation is outside this read-only mapping."
+  ],
+  "gates": [
+    {
+      "id": "EL-G1",
+      "result": "PASS_WITH_OBSERVATION",
+      "criteria": "Current source/target identities and file inventories observed.",
+      "limitation": "Plugin Creator metadata and file listings only."
+    },
+    {
+      "id": "EL-G2",
+      "result": "PASS_WITH_OBSERVATION",
+      "criteria": "Selected shared evidence payloads compared.",
+      "limitation": "Text equality only; archive bytes not acquired."
+    },
+    {
+      "id": "EL-G3",
+      "result": "HOLD",
+      "criteria": "Exact source and target archive bytes and archive hashes acquired.",
+      "limitation": "Download attempt failed due unavailable network/cache path."
+    },
+    {
+      "id": "EL-G4",
+      "result": "HOLD",
+      "criteria": "Manifest digest and size claims independently recomputed from exact bytes.",
+      "limitation": "No recomputation performed."
+    },
+    {
+      "id": "EL-G5",
+      "result": "PASS_WITH_OBSERVATION",
+      "criteria": "Source-to-target record pointers and non-destructive dispositions documented.",
+      "limitation": "Candidate package not assembled."
+    }
+  ],
+  "runtime": "NOT_OBSERVED",
+  "provider_connectivity": "NOT_OBSERVED / OUT_OF_SCOPE_FOR_THIS_STAGE",
+  "candidate_package_assembled": false,
+  "regression_tests": "LOCAL_RECONSTRUCTED_SOURCE_TEXT_ONLY; see KM_EVIDENCE_CANDIDATE_TEST_RECEIPT_v0.1.0",
+  "independent_reproduction": "GOLDEN_VECTOR_ONLY; separate local process; not independent package reproduction",
+  "retirement": "NOT_AUTHORIZED",
+  "mutation_budget": {
+    "canonical_sot": 0,
+    "private_plugin_source": 0,
+    "private_plugin_release": 0,
+    "package_retirement": 0,
+    "deletion": 0,
+    "main_merge": 0,
+    "deployment": 0,
+    "promotion": 0
+  }
+}

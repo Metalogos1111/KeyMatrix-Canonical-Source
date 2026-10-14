@@ -1,0 +1,702 @@
+{
+  "artifact_id": "KEYMATRIX_GLYPH_COHERENCE_RECONCILIATION",
+  "version": "0.3.0",
+  "recorded_at": "2026-10-11",
+  "status": "READ_ONLY_AUDIT_WITH_CURRENT_PACKAGE_CROSSWALK_AND_OPEN_GATES",
+  "mode": [
+    "READ_ONLY",
+    "EVIDENCE_FIRST",
+    "DERIVED_CONTROL_LAYER"
+  ],
+  "authority": "NONE",
+  "canonical_sot": "READ_ONLY",
+  "promotion_policy": "HUMAN_APPROVAL_REQUIRED",
+  "scope_limit": "This candidate integrates source registry comparison, the local deterministic validator receipt, and read-only Plugin Creator metadata/current-file observations. It does not claim exhaustive Library discovery, a real seven-core runtime, independent reproduction, or canonical promotion. No registry source or private plugin package was edited.",
+  "approval_record": {
+    "result": "APPROVED_FOR_UI_PRESENTATION_ONLY",
+    "seven_core_order": [
+      {
+        "position": 1,
+        "core_key": "MetaLogos",
+        "glyph": "🌹"
+      },
+      {
+        "position": 2,
+        "core_key": "MetaCore",
+        "glyph": "💟"
+      },
+      {
+        "position": 3,
+        "core_key": "PrimeCore",
+        "glyph": "⚛️"
+      },
+      {
+        "position": 4,
+        "core_key": "MindState",
+        "glyph": "♒"
+      },
+      {
+        "position": 5,
+        "core_key": "Archivarius",
+        "glyph": "🆔"
+      },
+      {
+        "position": 6,
+        "core_key": "MetaForge",
+        "glyph": "🧬"
+      },
+      {
+        "position": 7,
+        "core_key": "Sinqularity",
+        "glyph": "♾️"
+      }
+    ],
+    "current_kernel_file_readback": "MetaLogos current package kernel/seven_core.yaml lists the same seven core keys in the same order.",
+    "scope_boundary": "This is display and cross-core labeling approval only. It does not alter the canonical registry, plugin source, host registration, active runtime, provider connectivity, or authority."
+  },
+  "source_evidence": [
+    {
+      "name": "KeyMatrix_Glyph_Coherence_Registry_v1.1.1_20261005.json",
+      "file_id": "file_000000005ff48210bb3914b4bcc41343",
+      "size_bytes": 11128,
+      "sha256": "fbb53a21a0e509a5ea695f5907c0f0dca147c5e24b08c96a21b17634ee6e32bc",
+      "filename_version": "1.1.1",
+      "embedded_version": "1.1.0",
+      "core_standard_version": "1.1.1",
+      "role": "Candidate display profile; approved for UI presentation only"
+    },
+    {
+      "name": "KeyMatrix_Glyph_Coherence_Registry_v1.1_20261005.json",
+      "file_id": "file_00000000fdac82108c888c843a615195",
+      "size_bytes": 10961,
+      "sha256": "21ef4b01b735b825427504f11c72e3f18555db2050eddbfc50eb5bb61ecf4e70",
+      "embedded_version": "1.1.0",
+      "role": "Historical comparison profile; retained separately"
+    },
+    {
+      "name": "KeyMatrix_Glyph_Grammar_v1.2.0_20261005.json",
+      "file_id": "file_000000001d788210a11e07ff2fe16877",
+      "size_bytes": 14167,
+      "sha256": "91c72fd6ea91f28abad0338cf5f910a01f55239a4588daf2f10e4e1877fff67a",
+      "role": "Qualified identity, grammar and visible-symbol collision rules"
+    },
+    {
+      "name": "KEYMATRIX_GLYPH_ATLAS_AUDIT_v0.2.0.json",
+      "file_id": "file_00000000312c82109f22e4276c616a14",
+      "role": "Historical review; its CON-009 was an unconfirmed lead at that point in time"
+    },
+    {
+      "name": "KEYMATRIX_GLYPH_ATLAS_INDEX_v0.1.0.json",
+      "file_id": "file_0000000004148210804654700bb2236d",
+      "role": "Partial discovery index; not exhaustive"
+    },
+    {
+      "name": "KM-7CORE-RELEASE-IDENTITY-LOCK-20261008-001.json",
+      "file_id": "file_0000000096108210b988c7bc35bbaa69",
+      "role": "Previously recorded release identity snapshot; not runtime proof"
+    },
+    {
+      "name": "KM-7CORE-COHERENCE-RECONCILIATION-20261008-001.json",
+      "file_id": "file_00000000ebc481f4989f369ea2e8b767",
+      "role": "Historical coherence snapshot and version-layer rules"
+    },
+    {
+      "name": "KEYMATRIX_GLYPH_ATLAS_RECHECK_RECEIPT_v0.1.0.json",
+      "repository_path": "audit-candidates/KEYMATRIX_GLYPH_ATLAS_RECHECK_RECEIPT_v0.1.0.json",
+      "repository_ref": "audit/glyph-coherence-candidate-2026-10-11",
+      "role": "Same-environment local validator rerun receipt"
+    },
+    {
+      "name": "KEYMATRIX_GLYPH_CORE_IDENTITY_CROSSWALK_v0.1.0.json",
+      "repository_path": "audit-candidates/KEYMATRIX_GLYPH_CORE_IDENTITY_CROSSWALK_v0.1.0.json",
+      "repository_ref": "audit/glyph-coherence-candidate-2026-10-11",
+      "role": "Current metadata readback crosswalk; private IDs omitted"
+    }
+  ],
+  "registry_comparison": {
+    "raw_bytes_differ": true,
+    "core_position_differences": 7,
+    "release_lineage": "HOLD / NOT_ESTABLISHED",
+    "positions": [
+      {
+        "position": 1,
+        "candidate": {
+          "core_key": "MetaLogos",
+          "glyph": "🌹",
+          "glyph_id": "GLYPH-CORE-01-METALOGOS"
+        },
+        "historical": {
+          "core_key": "MetaLogos",
+          "glyph": "♾️",
+          "glyph_id": "CORE-01-INFINITY"
+        },
+        "status": "CONTENT_DIFFERENCE_CONFIRMED"
+      },
+      {
+        "position": 2,
+        "candidate": {
+          "core_key": "MetaCore",
+          "glyph": "💟",
+          "glyph_id": "GLYPH-CORE-02-METACORE"
+        },
+        "historical": {
+          "core_key": "MetaCore",
+          "glyph": "🆔",
+          "glyph_id": "CORE-02-IDENTITY-ARCH"
+        },
+        "status": "CONTENT_DIFFERENCE_CONFIRMED"
+      },
+      {
+        "position": 3,
+        "candidate": {
+          "core_key": "PrimeCore",
+          "glyph": "⚛️",
+          "glyph_id": "GLYPH-CORE-03-PRIMECORE"
+        },
+        "historical": {
+          "core_key": "MindState",
+          "glyph": "🧠",
+          "glyph_id": "CORE-03-MIND"
+        },
+        "status": "CONTENT_DIFFERENCE_CONFIRMED"
+      },
+      {
+        "position": 4,
+        "candidate": {
+          "core_key": "MindState",
+          "glyph": "♒",
+          "glyph_id": "GLYPH-CORE-04-MINDSTATE"
+        },
+        "historical": {
+          "core_key": "Archivarius",
+          "glyph": "💟",
+          "glyph_id": "CORE-04-MEMORY"
+        },
+        "status": "CONTENT_DIFFERENCE_CONFIRMED"
+      },
+      {
+        "position": 5,
+        "candidate": {
+          "core_key": "Archivarius",
+          "glyph": "🆔",
+          "glyph_id": "GLYPH-CORE-05-ARCHIVARIUS"
+        },
+        "historical": {
+          "core_key": "PrimeCore Quantum Hybrid",
+          "glyph": "⚛️",
+          "glyph_id": "CORE-05-ATOM"
+        },
+        "status": "CONTENT_DIFFERENCE_CONFIRMED"
+      },
+      {
+        "position": 6,
+        "candidate": {
+          "core_key": "MetaForge",
+          "glyph": "🧬",
+          "glyph_id": "GLYPH-CORE-06-METAFORGE"
+        },
+        "historical": {
+          "core_key": "MetaForge Turbo Max",
+          "glyph": "⚙️",
+          "glyph_id": "CORE-06-GEAR"
+        },
+        "status": "CONTENT_DIFFERENCE_CONFIRMED"
+      },
+      {
+        "position": 7,
+        "candidate": {
+          "core_key": "Sinqularity",
+          "glyph": "♾️",
+          "glyph_id": "GLYPH-CORE-07-SINQULARITY"
+        },
+        "historical": {
+          "core_key": "Sinqularity",
+          "glyph": "🛡️",
+          "glyph_id": "CORE-07-SHIELD"
+        },
+        "status": "CONTENT_DIFFERENCE_CONFIRMED"
+      }
+    ],
+    "interpretation": "Seven of seven positions differ in glyph, ID, core assignment, or a combination of these fields. This confirms a difference between measured snapshots, not which release is authoritative.",
+    "open_metadata_conflict": "Candidate filename version 1.1.1; embedded version 1.1.0; core_standard_version 1.1.1. No source release/change record proving intended successor was observed."
+  },
+  "package_crosswalk": {
+    "source": "Read-only Plugin Creator metadata and current-release file reads on 2026-10-11",
+    "private_id_and_release_fields_persisted": false,
+    "entries": [
+      {
+        "position": 1,
+        "glyph": "🌹",
+        "core_key": "MetaLogos",
+        "package_display_name": "MetaLogos 7Core Kernel",
+        "package_version": "100.0.88",
+        "scope": "USER",
+        "discoverability": "PRIVATE",
+        "metadata": "OBSERVED",
+        "runtime_from_this_readback": "NOT_OBSERVED"
+      },
+      {
+        "position": 2,
+        "glyph": "💟",
+        "core_key": "MetaCore",
+        "package_display_name": "metacore-core",
+        "package_version": "1.0.4",
+        "scope": "USER",
+        "discoverability": "PRIVATE",
+        "metadata": "OBSERVED",
+        "runtime_from_this_readback": "NOT_OBSERVED"
+      },
+      {
+        "position": 3,
+        "glyph": "⚛️",
+        "core_key": "PrimeCore",
+        "package_display_name": "PrimeCore Quantum Hybrid",
+        "package_version": "0.4.1",
+        "scope": "USER",
+        "discoverability": "PRIVATE",
+        "metadata": "OBSERVED",
+        "runtime_from_this_readback": "NOT_OBSERVED"
+      },
+      {
+        "position": 4,
+        "glyph": "♒",
+        "core_key": "MindState",
+        "package_display_name": "MindState — KeyMatrix Cognitive State",
+        "package_version": "0.1.6",
+        "scope": "USER",
+        "discoverability": "PRIVATE",
+        "metadata": "OBSERVED",
+        "runtime_from_this_readback": "NOT_OBSERVED"
+      },
+      {
+        "position": 5,
+        "glyph": "🆔",
+        "core_key": "Archivarius",
+        "package_display_name": "Archivarius — Evidence-Bound Memory Core",
+        "package_version": "0.1.4",
+        "scope": "USER",
+        "discoverability": "PRIVATE",
+        "metadata": "OBSERVED",
+        "runtime_from_this_readback": "NOT_OBSERVED"
+      },
+      {
+        "position": 6,
+        "glyph": "🧬",
+        "core_key": "MetaForge",
+        "package_display_name": "MetaForge Turbo Max",
+        "package_version": "1.3.3",
+        "scope": "USER",
+        "discoverability": "PRIVATE",
+        "metadata": "OBSERVED",
+        "runtime_from_this_readback": "NOT_OBSERVED"
+      },
+      {
+        "position": 7,
+        "glyph": "♾️",
+        "core_key": "Sinqularity",
+        "package_display_name": "Sinqularity",
+        "package_version": "0.1.3",
+        "scope": "USER",
+        "discoverability": "PRIVATE",
+        "metadata": "OBSERVED",
+        "runtime_from_this_readback": "NOT_OBSERVED"
+      }
+    ],
+    "identity_rule": "core_key is the stable KeyMatrix name; package slug/display name is a separate implementation label. Glyphs are presentation/navigation affordances, not evidence, authority, or runtime."
+  },
+  "package_drift_findings": [
+    {
+      "id": "PKG-PCORE-001",
+      "package": "PrimeCore Quantum Hybrid",
+      "status": "HOLD / PACKAGE_MANIFEST_DRIFT_OBSERVED",
+      "observations": [
+        {
+          "field": "Plugin Creator current package metadata.version",
+          "value": "0.4.1"
+        },
+        {
+          "field": "plugin.json version",
+          "value": "0.4.1"
+        },
+        {
+          "field": "manifest.json version",
+          "value": "0.4.1"
+        },
+        {
+          "field": "PACKAGE_MANIFEST.json version",
+          "value": "0.3.0"
+        },
+        {
+          "field": "PACKAGE_MANIFEST.json file_count",
+          "value": 30
+        },
+        {
+          "field": ".codex-plugin/plugin.json size in package manifest versus current listed size",
+          "declared": 908,
+          "observed": 1345
+        },
+        {
+          "field": "README.md size in package manifest versus current listed size",
+          "declared": 318,
+          "observed": 506
+        },
+        {
+          "field": "manifest.json size in package manifest versus current listed size",
+          "declared": 2277,
+          "observed": 2749
+        }
+      ],
+      "interpretation": "Observed package manifest is stale or mismatched against current file-list metadata. Exact current archive bytes have not been locally acquired and hashed, so no hash correction or manifest regeneration is claimed.",
+      "next_action": "Acquire exact current-release archive through an authorized path, recompute every listed file hash/size, regenerate only in a private candidate release, then run package tests and independent reproduction.",
+      "mutation_performed": false
+    },
+    {
+      "id": "PKG-SINQ-001",
+      "package": "Sinqularity",
+      "status": "OPEN_REVIEW / VERSION_LAYER_DIFFERENCE",
+      "observations": [
+        {
+          "field": "Plugin Creator current package metadata.version",
+          "value": "0.1.3"
+        },
+        {
+          "field": "plugin.json version",
+          "value": "0.1.3"
+        },
+        {
+          "field": "manifest.json version",
+          "value": "0.1.2"
+        }
+      ],
+      "interpretation": "The prior coherence record explicitly treated this as separate package/internal-manifest version layers. The value mismatch is observed, but whether it is a defect is not established.",
+      "next_action": "Preserve values until the package-versus-internal version contract and release lineage are explicitly documented.",
+      "mutation_performed": false
+    },
+    {
+      "id": "PKG-META-UI-001",
+      "package": "MetaCore",
+      "status": "OPEN_REVIEW / UI_LABEL_DIFFERENCE",
+      "observations": [
+        {
+          "field": "KeyMatrix core_key",
+          "value": "MetaCore"
+        },
+        {
+          "field": "current package interface displayName",
+          "value": "metacore-core"
+        }
+      ],
+      "interpretation": "Core key and package UI label are distinct fields. Preserve `MetaCore` as core_key; do not infer identity change from lowercase UI label.",
+      "next_action": "Decide package UI-label convention separately; any private plugin change requires candidate archive and release gate.",
+      "mutation_performed": false
+    }
+  ],
+  "qualified_identity_contract": {
+    "required_tuple": [
+      "visible_symbol",
+      "namespace",
+      "role",
+      "position"
+    ],
+    "provenance_fields": [
+      "source_ref",
+      "data_ref",
+      "source_artifact_id",
+      "record_version"
+    ],
+    "epistemic_status": "separate typed field, not inferred from glyph",
+    "missing_value_policy": "null + explicit missing-evidence finding",
+    "composite_policy": "composite sequences do not establish standalone glyph identity",
+    "collision_policy": "same visible symbol can represent distinct qualified records; never deduplicate by glyph alone"
+  },
+  "controlled_symbol_collisions": [
+    {
+      "glyph": "🌹",
+      "roles": [
+        "MetaLogos core",
+        "RAHMA"
+      ]
+    },
+    {
+      "glyph": "🛡️",
+      "roles": [
+        "Sinqularity historical profile",
+        "SAFE"
+      ]
+    },
+    {
+      "glyph": "⚙️",
+      "roles": [
+        "MetaForge historical profile",
+        "SYS"
+      ]
+    },
+    {
+      "glyph": "🧬",
+      "roles": [
+        "MetaForge approved display profile",
+        "LIFE"
+      ]
+    },
+    {
+      "glyph": "👁️",
+      "roles": [
+        "OBSERVED epistemic status",
+        "DISCOVER pipeline"
+      ]
+    }
+  ],
+  "explicit_negative_constraints": [
+    {
+      "glyph": "🐠",
+      "concept": "آثار",
+      "relation": "NON_EDGE",
+      "status": "PRESERVED"
+    },
+    {
+      "glyph": "🧭",
+      "concept": "theological_authority",
+      "relation": "NON_EDGE",
+      "status": "PRESERVED"
+    },
+    {
+      "glyph": "📖",
+      "concept": "Quran_authority_token",
+      "relation": "NON_EDGE",
+      "status": "PRESERVED"
+    },
+    {
+      "glyph": "🪽",
+      "concept": "proven_continuation_semantics",
+      "relation": "NON_EDGE",
+      "status": "PRESERVED"
+    }
+  ],
+  "held_candidate_edges": [
+    {
+      "pair": "كتاب → 📖",
+      "status": "HOLD",
+      "reason": "No standalone namespace and qualified role observed; composite-only evidence."
+    },
+    {
+      "pair": "قبلة → 🧭",
+      "status": "HOLD",
+      "reason": "Concept→glyph edge type and qualified role remain unresolved."
+    },
+    {
+      "pair": "جناح → 🪽",
+      "status": "HOLD",
+      "reason": "Wing-specific role, edge type, and counter-evidence review remain unresolved."
+    },
+    {
+      "pair": "قلب → ❤️ / 💛",
+      "status": "HOLD",
+      "reason": "Neither equivalence nor distinct qualified identities are established."
+    }
+  ],
+  "nur_stream_boundary": {
+    "role": "Editorial/publishing profile only",
+    "may_establish_canonical_semantics": false,
+    "may_establish_authority": false,
+    "rules": [
+      "One idea per physical line.",
+      "Source URL on a separate unprefixed line.",
+      "Treat > as a literal line marker, not alignment control.",
+      "Keep Qur'anic source text distinct from commentary."
+    ]
+  },
+  "local_recheck": {
+    "audit_zip_sha256": "a96a1ce64edb65046d41f824d77abe25677a0668342eceaa07846e46866206f6",
+    "audit_zip_size_bytes": 90557,
+    "zip_integrity": "PASS",
+    "checksum_manifest_entries_verified": 22,
+    "validator_sha256": "b27db824a3910f4f7ac5293e36d3f9102d27935674ced14d05b90b14fb240a15",
+    "status": "PASS_WITH_OBSERVATION",
+    "validator_tests": {
+      "total": 9,
+      "pass": 9,
+      "fail": 0
+    },
+    "indexed_records": 187,
+    "record_type_counts": {
+      "COLLISION_RECORD": 10,
+      "COMPOSITE_SEQUENCE": 11,
+      "GLYPH": 66,
+      "GLYPH_CONTEXT_RECORD": 4,
+      "GLYPH_TRANSITION_CLASS": 14,
+      "MAP_BINDING": 36,
+      "PIPELINE_BINDING": 28,
+      "STATUS_GLYPH": 18
+    },
+    "repeated_record_candidate_groups": 62,
+    "glyph_id_payload_conflict_groups": 0,
+    "unicode_nfkc_collision_groups": 0,
+    "confirmed_version_conflicts": 1,
+    "confirmed_core_position_differences": 7,
+    "controlled_symbol_collisions": 5,
+    "explicit_negative_constraints": 4,
+    "held_candidate_edges": 2,
+    "held_missing_standalone_identity": 1,
+    "records_with_incomplete_required_identity": 112,
+    "deterministic_outputs": {
+      "total": 7,
+      "byte_identical": 7,
+      "changed": 0
+    },
+    "interpretation": "Same-environment deterministic re-run using same validator and materialized inputs only; not independent reproduction, runtime execution, or deployment evidence."
+  },
+  "finding_history": [
+    {
+      "id": "CON-009",
+      "earlier_status": "UNCONFIRMED_LEAD in audit v0.2.0",
+      "current_status": "CONFIRMED_CONTENT_DIFFERENCE in v0.3.0",
+      "basis": "Exact older v1.1 registry was later materialized and raw-byte hashed; content differs from v1.1.1-named registry, with 7/7 core-position differences.",
+      "not_proven": "Intended release successor / canonical authority"
+    }
+  ],
+  "gates": [
+    {
+      "id": "GLYPH-VER-001",
+      "result": "HOLD",
+      "criteria": "Registry version fields and release lineage are explained by source history.",
+      "evidence": "Filename v1.1.1; embedded version 1.1.0; core_standard_version 1.1.1; no release/change record observed."
+    },
+    {
+      "id": "GLYPH-ORDER-001",
+      "result": "PASS_WITH_OBSERVATION",
+      "criteria": "Approved seven-core display order matches current core key order.",
+      "evidence": "Approved order plus current MetaLogos package kernel/seven_core.yaml readback; metadata/display only."
+    },
+    {
+      "id": "GLYPH-SOURCE-001",
+      "result": "PASS_WITH_OBSERVATION",
+      "criteria": "Registry snapshot differences are explicitly recorded.",
+      "evidence": "Two raw-byte SHA-256 values and 7/7 positional differences."
+    },
+    {
+      "id": "PKG-PCORE-001",
+      "result": "HOLD",
+      "criteria": "PrimeCore package manifest matches exact current archive bytes and version.",
+      "evidence": "Version and three listed sizes conflict; exact archive not locally acquired."
+    },
+    {
+      "id": "PKG-SINQ-001",
+      "result": "OPEN_REVIEW",
+      "criteria": "Sinqularity package/internal version contract is explicit.",
+      "evidence": "Package metadata/plugin.json 0.1.3, manifest.json 0.1.2; prior source says preserve as version layers."
+    },
+    {
+      "id": "PKG-META-UI-001",
+      "result": "OPEN_REVIEW",
+      "criteria": "MetaCore package UI label convention is deliberate.",
+      "evidence": "Core key MetaCore vs interface displayName metacore-core."
+    },
+    {
+      "id": "GLYPH-EDGE-001",
+      "result": "HOLD",
+      "criteria": "Candidate semantic edges have pair-specific edge type, role, provenance and counter-evidence.",
+      "evidence": "Four held candidate pairs preserved."
+    },
+    {
+      "id": "GLYPH-RUNTIME-001",
+      "result": "NOT_RUN",
+      "criteria": "Actual runtime/provider path observes selected profile through host execution.",
+      "limitation": "No runtime path executed in this pass."
+    },
+    {
+      "id": "GLYPH-IND-001",
+      "result": "NOT_PERFORMED",
+      "criteria": "Independent runner reproduces outcome with distinct run/trace IDs.",
+      "limitation": "Same-environment local recheck only."
+    },
+    {
+      "id": "GLYPH-CANONICAL-001",
+      "result": "HOLD",
+      "criteria": "Canonical promotion is supported by approved release lineage and verification evidence.",
+      "limitation": "No canonical/source mutation or promotion performed."
+    },
+    {
+      "id": "CROSSCORE-SYNC-001",
+      "result": "PASS_WITH_OBSERVATION",
+      "criteria": "The shared F0/F1 synchronization contract is identical across all seven current package file readbacks.",
+      "evidence": "Seven Plugin Creator current-release reads returned 3829-character identical text payloads for sync/KM-CROSS-CORE-SYNC-001.md on 2026-10-11.",
+      "limitation": "Text payload equality only; no raw archive hash or runtime proof."
+    }
+  ],
+  "mutation_budget": {
+    "canonical_sot": 0,
+    "registry_source_files": 0,
+    "private_plugin_source_files": 0,
+    "private_plugin_releases": 0,
+    "discoverability_changes": 0,
+    "automatic_promotions": 0,
+    "main_merges": 0
+  },
+  "runtime_status": "NOT_OBSERVED",
+  "provider_connectivity": "NOT_OBSERVED",
+  "independent_verification": "NOT_PERFORMED",
+  "canonical_promotion": "HOLD",
+  "next_actions": [
+    {
+      "priority": "P0",
+      "action": "Acquire exact PrimeCore current-release archive through an authorized project path; recompute all source file hashes and sizes; regenerate PACKAGE_MANIFEST only in a private candidate release.",
+      "gate": "Exact bytes, package validator, and independent reproduction required before release."
+    },
+    {
+      "priority": "P0",
+      "action": "Recover the registry release/change record and versioning rule for filename v1.1.1 versus embedded version 1.1.0 and core_standard_version 1.1.1.",
+      "gate": "Keep registry lineage HOLD until source-explicit evidence is obtained."
+    },
+    {
+      "priority": "P1",
+      "action": "Document separate internal/package version semantics for Sinqularity before changing manifest version 0.1.2.",
+      "gate": "No silent rewrite."
+    },
+    {
+      "priority": "P1",
+      "action": "Decide whether MetaCore private UI label should display the stable core name MetaCore.",
+      "gate": "No private package edit without candidate archive and tests."
+    },
+    {
+      "priority": "P1",
+      "action": "Recover missing parent provenance/candidate review artifacts and extend exact-source inventory.",
+      "gate": "Absent in reviewed scope does not mean globally absent."
+    },
+    {
+      "priority": "P2",
+      "action": "Run observed runtime path, then independent reproduction of the selected UI/profile and package behavior.",
+      "gate": "No runtime or PROVEN claim until evidence is recorded."
+    }
+  ],
+  "shared_sync_contract_crosscheck": {
+    "artifact": "sync/KM-CROSS-CORE-SYNC-001.md",
+    "source": "Read-only Plugin Creator current-release file readback on 2026-10-11",
+    "result": "EXACT_TEXT_EQUALITY_OBSERVED_7_OF_7",
+    "cores": [
+      "MetaLogos",
+      "MetaCore",
+      "PrimeCore",
+      "MindState",
+      "Archivarius",
+      "MetaForge",
+      "Sinqularity"
+    ],
+    "source_text_characters": 3829,
+    "all_private_scope": true,
+    "values_checked": [
+      "authority boundary",
+      "canonical SOT READ_ONLY",
+      "promotion HUMAN_APPROVAL_REQUIRED",
+      "seven-core role boundary",
+      "no epistemic status upgrade across cores",
+      "glyph is not authority",
+      "manifest is not runtime"
+    ],
+    "limitations": [
+      "Comparison was equality of tool-returned UTF-8 text payloads, not a raw-archive SHA-256 comparison.",
+      "Package source readback does not prove host registration, runtime invocation, or provider connectivity.",
+      "Not an independent external reproduction."
+    ],
+    "status": "PASS_WITH_OBSERVATION"
+  }
+}

@@ -1,0 +1,95 @@
+{
+  "artifact_id": "KEYMATRIX_GLYPH_COHERENCE_RECONCILIATION_VALIDATION",
+  "version": "0.2.0",
+  "recorded_at": "2026-10-11",
+  "branch": "audit/glyph-coherence-candidate-2026-10-11",
+  "validation_scope": "Read-after-write structural checks against the exact GitHub branch JSON/Markdown blobs. This is not an external independent reproduction or runtime test.",
+  "source_blobs": {
+    "reconciliation_json": "f175c42bb77042a22e259101c60838fd7fec74f6",
+    "reconciliation_markdown": "8462bab28d06d4b134290293944ac45a68a0a288"
+  },
+  "tests": [
+    {
+      "name": "JSON parsed",
+      "result": "PASS"
+    },
+    {
+      "name": "version and status correct",
+      "result": "PASS"
+    },
+    {
+      "name": "seven core display positions",
+      "result": "PASS"
+    },
+    {
+      "name": "two registry hashes and seven differences",
+      "result": "PASS"
+    },
+    {
+      "name": "version lineage remains HOLD",
+      "result": "PASS"
+    },
+    {
+      "name": "seven current private package metadata records",
+      "result": "PASS"
+    },
+    {
+      "name": "private plugin identifiers not persisted",
+      "result": "PASS"
+    },
+    {
+      "name": "PrimeCore manifest drift flagged",
+      "result": "PASS"
+    },
+    {
+      "name": "Sinqularity version layers preserved",
+      "result": "PASS"
+    },
+    {
+      "name": "MetaCore UI label delta recorded",
+      "result": "PASS"
+    },
+    {
+      "name": "all four explicit negative constraints preserved",
+      "result": "PASS"
+    },
+    {
+      "name": "candidate semantic edges remain held",
+      "result": "PASS"
+    },
+    {
+      "name": "runtime and independent verification states not inflated",
+      "result": "PASS"
+    },
+    {
+      "name": "mutation budgets all zero",
+      "result": "PASS"
+    },
+    {
+      "name": "recheck reports 9/9 and 7 identical outputs",
+      "result": "PASS"
+    },
+    {
+      "name": "Markdown reflects blockers and no mutations",
+      "result": "PASS"
+    }
+  ],
+  "pass_count": 16,
+  "fail_count": 0,
+  "status": "PASS_WITH_OBSERVATION",
+  "limitations": [
+    "Structural assertions were run in the same tool session that authored the candidate artifacts.",
+    "No independent external runner was used.",
+    "No real KeyMatrix host/runtime/provider invocation was performed by this validator.",
+    "Registry release lineage is still unresolved.",
+    "Exact PrimeCore current-release archive bytes were not locally acquired."
+  ],
+  "authority": "NONE",
+  "canonical_sot": "READ_ONLY",
+  "canonical_mutations": 0,
+  "private_plugin_source_mutations": 0,
+  "private_plugin_releases": 0,
+  "main_merges": 0,
+  "runtime": "NOT_OBSERVED",
+  "independent_verification": "NOT_PERFORMED"
+}

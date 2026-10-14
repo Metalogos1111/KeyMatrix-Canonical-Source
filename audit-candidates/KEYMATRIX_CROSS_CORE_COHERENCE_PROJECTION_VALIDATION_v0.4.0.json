@@ -1,0 +1,148 @@
+{
+  "artifact_id": "KEYMATRIX_CROSS_CORE_COHERENCE_PROJECTION_VALIDATION",
+  "version": "0.4.0",
+  "recorded_at": "2026-10-14",
+  "branch": "audit/glyph-coherence-candidate-2026-10-11",
+  "validation_scope": "Read-after-write structural checks over the candidate v0.4.0 JSON/Markdown plus separate direct Plugin Creator metadata and source-file observations. Not runtime verification or independent external reproduction.",
+  "source_blobs": {
+    "json": "c0b484c7177ce3260ee078f9fad4c4e23481d59c",
+    "markdown": "e981bb674143f1a4937e0d5f8c79f9b3ced82c76"
+  },
+  "tests": [
+    {
+      "name": "JSON parses",
+      "result": "PASS"
+    },
+    {
+      "name": "v0.4.0 status and current date",
+      "result": "PASS"
+    },
+    {
+      "name": "7 core entries in correct order",
+      "result": "PASS"
+    },
+    {
+      "name": "current MetaLogos 100.0.89 and PrimeCore 0.4.1",
+      "result": "PASS"
+    },
+    {
+      "name": "all seven core packages USER/PRIVATE",
+      "result": "PASS"
+    },
+    {
+      "name": "shared sync contract equality observed 7/7 at 3829 chars",
+      "result": "PASS"
+    },
+    {
+      "name": "current kernel order evidence recorded",
+      "result": "PASS"
+    },
+    {
+      "name": "registry release lineage remains HOLD",
+      "result": "PASS"
+    },
+    {
+      "name": "PrimeCore manifest classified as scope unresolved, not proven corruption",
+      "result": "PASS"
+    },
+    {
+      "name": "evidence merge remains unexecuted",
+      "result": "PASS"
+    },
+    {
+      "name": "CELL sandbox boundary retained",
+      "result": "PASS"
+    },
+    {
+      "name": "four negative constraints and four held edges retained",
+      "result": "PASS"
+    },
+    {
+      "name": "runtime and independent proof not overclaimed",
+      "result": "PASS"
+    },
+    {
+      "name": "mutation budget all zero",
+      "result": "PASS"
+    },
+    {
+      "name": "private plugin/release IDs excluded from public artifact",
+      "result": "PASS"
+    },
+    {
+      "name": "Markdown preserves manifest ambiguity and no-promotion boundary",
+      "result": "PASS"
+    },
+    {
+      "name": "v0.4 files present in candidate branch",
+      "result": "PASS"
+    },
+    {
+      "name": "main remains unchanged",
+      "result": "PASS"
+    },
+    {
+      "name": "Evidence-to-PrimeCore migration map parses and has 32/45 package inventory",
+      "result": "PASS"
+    },
+    {
+      "name": "All 25 shared paths counted; 19 text matches and 6 differences",
+      "result": "PASS"
+    },
+    {
+      "name": "Evidence-only cache/bytecode paths excluded from proposed migration",
+      "result": "PASS"
+    },
+    {
+      "name": "Core implementation and baseline test payloads match exactly",
+      "result": "PASS"
+    },
+    {
+      "name": "Manifest and unified-contract differences explicitly preserved",
+      "result": "PASS"
+    },
+    {
+      "name": "No migration, release, or package retirement performed",
+      "result": "PASS"
+    }
+  ],
+  "pass_count": 24,
+  "fail_count": 0,
+  "status": "PASS_WITH_OBSERVATION",
+  "direct_observations": {
+    "current_core_package_metadata": "7/7 read back through Plugin Creator on 2026-10-14",
+    "shared_sync_contract": "Exact returned text equality 7/7; 3829 characters per payload",
+    "kernel_order": "Current kernel/seven_core.yaml matches frozen seven-core order",
+    "runtime": "NOT_OBSERVED",
+    "provider_connectivity": "NOT_OBSERVED",
+    "independent_verification": "NOT_PERFORMED"
+  },
+  "mutation_budget": {
+    "canonical_sot": 0,
+    "registry_sources": 0,
+    "private_plugin_sources": 0,
+    "private_plugin_releases": 0,
+    "plugin_retirements": 0,
+    "discoverability_changes": 0,
+    "main_merges": 0,
+    "automatic_promotions": 0
+  },
+  "limitations": [
+    "Structural checks are read-after-write checks in the same workflow.",
+    "Plugin metadata and text payload equality do not prove host runtime.",
+    "No independent external executor was used.",
+    "Registry release lineage remains unresolved.",
+    "PrimeCore PACKAGE_MANIFEST scope and exact archive integrity remain HOLD.",
+    "Migration map compares current file inventories and text payloads; exact release archives/hashes have not been acquired."
+  ],
+  "migration_map": {
+    "json_blob": "7f3978676eccf3e5451abb8b8e838fe799fe9f30",
+    "markdown_blob": "6c8f57a2fecc1df948566cd73ef36f1ab4f484e7",
+    "shared_paths": 25,
+    "exact_text_matches": 19,
+    "different_text_payloads": 6,
+    "evidence_only_generated_paths": 7,
+    "migration_executed": false,
+    "retirement_executed": false
+  }
+}

@@ -1,0 +1,61 @@
+{
+  "artifact_id": "KEYMATRIX_GLYPH_COHERENCE_RECONCILIATION_VALIDATION",
+  "version": "0.1.0",
+  "branch": "audit/glyph-coherence-candidate-2026-10-11",
+  "validation_scope": "Static structural checks on re-read GitHub files only; no runtime or independent reproduction.",
+  "tests": [
+    {
+      "name": "JSON parse",
+      "result": "PASS"
+    },
+    {
+      "name": "version 0.2.0",
+      "result": "PASS"
+    },
+    {
+      "name": "approved seven-core order",
+      "result": "PASS"
+    },
+    {
+      "name": "source version conflict preserved",
+      "result": "PASS"
+    },
+    {
+      "name": "canonical SOT read-only",
+      "result": "PASS"
+    },
+    {
+      "name": "all four held edge records",
+      "result": "PASS"
+    },
+    {
+      "name": "all four negative constraints",
+      "result": "PASS"
+    },
+    {
+      "name": "runtime not falsely promoted",
+      "result": "PASS"
+    },
+    {
+      "name": "markdown scope disclaimer",
+      "result": "PASS"
+    },
+    {
+      "name": "source files re-read with blob SHA",
+      "result": "PASS"
+    }
+  ],
+  "pass_count": 10,
+  "fail_count": 0,
+  "status": "PASS_WITH_OBSERVATION",
+  "observed_blob_sha": {
+    "json": "acbc5a89fb43b162e99cb438dcf83b4cc175a587",
+    "markdown": "9853fe27eb64a4e3bafe8245eb180bed560acce7"
+  },
+  "limitations": [
+    "Does not validate runtime behavior.",
+    "Does not independently reproduce source registry hashes.",
+    "Does not resolve embedded version metadata conflict.",
+    "Does not authorize canonical promotion."
+  ]
+}

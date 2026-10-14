@@ -1,0 +1,197 @@
+{
+  "artifact_id": "KEYMATRIX_GLYPH_ATLAS_RECHECK_RECEIPT",
+  "version": "0.1.0",
+  "recorded_at": "2026-10-11",
+  "mode": "READ_ONLY / EVIDENCE_FIRST",
+  "authority": "NONE",
+  "canonical_sot": "READ_ONLY",
+  "promotion_policy": "HUMAN_APPROVAL_REQUIRED",
+  "execution_scope": "Same-environment deterministic recheck of the supplied, materialized source snapshots using the existing standard-library validator. This is not an independent third-party reproduction or runtime test.",
+  "command": "python KEYMATRIX_GLYPH_VALIDATOR_v0.1.0.py --input-dir /mnt/data/KEYMATRIX_GLYPH_ATLAS_AUDIT_v0.3.0/sources --output-dir /mnt/data/KM_GLYPH_RECHECK_20261011",
+  "result": {
+    "status": "PASS_WITH_OBSERVATION",
+    "validator_tests": {
+      "total": 9,
+      "pass": 9,
+      "fail": 0
+    },
+    "indexed_records": 187,
+    "record_type_counts": {
+      "COLLISION_RECORD": 10,
+      "COMPOSITE_SEQUENCE": 11,
+      "GLYPH": 66,
+      "GLYPH_CONTEXT_RECORD": 4,
+      "GLYPH_TRANSITION_CLASS": 14,
+      "MAP_BINDING": 36,
+      "PIPELINE_BINDING": 28,
+      "STATUS_GLYPH": 18
+    },
+    "repeated_record_candidate_groups": 62,
+    "glyph_id_payload_conflict_groups": 0,
+    "unicode_nfkc_collision_groups": 0,
+    "confirmed_version_conflicts": 1,
+    "confirmed_core_position_differences": 7,
+    "declared_controlled_symbol_collisions": 5,
+    "explicit_negative_constraints": 4,
+    "held_candidate_edges": 2,
+    "held_missing_standalone_identity": 1,
+    "records_with_incomplete_required_identity": 112,
+    "rechecked_output_files": 7,
+    "byte_identical_output_files": 7,
+    "changed_output_files": 0
+  },
+  "package": {
+    "path": "/mnt/data/KEYMATRIX_GLYPH_ATLAS_AUDIT_v0.3.0.zip",
+    "size_bytes": 90557,
+    "sha256": "a96a1ce64edb65046d41f824d77abe25677a0668342eceaa07846e46866206f6",
+    "checksum_manifest": "KEYMATRIX_GLYPH_ATLAS_AUDIT_v0.3.0/SHA256SUMS.txt",
+    "manifest_entries_verified": 22,
+    "zip_integrity": "PASS"
+  },
+  "validator": {
+    "path": "KEYMATRIX_GLYPH_ATLAS_AUDIT_v0.3.0/KEYMATRIX_GLYPH_VALIDATOR_v0.1.0.py",
+    "sha256": "b27db824a3910f4f7ac5293e36d3f9102d27935674ced14d05b90b14fb240a15"
+  },
+  "source_snapshots": [
+    {
+      "name": "KeyMatrix_Glyph_Coherence_Registry_v1.1.1_20261005.json",
+      "size_bytes": 11128,
+      "sha256": "fbb53a21a0e509a5ea695f5907c0f0dca147c5e24b08c96a21b17634ee6e32bc"
+    },
+    {
+      "name": "KeyMatrix_Glyph_Coherence_Registry_v1.1_20261005.json",
+      "size_bytes": 10961,
+      "sha256": "21ef4b01b735b825427504f11c72e3f18555db2050eddbfc50eb5bb61ecf4e70"
+    },
+    {
+      "name": "KeyMatrix_Glyph_Grammar_v1.2.0_20261005.json",
+      "size_bytes": 14167,
+      "sha256": "91c72fd6ea91f28abad0338cf5f910a01f55239a4588daf2f10e4e1877fff67a"
+    },
+    {
+      "name": "KM-GLYPH-QUALIFIED-IDENTITY-20261008-002.json",
+      "size_bytes": 820,
+      "sha256": "d65b3ebcee439eba0aa312f8fcc2e979a216a7876ae45ad81a200701f3cb9c14"
+    },
+    {
+      "name": "decision_state.json",
+      "size_bytes": 1470,
+      "sha256": "6e9c11b1d6d94b2bcb9d2232a10fad8f93ac7d53c2e50955beffb2701bc95080"
+    },
+    {
+      "name": "individual_edge_review.json",
+      "size_bytes": 9771,
+      "sha256": "e32e1837eeb88a89c0b5f3dc74e7887f286939769525fdb74a66ce243eb9ae4e"
+    },
+    {
+      "name": "candidate_edge_review.json",
+      "size_bytes": 3848,
+      "sha256": "8fb96652bff5ad7579a34a24cb42ce7fc56ec080fc44aae13f20c878471c2b5c"
+    },
+    {
+      "name": "evidence_completion.json",
+      "size_bytes": 4949,
+      "sha256": "f569357cc9a23e4ed535374d2ef8223dcbb45bed73b933d56f3e72d8fcb22cfc"
+    },
+    {
+      "name": "evidence_completion.md",
+      "size_bytes": 3407,
+      "sha256": "e121d965f531bc4cd749d2e8af99e6728cf15757f8e6e5428981423ca3408773"
+    },
+    {
+      "name": "c11_pair_review.json",
+      "size_bytes": 3598,
+      "sha256": "f53555df8395db85274f65e9402c529184c007bd83e4aedef6b123c3893d6ea6"
+    },
+    {
+      "name": "c07_evidence_gap.json",
+      "size_bytes": 6319,
+      "sha256": "343e785a9b52a7c3ece2c18b81720fcbfd39788ed837dcc38cd3b6ee444d8fcc"
+    }
+  ],
+  "deterministic_recheck": {
+    "compared_files": [
+      {
+        "name": "KEYMATRIX_GLYPH_CONTRADICTION_QUEUE_v0.3.0.json",
+        "sha256": "50634ee3a5a618aba8289dba5e0b8a8d240b3eb9ad76f029949511ef94a94f07",
+        "byte_identical": true
+      },
+      {
+        "name": "KEYMATRIX_GLYPH_VALIDATION_RESULTS_v0.3.0.json",
+        "sha256": "a5a20250657a6000319c3acf2a87f43b13747f174ad7993ab7152ddf75fd9b1a",
+        "byte_identical": true
+      },
+      {
+        "name": "KEYMATRIX_GLYPH_SOURCE_INVENTORY_v0.3.0.json",
+        "sha256": "76a22a64ddd78f06a6fbb0c24c9285c26c18eaff917584bfa3b47cf83ca12eed",
+        "byte_identical": true
+      },
+      {
+        "name": "KEYMATRIX_GLYPH_ATLAS_EXECUTION_REPORT_v0.3.0.md",
+        "sha256": "552b80147ec9abaaa98e69c66e3e52cb363f5250e4af4bf08cb61f7b0959c2a6",
+        "byte_identical": true
+      },
+      {
+        "name": "KEYMATRIX_GLYPH_IDENTITY_INDEX_v0.3.0.json",
+        "sha256": "a2f28445cc106697d4ce0c2dcd4f487c826aeca80056922fdd673d6a88443d79",
+        "byte_identical": true
+      },
+      {
+        "name": "KEYMATRIX_GLYPH_DUPLICATE_CANDIDATES_v0.3.0.json",
+        "sha256": "174e5d74ac48bf433a52988d6d5f8937236f894f62077d556bebe29f71dc9c4a",
+        "byte_identical": true
+      },
+      {
+        "name": "KEYMATRIX_GLYPH_MISSING_EVIDENCE_v0.3.0.json",
+        "sha256": "98a291d512b6657dbb50f9f39f53f2ccda93a186c2542100639daa398f7cc138",
+        "byte_identical": true
+      }
+    ],
+    "interpretation": "Determinism was observed for these seven derived outputs when using the same validator and source snapshots in the same environment. No independence claim."
+  },
+  "history_reconciliation": {
+    "previous_artifact": "KEYMATRIX_GLYPH_ATLAS_AUDIT_v0.2.0",
+    "previous_finding": "CON-009 / PRIOR_REGISTRY_ASSIGNMENT_DISCREPANCY / UNCONFIRMED_LEAD",
+    "current_update": "A later pass materialized the older v1.1 registry, measured its raw-byte SHA-256, and compared its content with the v1.1.1-named candidate registry. The content difference and seven core-position differences are now confirmed within this two-snapshot comparison.",
+    "older_registry_sha256": "21ef4b01b735b825427504f11c72e3f18555db2050eddbfc50eb5bb61ecf4e70",
+    "current_named_registry_sha256": "fbb53a21a0e509a5ea695f5907c0f0dca147c5e24b08c96a21b17634ee6e32bc",
+    "release_lineage": "HOLD / NOT_ESTABLISHED",
+    "note": "The v0.2 finding remains a historically accurate status of that earlier review; it is superseded by the later evidence for current-state interpretation."
+  },
+  "open_gates": [
+    {
+      "id": "GLYPH-VER-001",
+      "status": "HOLD",
+      "reason": "No release manifest/changelog proves which registry is the intended successor or resolves embedded version 1.1.0 versus core_standard_version 1.1.1."
+    },
+    {
+      "id": "GLYPH-SCOPE-001",
+      "status": "PARTIALLY_COMPLETED",
+      "reason": "Some parent audit/provenance artifacts remain NOT_AVAILABLE_IN_REVIEWED_SCOPE; Library listing is non-exhaustive."
+    },
+    {
+      "id": "GLYPH-RUNTIME-001",
+      "status": "NOT_RUN",
+      "reason": "No actual runtime/provider path was executed by this validator."
+    },
+    {
+      "id": "GLYPH-IND-001",
+      "status": "NOT_PERFORMED",
+      "reason": "No independent external reproduction."
+    },
+    {
+      "id": "GLYPH-CANONICAL-001",
+      "status": "HOLD",
+      "reason": "Canonical SOT remains READ_ONLY; no promotion."
+    }
+  ],
+  "mutation_budget": {
+    "canonical_sot": 0,
+    "source_artifacts": 0,
+    "automatic_promotions": 0
+  },
+  "runtime_status": "NOT_OBSERVED",
+  "independent_verification": "NOT_PERFORMED",
+  "decision": "PASS_WITH_OBSERVATION",
+  "next_action": "Recover release/change lineage, validate exact project-side source package, then request separate independent reproduction. Keep all candidate mappings HOLD until source-explicit edge evidence closes."
+}

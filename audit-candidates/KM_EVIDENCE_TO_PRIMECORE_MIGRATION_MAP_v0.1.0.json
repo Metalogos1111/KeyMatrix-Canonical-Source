@@ -1,0 +1,275 @@
+{
+  "artifact_id": "KM_EVIDENCE_TO_PRIMECORE_MIGRATION_MAP",
+  "version": "0.1.0",
+  "recorded_at": "2026-10-14",
+  "status": "READ_ONLY_CONTENT_OVERLAP_OBSERVED / MIGRATION_NOT_EXECUTED",
+  "authority": "NONE",
+  "canonical_sot": "READ_ONLY",
+  "promotion": "HUMAN_APPROVAL_REQUIRED",
+  "source_packages": {
+    "evidence": {
+      "package_name": "evidence",
+      "version": "1.0.0",
+      "scope": "USER",
+      "discoverability": "PRIVATE",
+      "file_count": 32
+    },
+    "target": {
+      "package_name": "primecore-quantum-hybrid",
+      "version": "0.4.1",
+      "scope": "USER",
+      "discoverability": "PRIVATE",
+      "file_count": 45
+    }
+  },
+  "comparison_method": {
+    "source": "Plugin Creator current file listings and read-only selected-path content reads on 2026-10-14",
+    "total_shared_paths_from_file_lists": 25,
+    "selected_shared_paths_content_compared": 25,
+    "exact_text_equal": 19,
+    "exact_text_different": 6,
+    "binary_hashes_computed": false,
+    "raw_archives_acquired": false,
+    "independent_reproduction": "NOT_PERFORMED",
+    "limitation": "Equality is direct text payload equality for selected text files, not raw archive hash equality. Binary/cache files were not hashed or treated as source."
+  },
+  "exact_equal_shared_paths": [
+    "contracts/adapter_contract.schema.json",
+    "contracts/evidence.schema.json",
+    "contracts/mindstate_result_packet.schema.json",
+    "contracts/primecore_request.schema.json",
+    "contracts/primecore_result.schema.json",
+    "docs/P1_P2_GATE_REPORT.md",
+    "evidence/P1_P2_GATE_EVIDENCE.json",
+    "evidence/baseline_input.json",
+    "evidence/baseline_verification_p1p2.json",
+    "evidence/first_run.json",
+    "evidence/verification.json",
+    "skills/evidence/SKILL.md",
+    "skills/metaforge/SKILL.md",
+    "skills/mindstate/SKILL.md",
+    "skills/primecore/SKILL.md",
+    "skills/verification/SKILL.md",
+    "src/primecore_qh/__init__.py",
+    "src/primecore_qh/core.py",
+    "tests/test_core.py"
+  ],
+  "differing_shared_paths": [
+    {
+      "path": "README.md",
+      "evidence_chars": 740,
+      "primecore_chars": 506,
+      "meaning": "Different package/release description. Evidence README identifies candidate v0.2.0; PrimeCore README identifies current v0.4.1 and explicitly says standalone evidence remains unchanged pending human approval.",
+      "decision": "Keep target PrimeCore README; preserve old evidence README as historical provenance, not overwrite."
+    },
+    {
+      "path": ".codex-plugin/plugin.json",
+      "evidence_chars": 549,
+      "primecore_chars": 1345,
+      "meaning": "Package interface metadata differs by package identity and version.",
+      "decision": "Do not copy evidence interface over PrimeCore interface."
+    },
+    {
+      "path": "docs/UNIFIED_CONTRACT.md",
+      "evidence_chars": 1157,
+      "primecore_chars": 564,
+      "meaning": "Different contract snapshots. Evidence version describes only deterministic modular arithmetic as bound and explicitly lists deferred NFS/ECM/AI/Quantum. PrimeCore version adds a bounded MindState result packet/transition boundary.",
+      "decision": "Preserve both snapshots and compare contract clauses before any consolidation; do not replace the current PrimeCore contract blindly."
+    },
+    {
+      "path": "manifest.json",
+      "evidence_chars": 2169,
+      "primecore_chars": 2749,
+      "meaning": "Evidence package manifest is version 0.2.0; PrimeCore package manifest is version 0.4.1 and includes expanded provenance/mindstate surfaces.",
+      "decision": "Keep both historical manifests; derive a new candidate manifest only in a private candidate workflow."
+    },
+    {
+      "path": "PACKAGE_MANIFEST.json",
+      "evidence_chars": 3839,
+      "primecore_chars": 5175,
+      "meaning": "Different package manifests and file inventories. Evidence manifest describes a 0.2.0 sandbox candidate; PrimeCore's manifest reports 0.3.0 while current package metadata is 0.4.1, and Library says it may be a historical integrity snapshot.",
+      "decision": "Do not merge manifest files or regenerate until each manifest's intended scope and exact archive bytes are established."
+    },
+    {
+      "path": "PACKAGE_SHA256.txt",
+      "evidence_chars": 2082,
+      "primecore_chars": 89,
+      "meaning": "Evidence contains a per-file SHA-256 listing; PrimeCore contains only a manifest-level digest line.",
+      "decision": "Preserve the evidence digest listing as historical evidence. Recompute from exact candidate bytes if a consolidated candidate is built; do not copy hashes across versions."
+    }
+  ],
+  "evidence_only_paths": [
+    {
+      "path": ".pytest_cache/.gitignore",
+      "classification": "GENERATED_TEST_CACHE"
+    },
+    {
+      "path": ".pytest_cache/CACHEDIR.TAG",
+      "classification": "GENERATED_TEST_CACHE"
+    },
+    {
+      "path": ".pytest_cache/README.md",
+      "classification": "GENERATED_TEST_CACHE"
+    },
+    {
+      "path": ".pytest_cache/v/cache/nodeids",
+      "classification": "GENERATED_TEST_CACHE"
+    },
+    {
+      "path": "src/primecore_qh/__pycache__/__init__.cpython-313.pyc",
+      "classification": "GENERATED_BYTECODE"
+    },
+    {
+      "path": "src/primecore_qh/__pycache__/core.cpython-313.pyc",
+      "classification": "GENERATED_BYTECODE"
+    },
+    {
+      "path": "tests/__pycache__/test_core.cpython-313-pytest-9.0.2.pyc",
+      "classification": "GENERATED_TEST_BYTECODE"
+    }
+  ],
+  "primecore_only_paths": [
+    {
+      "path": "contracts/verification_boundary.schema.json",
+      "role": "Separate verification boundary schema"
+    },
+    {
+      "path": "docs/KM-EVIDENCE-PRIMECORE-MIGRATION-EXECUTION-001.md",
+      "role": "Existing migration execution record"
+    },
+    {
+      "path": "docs/P3_MINDSTATE_GATE_REPORT.md",
+      "role": "MindState gate report"
+    },
+    {
+      "path": "evidence/MFG_IDENTITY_BINDING_GATE_001.json",
+      "role": "Identity-binding evidence"
+    },
+    {
+      "path": "evidence/P3_MINDSTATE_RUNTIME_EVIDENCE.json",
+      "role": "MindState runtime evidence record"
+    },
+    {
+      "path": "evidence/migration/EPM-04-PROVENANCE-BINDING.json",
+      "role": "Provenance binding evidence"
+    },
+    {
+      "path": "evidence/migration/EPM-05-INDEPENDENT-VERIFICATION.json",
+      "role": "Independent verification evidence record"
+    },
+    {
+      "path": "evidence/migration/EPM-06-REGRESSION.json",
+      "role": "Regression evidence record"
+    },
+    {
+      "path": "evidence/migration/EPM-07-NEGATIVE-AUTHORITY.json",
+      "role": "Negative-authority evidence record"
+    },
+    {
+      "path": "evidence/migration/verification-boundary-EPM05.json",
+      "role": "Verification-boundary evidence"
+    },
+    {
+      "path": "runtime/mindstate_http.py",
+      "role": "Separate runtime adapter source"
+    },
+    {
+      "path": "src/primecore_qh/mindstate_runtime.py",
+      "role": "Bounded MindState transition surface"
+    },
+    {
+      "path": "sync/KM-CROSS-CORE-SYNC-001.md",
+      "role": "Current shared cross-core contract"
+    },
+    {
+      "path": "tests/independent_mindstate_reproduction.py",
+      "role": "Independent reproduction test source"
+    },
+    {
+      "path": "tests/test_migration_evidence.py",
+      "role": "Migration evidence tests"
+    },
+    {
+      "path": "tests/test_mindstate_runtime.py",
+      "role": "MindState runtime tests"
+    },
+    {
+      "path": "assets/composer-icon.svg",
+      "role": "Current PrimeCore UI asset"
+    },
+    {
+      "path": "assets/logo.svg",
+      "role": "Current PrimeCore UI asset"
+    },
+    {
+      "path": "package.json",
+      "role": "Current package metadata"
+    },
+    {
+      "path": "plugin.json",
+      "role": "Current package interface"
+    }
+  ],
+  "conclusions": {
+    "source_code_overlap": "The two packages share exact text for src/primecore_qh/core.py, __init__.py, and tests/test_core.py. This suggests no unique core algorithm was observed in the standalone evidence package's source files in this comparison.",
+    "unique_evidence_content": "The standalone evidence package has a separate per-file digest listing and package/evidence provenance. Its evidence-specific packaging value must be migrated as records with lineage if approved; not as a separate execution authority.",
+    "generated_artifacts": "All seven evidence-only paths observed in file inventory are pytest cache or Python bytecode; exclude them from any clean migration candidate. This is a proposal, not deletion authorization.",
+    "verification_boundary": "Keep provenance, independent verification, regression and negative-authority evidence separate from PrimeCore execution authority. Never let a merged folder imply a successful independent verification.",
+    "recommendation": "Proceed to a migration-candidate manifest only after a source-by-source evidence lineage map and regression matrix are authored. Do not retire the standalone evidence package until the candidate has passed exact-byte checks, regression, independent reproduction, and explicit human approval."
+  },
+  "migration_gates": [
+    {
+      "id": "EM-01",
+      "result": "PASS_WITH_OBSERVATION",
+      "criteria": "Current file lists read for source and target packages.",
+      "evidence": "32 evidence files; 45 PrimeCore files; 25 shared paths."
+    },
+    {
+      "id": "EM-02",
+      "result": "PASS_WITH_OBSERVATION",
+      "criteria": "All 25 shared paths compared for returned text content.",
+      "evidence": "19 exact text matches; 6 differences."
+    },
+    {
+      "id": "EM-03",
+      "result": "HOLD",
+      "criteria": "Unique evidence records mapped with provenance and source hashes.",
+      "evidence": "Inventory indicates distinct package digest/evidence records; exact archive bytes not acquired."
+    },
+    {
+      "id": "EM-04",
+      "result": "NOT_STARTED",
+      "criteria": "Candidate-only migration assembled without overwriting historical records.",
+      "evidence": "No migration candidate created in this pass."
+    },
+    {
+      "id": "EM-05",
+      "result": "NOT_RUN",
+      "criteria": "Regression tests and negative-authority controls rerun on candidate.",
+      "evidence": "No code/package change executed."
+    },
+    {
+      "id": "EM-06",
+      "result": "NOT_PERFORMED",
+      "criteria": "Independent reproduction with separate executor.",
+      "evidence": "No external independent executor used."
+    },
+    {
+      "id": "EM-07",
+      "result": "HUMAN_APPROVAL_REQUIRED",
+      "criteria": "Retire standalone evidence package only after all prior gates.",
+      "evidence": "No retirement/deletion performed."
+    }
+  ],
+  "mutation_budget": {
+    "evidence_source": 0,
+    "primecore_source": 0,
+    "package_releases": 0,
+    "plugin_retirement": 0,
+    "canonical_sot": 0,
+    "main_merges": 0
+  },
+  "runtime_status": "NOT_OBSERVED",
+  "independent_verification": "NOT_PERFORMED",
+  "decision": "MIGRATION_MAP_OBSERVED / RETIREMENT_HOLD"
+}
