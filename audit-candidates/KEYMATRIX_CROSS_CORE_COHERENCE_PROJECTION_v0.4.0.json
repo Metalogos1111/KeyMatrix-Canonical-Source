@@ -432,7 +432,8 @@
     {
       "priority": "P1",
       "action": "Run read-only file-level inventory of evidence versus PrimeCore and generate a unique-content migration map.",
-      "status": "NEXT"
+      "status": "DONE_IN_THIS_CANDIDATE",
+      "evidence": "KM_EVIDENCE_TO_PRIMECORE_MIGRATION_MAP_v0.1.0; 25 shared paths compared, 19 exact text matches, 6 differences."
     },
     {
       "priority": "P1",
@@ -449,5 +450,23 @@
       "action": "Run actual host/runtime path and independent reproduction when authorized and observable.",
       "status": "NOT_RUN"
     }
-  ]
+  ],
+  "evidence_migration_map": {
+    "artifact": "KM_EVIDENCE_TO_PRIMECORE_MIGRATION_MAP_v0.1.0",
+    "branch_path_json": "audit-candidates/KM_EVIDENCE_TO_PRIMECORE_MIGRATION_MAP_v0.1.0.json",
+    "branch_path_markdown": "audit-candidates/KM_EVIDENCE_TO_PRIMECORE_MIGRATION_MAP_v0.1.0.md",
+    "observation_date": "2026-10-14",
+    "status": "READ_ONLY_CONTENT_OVERLAP_OBSERVED / MIGRATION_NOT_EXECUTED",
+    "inventory": {
+      "evidence_files": 32,
+      "primecore_files": 45,
+      "shared_paths": 25,
+      "shared_text_paths_compared": 25,
+      "exact_text_matches": 19,
+      "different_text_payloads": 6,
+      "evidence_only_generated_cache_or_bytecode": 7
+    },
+    "key_decision": "No unique core algorithm was observed in the standalone evidence package's src/core.py, __init__.py, and test_core.py; preserve its evidence/provenance history. Do not retire the package until migration lineage, exact-byte candidate validation, regression, independent reproduction, and human approval.",
+    "next_gate": "Create source-to-target evidence lineage map and private candidate migration; no package/source changes yet."
+  }
 }
