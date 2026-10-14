@@ -30,24 +30,32 @@ The v1.1.1-named glyph registry and the older v1.1 registry have different measu
 
 Current Plugin Creator metadata and current `plugin.json`/`manifest.json` report PrimeCore `0.4.1`. `PACKAGE_MANIFEST.json` reports `0.3.0`, and its recorded file sizes differ from current listed sizes. However, the Library architecture record explicitly says this file is retained as a **historical integrity snapshot**. Therefore the difference is observed, but a current-package integrity defect is **not yet proven**. Next: establish the manifest's intended scope, acquire exact current archive bytes, and only regenerate in a private candidate if the contract says the manifest must describe the current release.
 
-## 5. Architecture decisions preserved — no migration executed
+## 5. Evidence-to-PrimeCore read-only overlap map
+
+A current file-level inventory was read from both private packages. `evidence` has 32 files and PrimeCore has 45; 25 paths are shared. All 25 shared text payloads were compared: 19 are exactly equal and 6 differ. The same `src/primecore_qh/core.py`, `__init__.py`, and `tests/test_core.py` payloads appear in both packages. The seven evidence-only paths are generated pytest cache or Python bytecode. Package README, interface metadata, unified contract, manifests, and digest-list files differ and must not be blindly overwritten. The separate evidence provenance records remain valuable even where source code overlaps.
+
+[Migration map JSON](KM_EVIDENCE_TO_PRIMECORE_MIGRATION_MAP_v0.1.0.json) · [Migration map report](KM_EVIDENCE_TO_PRIMECORE_MIGRATION_MAP_v0.1.0.md)
+
+This is text payload equality, not raw archive hash equality. No migration, retirement, package mutation, or independent reproduction was performed.
+
+## 6. Architecture decisions preserved — no migration executed
 
 - **Seven core packages:** KEEP; stable `core_key` stays distinct from package label.
 - **`evidence`:** merge candidate into PrimeCore only after read-only file-level unique-content inventory, migration mapping, regression, and explicit human approval. It remains installed and unchanged for now.
 - **`keymatrix-cell`:** KEEP as a `SANDBOX_ONLY` lab; no production/canonical mutation.
 - **UXDev / 3D Художник-Аниматор / KymatiqAI / DevSoft / Великий Инженер:** Library's 2026-10-08 snapshot had these as UI-visible but not found in the ownership inventory and marked NOT_INSTALLED. That is historical evidence; refresh current identity/installation before any merge/deletion decision.
 
-## 6. Other open package issue
+## 7. Other open package issue
 
 Sinqularity package metadata and `plugin.json` report `0.1.3`; internal `manifest.json` reports `0.1.2`. Prior Library records explicitly treated package and internal manifest versions as separate layers. Keep both values until that contract is documented; no silent rewrite.
 
-## 7. Glyph semantic boundaries
+## 8. Glyph semantic boundaries
 
 Preserved non-edges: `🐠 ≠ آثار`, `🧭 ≠ theological_authority`, `📖 ≠ Quran_authority_token`, `🪽 ≠ proven_continuation_semantics`.
 
 Still HOLD: `كتاب → 📖`, `قبلة → 🧭`, `جناح → 🪽`, `قلب → ❤️ / 💛`. No edge is promoted from visual similarity, composite-only context, or editorial NUR STREAM formatting.
 
-## 8. Evidence and gates
+## 9. Evidence and gates
 
 - Local glyph validator: 9/9 tests PASS; 187 records; 112 incomplete identity records; 62 repeated-record candidate groups; 5 controlled symbol collisions; 4 negative constraints.
 - Seven derived outputs were byte-identical in same-environment replay. This is local repeatability, not independent reproduction.
@@ -55,7 +63,7 @@ Still HOLD: `كتاب → 📖`, `قبلة → 🧭`, `جناح → 🪽`, `قل
 - Independent reproduction: `NOT_PERFORMED`.
 - Canonical promotion: `HOLD`.
 
-## 9. Mutation budget
+## 10. Mutation budget
 
 `canonical_sot=0` · `registry_sources=0` · `private_plugin_sources=0` · `private_plugin_releases=0` · `plugin_retirements=0` · `discoverability_changes=0` · `main_merges=0` · `automatic_promotions=0`.
 
