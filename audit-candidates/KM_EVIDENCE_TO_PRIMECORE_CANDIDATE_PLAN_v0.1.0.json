@@ -1,0 +1,162 @@
+{
+  "artifact_id": "KM_EVIDENCE_TO_PRIMECORE_CANDIDATE_PLAN",
+  "version": "0.1.0",
+  "recorded_at": "2026-10-14",
+  "status": "CANDIDATE_PLAN_ONLY / PACKAGE_ASSEMBLY_BLOCKED",
+  "authority": "NONE",
+  "canonical_sot": "READ_ONLY",
+  "promotion": "HUMAN_APPROVAL_REQUIRED",
+  "source": {
+    "name": "evidence",
+    "version": "1.0.0",
+    "current_release_id": "pluginrel_6ac33fff1fc48191b1a8894eaf060985",
+    "file_count": 32
+  },
+  "target": {
+    "name": "primecore-quantum-hybrid",
+    "version": "0.4.1",
+    "current_release_id": "pluginrel_6ac6b50b8e888191bb1c5b0b4f4a34bb",
+    "file_count": 45
+  },
+  "candidate_scope": "Private audit branch only; no private plugin source/release changes.",
+  "file_disposition": [
+    {
+      "paths": [
+        "evidence/P1_P2_GATE_EVIDENCE.json",
+        "evidence/baseline_input.json",
+        "evidence/baseline_verification_p1p2.json",
+        "evidence/first_run.json",
+        "evidence/verification.json"
+      ],
+      "disposition": "PRESERVE_PATH_AND_SOURCE_RELEASE_LINEAGE",
+      "reason": "Historical evidence records; several already exist in PrimeCore with equal text payloads. Do not collapse path identity or rewrite embedded run IDs."
+    },
+    {
+      "paths": [
+        "evidence/migration/EPM-04-PROVENANCE-BINDING.json",
+        "evidence/migration/EPM-05-INDEPENDENT-VERIFICATION.json",
+        "evidence/migration/EPM-06-REGRESSION.json",
+        "evidence/migration/EPM-07-NEGATIVE-AUTHORITY.json",
+        "evidence/migration/verification-boundary-EPM05.json"
+      ],
+      "disposition": "TARGET_HISTORICAL_RECORDS_ONLY",
+      "reason": "These are PrimeCore-side historical migration/verification records; not source evidence package files and not fresh test receipts."
+    },
+    {
+      "paths": [
+        "PACKAGE_MANIFEST.json",
+        "PACKAGE_SHA256.txt",
+        "manifest.json",
+        "README.md",
+        ".codex-plugin/plugin.json",
+        "docs/UNIFIED_CONTRACT.md"
+      ],
+      "disposition": "PRESERVE_AS_SOURCE_PROVENANCE; NEVER_OVERWRITE_TARGET",
+      "reason": "Package identity/digest/contract snapshots differ; exact archive bytes required before any manifest recalculation."
+    },
+    {
+      "paths": [
+        "contracts/adapter_contract.schema.json",
+        "contracts/evidence.schema.json",
+        "contracts/mindstate_result_packet.schema.json",
+        "contracts/primecore_request.schema.json",
+        "contracts/primecore_result.schema.json",
+        "docs/P1_P2_GATE_REPORT.md",
+        "skills/evidence/SKILL.md",
+        "skills/metaforge/SKILL.md",
+        "skills/mindstate/SKILL.md",
+        "skills/primecore/SKILL.md",
+        "skills/verification/SKILL.md",
+        "src/primecore_qh/__init__.py",
+        "src/primecore_qh/core.py",
+        "tests/test_core.py"
+      ],
+      "disposition": "USE_EXISTING_TARGET_PATH_AS_REFERENCE; RECORD_SOURCE_PROVENANCE",
+      "reason": "Observed shared content equality. Do not copy duplicates blindly or assume the archived source and target bytes are independently verified."
+    },
+    {
+      "paths": [
+        ".pytest_cache/.gitignore",
+        ".pytest_cache/CACHEDIR.TAG",
+        ".pytest_cache/README.md",
+        ".pytest_cache/v/cache/nodeids",
+        "src/primecore_qh/__pycache__/__init__.cpython-313.pyc",
+        "src/primecore_qh/__pycache__/core.cpython-313.pyc",
+        "tests/__pycache__/test_core.cpython-313-pytest-9.0.2.pyc"
+      ],
+      "disposition": "EXCLUDE_FROM_CLEAN_CANDIDATE_ONLY",
+      "reason": "Generated cache/bytecode. No source deletion."
+    },
+    {
+      "paths": [
+        "assets/composer-icon.svg",
+        "assets/logo.svg",
+        "contracts/verification_boundary.schema.json",
+        "docs/KM-EVIDENCE-PRIMECORE-MIGRATION-EXECUTION-001.md",
+        "docs/P3_MINDSTATE_GATE_REPORT.md",
+        "evidence/MFG_IDENTITY_BINDING_GATE_001.json",
+        "evidence/P3_MINDSTATE_RUNTIME_EVIDENCE.json",
+        "evidence/migration/EPM-04-PROVENANCE-BINDING.json",
+        "evidence/migration/EPM-05-INDEPENDENT-VERIFICATION.json",
+        "evidence/migration/EPM-06-REGRESSION.json",
+        "evidence/migration/EPM-07-NEGATIVE-AUTHORITY.json",
+        "evidence/migration/verification-boundary-EPM05.json",
+        "package.json",
+        "plugin.json",
+        "runtime/mindstate_http.py",
+        "src/primecore_qh/mindstate_runtime.py",
+        "src/primecore_qh/mindstate_runtime.py",
+        "sync/KM-CROSS-CORE-SYNC-001.md",
+        "tests/independent_mindstate_reproduction.py",
+        "tests/test_migration_evidence.py",
+        "tests/test_mindstate_runtime.py"
+      ],
+      "disposition": "KEEP_EXISTING_TARGET_FILES",
+      "reason": "PrimeCore-specific capabilities, provenance/verification boundaries, and current target package surfaces are not overwritten by standalone evidence content."
+    }
+  ],
+  "gates": [
+    {
+      "id": "CAND-01",
+      "result": "PASS_WITH_OBSERVATION",
+      "criteria": "Candidate file dispositions and lineage rules documented."
+    },
+    {
+      "id": "CAND-02",
+      "result": "BLOCKED",
+      "criteria": "Exact current source/target archive bytes acquired.",
+      "next_action": "Obtain archives through a supported local/connector transfer; record archive SHA-256 and sizes before extraction."
+    },
+    {
+      "id": "CAND-03",
+      "result": "BLOCKED",
+      "criteria": "Candidate assembled from exact bytes with source provenance preserved.",
+      "next_action": "Build in isolated temporary directory after CAND-02."
+    },
+    {
+      "id": "CAND-04",
+      "result": "PASS_WITH_OBSERVATION",
+      "criteria": "Local tests run on reconstructed source text readback.",
+      "limitation": "Not exact archive/package verification."
+    },
+    {
+      "id": "CAND-05",
+      "result": "NOT_PERFORMED",
+      "criteria": "Independent reproduction of assembled candidate package."
+    },
+    {
+      "id": "CAND-06",
+      "result": "REQUIRES_HUMAN_APPROVAL",
+      "criteria": "Retirement of standalone evidence."
+    }
+  ],
+  "non_goals": [
+    "No provider connection",
+    "No private package update",
+    "No release or retirement",
+    "No canonical mutation",
+    "No archive hash recalculation without exact bytes",
+    "No merge to main"
+  ],
+  "next_action": "Acquire exact archives, verify archive hashes, extract to isolated workspace, compare every source/target path and per-file digest, assemble candidate, run tests, independent reproduction, then request human approval."
+}
