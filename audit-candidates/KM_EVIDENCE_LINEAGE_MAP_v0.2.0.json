@@ -225,7 +225,7 @@
       ],
       "relation": "DIFFERENT_DESCRIPTIVE_SNAPSHOTS",
       "disposition": "KEEP_TARGET_README; RETAIN_SOURCE_README_IN_PROVENANCE_ONLY",
-      "caveat": "The source file listing size and source manifest byte count differ (744 vs current file-list 744? manifest is 744; current listing reports 744 in prior manifest, while earlier list says 744/README actual 744). Do not infer archive integrity from this record."
+      "caveat": "Source README is 744 bytes in the current source file listing and source manifest; target README is a different 506-byte description. This is an observed content/size difference, not an archive integrity conclusion."
     },
     {
       "id": "EL-010",
