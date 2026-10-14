@@ -11,7 +11,7 @@
     "version": "1.0.0",
     "scope": "USER",
     "discoverability": "PRIVATE",
-    "current_release_id": "pluginrel_6ac33fff1fc48191b1a8894eaf060985",
+    "current_release_id_redacted": "PRIVATE_IDENTIFIER_NOT_RETAINED",
     "file_count": 32
   },
   "target_package": {
@@ -19,7 +19,7 @@
     "version": "0.4.1",
     "scope": "USER",
     "discoverability": "PRIVATE",
-    "current_release_id": "pluginrel_6ac6b50b8e888191bb1c5b0b4f4a34bb",
+    "current_release_id_redacted": "PRIVATE_IDENTIFIER_NOT_RETAINED",
     "file_count": 45
   },
   "method": {
@@ -33,7 +33,7 @@
   "historical_lineage_anchor": {
     "record": "evidence/migration/EPM-04-PROVENANCE-BINDING.json",
     "historical_target_version": "0.3.5",
-    "historical_target_release_id": "pluginrel_6ac6af23d0c48191b2b715a38f1e95d2",
+    "historical_target_release_id_redacted": "PRIVATE_IDENTIFIER_NOT_RETAINED",
     "current_target_version": "0.4.1",
     "interpretation": "EPM-04 is a historical record bound to a prior PrimeCore release. It must not be silently rewritten to claim that its recorded target was the current 0.4.1 release."
   },
