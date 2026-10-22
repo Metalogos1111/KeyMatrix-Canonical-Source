@@ -10,7 +10,7 @@ Acquire a genuinely executable inference surface for the frozen Pair-01 task wit
 - No synthetic inference.
 - No mock output may be scored as real inference.
 - No secret may enter HTML, browser storage, client bundle, evidence artifact, or Git history.
-- service_role, provider API keys, signing keys, private trust-root material, and database secrets remain server-side.
+- Privileged database roles, provider API credentials, signing credentials, private trust-root material, and database credentials remain server-side.
 - UI is requester/observer only.
 - GitHub is persistence/provenance, not technical authority.
 - No SOT mutation.
