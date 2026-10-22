@@ -1,0 +1,26 @@
+{
+  "gate_id":"KM-CORE-PAIR-01-REAL-EXECUTION-ACQUISITION-001",
+  "status":"BLOCKED / NEED_MORE_EVIDENCE",
+  "authority":"NONE",
+  "sot_mutation":false,
+  "candidate_receiver":"askMetaLogos",
+  "candidate_surface_status":"OBSERVED / RECEIVER_PROTOCOL_EXECUTED / EXTERNAL_INFERENCE_UNAVAILABLE",
+  "current_blocker":"XAI_API_KEY absent from the observed server runtime; no external inference occurred.",
+  "primecore_surface":"MOCK_ONLY",
+  "compatibility_score":"NOT_SCORED",
+  "canonical_promotion":"NOT_PERFORMED",
+  "production_promotion":"NOT_PERFORMED",
+  "required_next_evidence":[
+    "genuinely executable inference surface",
+    "server-side credential boundary evidence",
+    "frozen task identity/hash match",
+    "two or more controlled executions",
+    "canonicalized output bytes",
+    "reproducible output hashes",
+    "explicit semantic comparison",
+    "non-MOCK PrimeCore execution for scored run",
+    "sufficient MetaLogos identity evidence",
+    "independent verifier reproduction"
+  ],
+  "decision":"KEEP BLOCKED; do not manufacture inference or compatibility evidence."
+}
